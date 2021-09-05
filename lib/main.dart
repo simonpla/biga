@@ -3,8 +3,10 @@ import 'pages/UI/tasks_page.dart';
 import 'package:flutter/material.dart';
 import 'package:window_size/window_size.dart';
 import 'dart:io';
+import '../../Theme/themes.dart';
 
 void main() {
+  setIconsTry();
   try {
     WidgetsFlutterBinding.ensureInitialized();
     if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
@@ -17,19 +19,6 @@ void main() {
   }
   runApp(Biga());
 }
-
-final ThemeData kIOSTheme = ThemeData(
-  primarySwatch: Colors.cyan,
-  primaryColor: Colors.teal,
-  primaryColorBrightness: Brightness.light,
-  accentColor: Colors.grey,
-);
-
-final ThemeData kDefaultTheme = ThemeData(
-  primarySwatch: Colors.cyan,
-  primaryColor: Colors.teal,
-  accentColor: Colors.grey,
-);
 
 class Biga extends StatelessWidget {
   const Biga({

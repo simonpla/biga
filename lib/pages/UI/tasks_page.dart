@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import '../../CustomIcons/custom_icons_icons.dart';
+import '../../Theme/themes.dart';
 
 class TasksPage extends StatefulWidget {
   const TasksPage({Key? key}) : super(key: key);
@@ -53,7 +54,7 @@ class _TasksPageState extends State<TasksPage> with TickerProviderStateMixin {
                     ),
                     Container(
                       child: IconButton(
-                        icon: const Icon(Icons.menu),
+                        icon: menuIcon,
                         onPressed: () => scaffoldKey.currentState!.openDrawer(),
                       ),
                     ),
@@ -65,7 +66,7 @@ class _TasksPageState extends State<TasksPage> with TickerProviderStateMixin {
                     ),
                     Container(
                       child: IconButton(
-                        icon: const Icon(Icons.search),
+                        icon: searchIcon,
                         onPressed: () => null,
                       ),
                     ),
@@ -74,7 +75,7 @@ class _TasksPageState extends State<TasksPage> with TickerProviderStateMixin {
               ),
               FloatingActionButton(
                 onPressed: () => _handlePressed(),
-                child: const Icon(Icons.add),
+                child: plusIcon,
                 backgroundColor: Colors.deepOrangeAccent,
               ),
             ],
@@ -118,7 +119,7 @@ class _TasksPageState extends State<TasksPage> with TickerProviderStateMixin {
           ),
           ListTile(
             leading: Container(
-              child: Icon(Icons.task, color: Colors.black87),
+              child: taskIcon,
             ),
             title: Text('Tasks', style: TextStyle(color: Colors.black87)),
             onTap: () => Navigator.pushNamed(context, '/tasks'),
@@ -126,7 +127,7 @@ class _TasksPageState extends State<TasksPage> with TickerProviderStateMixin {
           ),
           ListTile(
             leading: Container(
-              child: Icon(CustomIcons.chat_logo, color: Colors.black87),
+              child: chatIcon,
             ),
             title: Text('Chat', style: TextStyle(color: Colors.black87)),
             onTap: () => Navigator.pushNamed(context, '/chat'),
@@ -134,7 +135,7 @@ class _TasksPageState extends State<TasksPage> with TickerProviderStateMixin {
           ),
           ListTile(
             leading: Container(
-              child: Icon(Icons.notes, color: Colors.black87),
+              child: notesIcon,
             ),
             title: Text('Notes', style: TextStyle(color: Colors.black87)),
             onTap: () => Navigator.pushNamed(context, '/notes'),
@@ -142,7 +143,7 @@ class _TasksPageState extends State<TasksPage> with TickerProviderStateMixin {
           ),
           ListTile(
             leading: Container(
-              child: Icon(Icons.contacts, color: Colors.black87),
+              child: contactIcon,
             ),
             title: Text('Contacts', style: TextStyle(color: Colors.black87)),
             onTap: () => Navigator.pushNamed(context, '/contacts'),
@@ -150,7 +151,7 @@ class _TasksPageState extends State<TasksPage> with TickerProviderStateMixin {
           ),
           ListTile(
             leading: Container(
-              child: Icon(Icons.settings, color: Colors.black87),
+              child: settingsIcon,
             ),
             title: Text('Settings', style: TextStyle(color: Colors.black87)),
             onTap: () => Navigator.pushNamed(context, '/settings'),
@@ -188,7 +189,7 @@ class _TasksPageState extends State<TasksPage> with TickerProviderStateMixin {
                     ),
                     child: IconButton(
                       color: Colors.black87,
-                      icon: Icon(Icons.star),
+                      icon: starIcon,
                       onPressed: () => null,
                     ),
                   )
@@ -203,7 +204,7 @@ class _TasksPageState extends State<TasksPage> with TickerProviderStateMixin {
                     ),
                     child: IconButton(
                       color: Colors.black87,
-                      icon: Icon(Icons.star),
+                      icon: starIcon,
                       onPressed: () => null,
                     ),
                   )
@@ -218,7 +219,7 @@ class _TasksPageState extends State<TasksPage> with TickerProviderStateMixin {
                     ),
                     child: IconButton(
                       color: Colors.black87,
-                      icon: Icon(Icons.star),
+                      icon: starIcon,
                       onPressed: () => null,
                     ),
                   )
@@ -233,7 +234,7 @@ class _TasksPageState extends State<TasksPage> with TickerProviderStateMixin {
                     ),
                     child: IconButton(
                       color: Colors.black87,
-                      icon: Icon(Icons.star),
+                      icon: starIcon,
                       onPressed: () => null,
                     ),
                   )
@@ -247,7 +248,7 @@ class _TasksPageState extends State<TasksPage> with TickerProviderStateMixin {
               ),
               child: IconButton(
                 color: Colors.black87,
-                icon: Icon(Icons.star),
+                icon: starIcon,
                 onPressed: () => null,
               ),
             ),
@@ -264,10 +265,8 @@ class _TasksPageState extends State<TasksPage> with TickerProviderStateMixin {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(15.0))),
                 child: Center(
-                    child: Icon(
-                  Icons.today_sharp,
-                  color: Colors.black87,
-                )),
+                    child: calendarIcon
+                ),
                 itemBuilder: (context) {
                   return List.generate(4, (index) {
                     return PopupMenuItem(
