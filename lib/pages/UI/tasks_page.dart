@@ -15,7 +15,7 @@ class TasksPage extends StatefulWidget {
 
 class _TasksPageState extends State<TasksPage> with TickerProviderStateMixin {
   var scaffoldKey = GlobalKey<ScaffoldState>();
-  int selected = 0;
+  int selected = 3;
 
   void _handlePressed() {}
 
@@ -121,7 +121,7 @@ class _TasksPageState extends State<TasksPage> with TickerProviderStateMixin {
               child: Icon(Icons.task, color: Colors.black87),
             ),
             title: Text('Tasks', style: TextStyle(color: Colors.black87)),
-            onTap: () => null,
+            onTap: () => Navigator.pushNamed(context, '/tasks'),
             hoverColor: Colors.deepOrangeAccent[100],
           ),
           ListTile(
@@ -129,7 +129,7 @@ class _TasksPageState extends State<TasksPage> with TickerProviderStateMixin {
               child: Icon(CustomIcons.chat_logo, color: Colors.black87),
             ),
             title: Text('Chat', style: TextStyle(color: Colors.black87)),
-            onTap: () => null,
+            onTap: () => Navigator.pushNamed(context, '/chat'),
             hoverColor: Colors.deepOrangeAccent[100],
           ),
           ListTile(
@@ -137,7 +137,7 @@ class _TasksPageState extends State<TasksPage> with TickerProviderStateMixin {
               child: Icon(Icons.notes, color: Colors.black87),
             ),
             title: Text('Notes', style: TextStyle(color: Colors.black87)),
-            onTap: () => null,
+            onTap: () => Navigator.pushNamed(context, '/notes'),
             hoverColor: Colors.deepOrangeAccent[100],
           ),
           ListTile(
@@ -145,7 +145,7 @@ class _TasksPageState extends State<TasksPage> with TickerProviderStateMixin {
               child: Icon(Icons.contacts, color: Colors.black87),
             ),
             title: Text('Contacts', style: TextStyle(color: Colors.black87)),
-            onTap: () => null,
+            onTap: () => Navigator.pushNamed(context, '/contacts'),
             hoverColor: Colors.deepOrangeAccent[100],
           ),
           ListTile(
@@ -153,7 +153,7 @@ class _TasksPageState extends State<TasksPage> with TickerProviderStateMixin {
               child: Icon(Icons.settings, color: Colors.black87),
             ),
             title: Text('Settings', style: TextStyle(color: Colors.black87)),
-            onTap: () => null,
+            onTap: () => Navigator.pushNamed(context, '/settings'),
             hoverColor: Colors.deepOrangeAccent[100],
           ),
         ],
@@ -296,6 +296,20 @@ class _TasksPageState extends State<TasksPage> with TickerProviderStateMixin {
     );
   }
 
+  Widget getCalendarBody() {
+    switch (selected) {
+      case 0:
+        return Container();
+      case 1:
+        return Container();
+      case 2:
+        return Week();
+      case 3:
+        return Month();
+    }
+    return Text('Error: wrong body: $selected', style: TextStyle(color: Colors.red, fontSize: 30));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -303,9 +317,8 @@ class _TasksPageState extends State<TasksPage> with TickerProviderStateMixin {
       appBar: _appBar(),
       drawer: _menu(),
       body: Padding(
-        padding:
-            EdgeInsets.only(top: 20.0, bottom: 0.0),
-        child: Calendar(),
+        padding: EdgeInsets.only(top: 20.0, bottom: 0.0),
+        child: getCalendarBody(),
       ),
       floatingActionButton: _buildNavigation(),
     );

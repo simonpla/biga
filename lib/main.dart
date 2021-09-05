@@ -42,7 +42,14 @@ class Biga extends StatelessWidget {
       theme: defaultTargetPlatform == TargetPlatform.iOS
           ? kIOSTheme
           : kDefaultTheme,
-      home: TasksPage(),
+      initialRoute: '/tasks',
+      routes: {
+        '/tasks': (context) => TasksPage(),
+        '/chat': (context) => Container(),
+        '/notes': (context) => Container(),
+        '/contacts': (context) => Container(),
+        '/settings': (context) => Container(),
+      },
     );
   }
 }

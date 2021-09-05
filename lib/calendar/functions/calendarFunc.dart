@@ -227,3 +227,7 @@ void fillMonth() {
     _nextMonthPtr++;
   }
 }
+
+int weekInMonth(int day) { //TODO: make this work
+  return -1;
+}

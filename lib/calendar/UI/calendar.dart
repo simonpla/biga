@@ -2,14 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../functions/calendarFunc.dart';
 
-class Calendar extends StatefulWidget {
-  const Calendar({Key? key}) : super(key: key);
+class Month extends StatefulWidget {
+  const Month({Key? key}) : super(key: key);
 
   @override
-  _CalendarState createState() => _CalendarState();
+  _MonthState createState() => _MonthState();
 }
 
-class _CalendarState extends State<Calendar> {
+class _MonthState extends State<Month> {
   @override
   void initState() {
     super.initState();
@@ -47,46 +47,6 @@ class _CalendarState extends State<Calendar> {
             icon: Icon(Icons.arrow_right),
             onPressed: () {
               setState(() {
-                chosenMonthDate = DateTime(yearNum, chosenMonth + 1, 1);
-                chosenMonthStr = formatterMonth.format(chosenMonthDate);
-                chosenMonth = int.tryParse(chosenMonthStr) ?? -1;
-                year = formatterYear.format(chosenMonthDate);
-                yearNum = int.tryParse(year) ?? -1;
-              });
-              fillMonth();
-            },
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _weekNavigation() {
-    return Container(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          IconButton(
-            icon: Icon(Icons.arrow_left),
-            onPressed: () {
-              setState(() {
-                //TODO: change week
-                chosenMonthDate = DateTime(yearNum, chosenMonth - 1, 1);
-                chosenMonthStr = formatterMonth.format(chosenMonthDate);
-                chosenMonth = int.tryParse(chosenMonthStr) ?? -1;
-                year = formatterYear.format(chosenMonthDate);
-                yearNum = int.tryParse(year) ?? -1;
-              });
-              fillMonth();
-            },
-          ),
-          Text(monthName(chosenMonth) + ' $yearNum',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-          IconButton(
-            icon: Icon(Icons.arrow_right),
-            onPressed: () {
-              setState(() {
-                //TODO: same as above
                 chosenMonthDate = DateTime(yearNum, chosenMonth + 1, 1);
                 chosenMonthStr = formatterMonth.format(chosenMonthDate);
                 chosenMonth = int.tryParse(chosenMonthStr) ?? -1;
@@ -356,6 +316,60 @@ class _CalendarState extends State<Calendar> {
     );
   }
 
+  @override
+  Widget build(BuildContext context) {
+    return _monthDisplay();
+  }
+}
+
+class Week extends StatefulWidget {
+  const Week({Key? key}) : super(key: key);
+
+  @override
+  _WeekState createState() => _WeekState();
+}
+
+class _WeekState extends State<Week> {
+  Widget _weekNavigation() {
+    return Container(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          IconButton(
+            icon: Icon(Icons.arrow_left),
+            onPressed: () {
+              setState(() {
+                //TODO: change week
+                chosenMonthDate = DateTime(yearNum, chosenMonth - 1, 1);
+                chosenMonthStr = formatterMonth.format(chosenMonthDate);
+                chosenMonth = int.tryParse(chosenMonthStr) ?? -1;
+                year = formatterYear.format(chosenMonthDate);
+                yearNum = int.tryParse(year) ?? -1;
+              });
+              fillMonth();
+            },
+          ),
+          Text(monthName(chosenMonth) + ' $yearNum',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+          IconButton(
+            icon: Icon(Icons.arrow_right),
+            onPressed: () {
+              setState(() {
+                //TODO: same as above
+                chosenMonthDate = DateTime(yearNum, chosenMonth + 1, 1);
+                chosenMonthStr = formatterMonth.format(chosenMonthDate);
+                chosenMonth = int.tryParse(chosenMonthStr) ?? -1;
+                year = formatterYear.format(chosenMonthDate);
+                yearNum = int.tryParse(year) ?? -1;
+              });
+              fillMonth();
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _weekDisplay() {
     return Container(
       child: ListView(
@@ -363,7 +377,7 @@ class _CalendarState extends State<Calendar> {
         children: [
           _weekNavigation(),
           //_weekDays(),
-          _week(0, true, true),
+          _MonthState()._week(0, true, true),
         ],
       ),
     );
