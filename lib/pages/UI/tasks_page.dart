@@ -4,7 +4,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
-import '../../CustomIcons/custom_icons_icons.dart';
 import '../../Theme/themes.dart';
 
 class TasksPage extends StatefulWidget {
@@ -34,7 +33,7 @@ class _TasksPageState extends State<TasksPage> with TickerProviderStateMixin {
             children: [
               Container(
                 decoration: BoxDecoration(
-                  color: Colors.teal[200],
+                  color: primaryColorL,
                   borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(19),
                     topLeft: Radius.circular(19),
@@ -76,7 +75,7 @@ class _TasksPageState extends State<TasksPage> with TickerProviderStateMixin {
               FloatingActionButton(
                 onPressed: () => _handlePressed(),
                 child: plusIcon,
-                backgroundColor: Colors.deepOrangeAccent,
+                backgroundColor: buttonColor,
               ),
             ],
             innerDistance: -8,
@@ -96,7 +95,7 @@ class _TasksPageState extends State<TasksPage> with TickerProviderStateMixin {
             height: 170,
             child: DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.teal[100],
+                color: accentColor,
               ),
               child: Column(
                 children: [
@@ -121,41 +120,41 @@ class _TasksPageState extends State<TasksPage> with TickerProviderStateMixin {
             leading: Container(
               child: taskIcon,
             ),
-            title: Text('Tasks', style: TextStyle(color: Colors.black87)),
+            title: Text('Tasks', style: TextStyle(color: textColor)),
             onTap: () => Navigator.pushNamed(context, '/tasks'),
-            hoverColor: Colors.deepOrangeAccent[100],
+            hoverColor: hoverColorL,
           ),
           ListTile(
             leading: Container(
               child: chatIcon,
             ),
-            title: Text('Chat', style: TextStyle(color: Colors.black87)),
+            title: Text('Chat', style: TextStyle(color: textColor)),
             onTap: () => Navigator.pushNamed(context, '/chat'),
-            hoverColor: Colors.deepOrangeAccent[100],
+            hoverColor: hoverColorL,
           ),
           ListTile(
             leading: Container(
               child: notesIcon,
             ),
-            title: Text('Notes', style: TextStyle(color: Colors.black87)),
+            title: Text('Notes', style: TextStyle(color: textColor)),
             onTap: () => Navigator.pushNamed(context, '/notes'),
-            hoverColor: Colors.deepOrangeAccent[100],
+            hoverColor: hoverColorL,
           ),
           ListTile(
             leading: Container(
               child: contactIcon,
             ),
-            title: Text('Contacts', style: TextStyle(color: Colors.black87)),
+            title: Text('Contacts', style: TextStyle(color: textColor)),
             onTap: () => Navigator.pushNamed(context, '/contacts'),
-            hoverColor: Colors.deepOrangeAccent[100],
+            hoverColor: hoverColorL,
           ),
           ListTile(
             leading: Container(
               child: settingsIcon,
             ),
-            title: Text('Settings', style: TextStyle(color: Colors.black87)),
+            title: Text('Settings', style: TextStyle(color: textColor)),
             onTap: () => Navigator.pushNamed(context, '/settings'),
-            hoverColor: Colors.deepOrangeAccent[100],
+            hoverColor: hoverColorL,
           ),
         ],
       ),
@@ -172,7 +171,7 @@ class _TasksPageState extends State<TasksPage> with TickerProviderStateMixin {
     List<String> items = ['appointments', 'day', 'week', 'month'];
 
     return AppBar(
-      backgroundColor: Colors.teal[100],
+      backgroundColor: accentColor,
       leading: Container(
         width: 20,
       ),
@@ -184,11 +183,11 @@ class _TasksPageState extends State<TasksPage> with TickerProviderStateMixin {
                     height: 50,
                     width: 50,
                     decoration: BoxDecoration(
-                      color: Colors.deepOrangeAccent,
+                      color: buttonColor,
                       borderRadius: BorderRadius.all(Radius.circular(25)),
                     ),
                     child: IconButton(
-                      color: Colors.black87,
+                      color: iconColor,
                       icon: starIcon,
                       onPressed: () => null,
                     ),
@@ -199,11 +198,11 @@ class _TasksPageState extends State<TasksPage> with TickerProviderStateMixin {
                     height: 50,
                     width: 50,
                     decoration: BoxDecoration(
-                      color: Colors.deepOrangeAccent,
+                      color: buttonColor,
                       borderRadius: BorderRadius.all(Radius.circular(25)),
                     ),
                     child: IconButton(
-                      color: Colors.black87,
+                      color: iconColor,
                       icon: starIcon,
                       onPressed: () => null,
                     ),
@@ -214,11 +213,11 @@ class _TasksPageState extends State<TasksPage> with TickerProviderStateMixin {
                     height: 50,
                     width: 50,
                     decoration: BoxDecoration(
-                      color: Colors.deepOrangeAccent,
+                      color: buttonColor,
                       borderRadius: BorderRadius.all(Radius.circular(25)),
                     ),
                     child: IconButton(
-                      color: Colors.black87,
+                      color: iconColor,
                       icon: starIcon,
                       onPressed: () => null,
                     ),
@@ -229,11 +228,11 @@ class _TasksPageState extends State<TasksPage> with TickerProviderStateMixin {
                     height: 50,
                     width: 50,
                     decoration: BoxDecoration(
-                      color: Colors.deepOrangeAccent,
+                      color: buttonColor,
                       borderRadius: BorderRadius.all(Radius.circular(25)),
                     ),
                     child: IconButton(
-                      color: Colors.black87,
+                      color: iconColor,
                       icon: starIcon,
                       onPressed: () => null,
                     ),
@@ -243,11 +242,11 @@ class _TasksPageState extends State<TasksPage> with TickerProviderStateMixin {
               height: 50,
               width: 50,
               decoration: BoxDecoration(
-                color: Colors.deepOrangeAccent,
+                color: buttonColor,
                 borderRadius: BorderRadius.all(Radius.circular(25)),
               ),
               child: IconButton(
-                color: Colors.black87,
+                color: iconColor,
                 icon: starIcon,
                 onPressed: () => null,
               ),
@@ -256,12 +255,12 @@ class _TasksPageState extends State<TasksPage> with TickerProviderStateMixin {
               height: 50,
               width: 50,
               decoration: BoxDecoration(
-                color: Colors.deepOrangeAccent,
+                color: buttonColor,
                 borderRadius: BorderRadius.all(Radius.circular(25)),
               ),
               child: PopupMenuButton<int>(
                 offset: Offset(60, 30),
-                color: Colors.grey[200],
+                color: menuBackgroundL,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(15.0))),
                 child: Center(
@@ -272,7 +271,7 @@ class _TasksPageState extends State<TasksPage> with TickerProviderStateMixin {
                     return PopupMenuItem(
                       child: Row(
                         children: [
-                          Icon(icons[index], color: Colors.black87),
+                          Icon(icons[index], color: iconColor),
                           Container(width: 13),
                           Text(items[index]),
                         ],
@@ -284,6 +283,7 @@ class _TasksPageState extends State<TasksPage> with TickerProviderStateMixin {
                   setState(() {
                     selected = index;
                   });
+
                 },
               ),
             ),
@@ -306,7 +306,7 @@ class _TasksPageState extends State<TasksPage> with TickerProviderStateMixin {
       case 3:
         return Month();
     }
-    return Text('Error: wrong body: $selected', style: TextStyle(color: Colors.red, fontSize: 30));
+    return Text('Error: wrong body: $selected', style: TextStyle(color: errorColor, fontSize: 30));
   }
 
   @override

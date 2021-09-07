@@ -6,6 +6,7 @@ import 'dart:io';
 import '../../Theme/themes.dart';
 
 void main() {
+  setColorsTry();
   setIconsTry();
   try {
     WidgetsFlutterBinding.ensureInitialized();
@@ -28,9 +29,6 @@ class Biga extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'biga',
-      theme: defaultTargetPlatform == TargetPlatform.iOS
-          ? kIOSTheme
-          : kDefaultTheme,
       initialRoute: '/tasks',
       routes: {
         '/tasks': (context) => TasksPage(),
