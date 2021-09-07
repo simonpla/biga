@@ -162,12 +162,6 @@ class _TasksPageState extends State<TasksPage> with TickerProviderStateMixin {
   }
 
   PreferredSizeWidget _appBar() {
-    List<IconData> icons = [
-      Icons.view_agenda_outlined,
-      Icons.view_day_outlined,
-      Icons.calendar_view_week_outlined,
-      Icons.calendar_view_month_outlined
-    ];
     List<String> items = ['appointments', 'day', 'week', 'month'];
 
     return AppBar(
@@ -271,7 +265,7 @@ class _TasksPageState extends State<TasksPage> with TickerProviderStateMixin {
                     return PopupMenuItem(
                       child: Row(
                         children: [
-                          Icon(icons[index], color: iconColor),
+                          Icon(iconsMenuChooseCalendarLayout[index], color: iconColor),
                           Container(width: 13),
                           Text(items[index]),
                         ],

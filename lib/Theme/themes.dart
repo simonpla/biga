@@ -3,21 +3,25 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
-bool iosTest = true; //FOR TESTING
+bool iosTest = false; //FOR TESTING
+bool windowsTest = true; //FOR TESTING
 bool darkMode = false;
 
 //Colors
 
 void setColorsTry() {
   try {
-    primaryColorL = Colors.blue[300];
-    primaryColorD = Colors.blue[400];
-    buttonColor = Colors.green[200];
-    accentColor = Colors.blue[200];
-    backgroundL = Colors.white;
-    backgroundD = Colors.black45;
-    hoverColorL = Colors.blue[50];
+    if(defaultTargetPlatform == TargetPlatform.iOS || iosTest == true) {
+      primaryColorL = Colors.blue[300];
+      primaryColorD = Colors.blue[400];
+      buttonColor = Colors.green[200];
+      accentColor = Colors.blue[200];
+      backgroundL = Colors.white;
+      backgroundD = Colors.black45;
+      hoverColorL = Colors.blue[50];
+    }
   } catch (e) {
     print(
         'could not set platform colors, using default ones. this is normal on web platform');
@@ -43,9 +47,7 @@ final greyedColor = Colors.grey[500];
 //Icons
 void setIconsTry() {
   try {
-    if (Platform.isMacOS ||
-        defaultTargetPlatform == TargetPlatform.iOS ||
-        iosTest == true) {
+    if (defaultTargetPlatform == TargetPlatform.iOS || iosTest == true) {
       menuIcon =
           Icon(CupertinoIcons.line_horizontal_3, color: iconColor); //ellipsis?
       searchIcon = Icon(CupertinoIcons.search, color: iconColor);
@@ -60,6 +62,26 @@ void setIconsTry() {
           color: iconColor); //person_crop_circle?
       settingsIcon =
           Icon(CupertinoIcons.settings, color: iconColor); //gear, gear_alt?
+    }
+    if (Platform.isWindows || windowsTest == true) {
+      menuIcon =
+          Icon(FluentIcons.navigation_24_regular, color: iconColor);
+      searchIcon = Icon(FluentIcons.search_24_regular, color: iconColor);
+      plusIcon = Icon(FluentIcons.add_24_regular, color: iconColor);
+      calendarIcon = Icon(FluentIcons.calendar_ltr_24_regular, color: iconColor);
+      starIcon = Icon(FluentIcons.star_24_regular, color: iconColor);
+      taskIcon = Icon(FluentIcons.tasks_app_24_regular, color: iconColor);
+      chatIcon = Icon(FluentIcons.chat_24_regular, color: iconColor);
+      notesIcon = Icon(FluentIcons.text_align_left_24_regular,
+          color: iconColor);
+      contactIcon = Icon(FluentIcons.contact_card_group_24_regular,
+          color: iconColor); // personCircle24Regular
+      settingsIcon =
+          Icon(FluentIcons.settings_24_regular, color: iconColor);
+      iconsMenuChooseCalendarLayout[0] = FluentIcons.calendar_agenda_24_regular;
+      iconsMenuChooseCalendarLayout[1] = FluentIcons.calendar_day_24_regular;
+      iconsMenuChooseCalendarLayout[2] = FluentIcons.calendar_week_numbers_24_regular;
+      iconsMenuChooseCalendarLayout[3] = FluentIcons.calendar_month_24_regular;
     }
   } catch (e) {
     print(
@@ -77,3 +99,9 @@ var chatIcon = Icon(CustomIcons.chat_logo, color: iconColor);
 var notesIcon = Icon(Icons.notes, color: iconColor);
 var contactIcon = Icon(Icons.contacts, color: iconColor);
 var settingsIcon = Icon(Icons.settings, color: iconColor);
+List<IconData> iconsMenuChooseCalendarLayout = [
+  Icons.view_agenda_outlined,
+  Icons.view_day_outlined,
+  Icons.calendar_view_week_outlined,
+  Icons.calendar_view_month_outlined
+];
