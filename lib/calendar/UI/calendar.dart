@@ -1,3 +1,4 @@
+import 'package:aufgabenplaner/Theme/themes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../functions/calendarFunc.dart';
@@ -64,30 +65,30 @@ class _MonthState extends State<Month> {
   Border _getBorder(bool top, bool last) {
     if (top == true) {
       return Border(
-        top: BorderSide(color: Colors.black87),
-        left: BorderSide(color: Colors.black87),
-        bottom: BorderSide(color: Colors.black87),
+        top: BorderSide(color: uTextColor),
+        left: BorderSide(color: uTextColor),
+        bottom: BorderSide(color: uTextColor),
       );
     }
     if (top == true && last == true) {
       return Border(
-        top: BorderSide(color: Colors.black87),
-        left: BorderSide(color: Colors.black87),
-        right: BorderSide(color: Colors.black87),
-        bottom: BorderSide(color: Colors.black87),
+        top: BorderSide(color: uTextColor),
+        left: BorderSide(color: uTextColor),
+        right: BorderSide(color: uTextColor),
+        bottom: BorderSide(color: uTextColor),
       );
     }
     if (top == false && last == false) {
       return Border(
-        left: BorderSide(color: Colors.black87),
-        bottom: BorderSide(color: Colors.black87),
+        left: BorderSide(color: uTextColor),
+        bottom: BorderSide(color: uTextColor),
       );
     }
     if (top == false && last == true) {
       return Border(
-        left: BorderSide(color: Colors.black87),
-        right: BorderSide(color: Colors.black87),
-        bottom: BorderSide(color: Colors.black87),
+        left: BorderSide(color: uTextColor),
+        right: BorderSide(color: uTextColor),
+        bottom: BorderSide(color: uTextColor),
       );
     }
     return Border();
@@ -98,7 +99,7 @@ class _MonthState extends State<Month> {
       return Expanded(
         flex: weekView == true ? 1 : 2,
         child: Container(
-          child: Text(weekDay),
+          child: Text(weekDay, style: TextStyle(color: uTextColor)),
         ),
       );
     }
@@ -112,7 +113,6 @@ class _MonthState extends State<Month> {
   }
 
   var widthDividend = 7;
-  var backgroundDay = Colors.grey.shade100;
 
   Widget _week(int weekNum, bool top, bool weekView) {
     return Container(

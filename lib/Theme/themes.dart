@@ -6,14 +6,16 @@ import 'package:flutter/foundation.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
 bool iosTest = false; //FOR TESTING
-bool windowsTest = true; //FOR TESTING
+bool windowsTest = false; //FOR TESTING
 bool darkMode = false;
 
 //Colors
 
+var uBackground, uTextColor;
+
 void setColorsTry() {
   try {
-    if(defaultTargetPlatform == TargetPlatform.iOS || iosTest == true) {
+    if(defaultTargetPlatform == TargetPlatform.iOS || Platform.isMacOS || iosTest == true) {
       primaryColorL = Colors.blue[300];
       primaryColorD = Colors.blue[400];
       buttonColor = Colors.green[200];
@@ -26,6 +28,9 @@ void setColorsTry() {
     print(
         'could not set platform colors, using default ones. this is normal on web platform');
   }
+  uBackground = darkMode == true ? backgroundD : Colors.white24;
+  uTextColor = darkMode == true ? textColorD : textColorL;
+  backgroundDay = darkMode == true ? backgroundD : Colors.grey.shade100;
 }
 
 var primaryColorL = Colors.teal[200];
@@ -39,9 +44,11 @@ var hoverColorD = Colors.grey[600];
 var menuBackgroundL = Colors.grey[200];
 var menuBackgroundD = Colors.grey[800];
 var errorColor = Colors.red;
+var textColorD = Colors.white;
+var textColorL = Colors.black87;
+var backgroundDay = Colors.grey.shade100;
 
 final iconColor = Colors.black87;
-final textColor = Colors.black87;
 final greyedColor = Colors.grey[500];
 
 //Icons

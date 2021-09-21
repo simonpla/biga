@@ -87,76 +87,79 @@ class _TasksPageState extends State<TasksPage> with TickerProviderStateMixin {
 
   Widget _menu() {
     return Drawer(
-      child: ListView(
-        physics: BouncingScrollPhysics(),
-        padding: EdgeInsets.zero,
-        children: [
-          Container(
-            height: 170,
-            child: DrawerHeader(
-              decoration: BoxDecoration(
-                color: accentColor,
-              ),
-              child: Column(
-                children: [
-                  Container(
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text('Foo Bar Baz'),
+      child: Container(
+        color: uBackground,
+        child: ListView(
+          physics: BouncingScrollPhysics(),
+          padding: EdgeInsets.zero,
+          children: [
+            Container(
+              height: 170,
+              child: DrawerHeader(
+                decoration: BoxDecoration(
+                  color: accentColor,
+                ),
+                child: Column(
+                  children: [
+                    Container(
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text('Foo Bar Baz'),
+                      ),
                     ),
-                  ),
-                  Container(height: 10.0),
-                  Container(
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text('foo.bar.baz@example.com'),
+                    Container(height: 10.0),
+                    Container(
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text('foo.bar.baz@example.com'),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-          ListTile(
-            leading: Container(
-              child: taskIcon,
+            ListTile(
+              leading: Container(
+                child: taskIcon,
+              ),
+              title: Text('Tasks', style: TextStyle(color: uTextColor)),
+              onTap: () => Navigator.pushNamed(context, '/tasks'),
+              hoverColor: hoverColorL,
             ),
-            title: Text('Tasks', style: TextStyle(color: textColor)),
-            onTap: () => Navigator.pushNamed(context, '/tasks'),
-            hoverColor: hoverColorL,
-          ),
-          ListTile(
-            leading: Container(
-              child: chatIcon,
+            ListTile(
+              leading: Container(
+                child: chatIcon,
+              ),
+              title: Text('Chat', style: TextStyle(color: uTextColor)),
+              onTap: () => Navigator.pushNamed(context, '/chat'),
+              hoverColor: hoverColorL,
             ),
-            title: Text('Chat', style: TextStyle(color: textColor)),
-            onTap: () => Navigator.pushNamed(context, '/chat'),
-            hoverColor: hoverColorL,
-          ),
-          ListTile(
-            leading: Container(
-              child: notesIcon,
+            ListTile(
+              leading: Container(
+                child: notesIcon,
+              ),
+              title: Text('Notes', style: TextStyle(color: uTextColor)),
+              onTap: () => Navigator.pushNamed(context, '/notes'),
+              hoverColor: hoverColorL,
             ),
-            title: Text('Notes', style: TextStyle(color: textColor)),
-            onTap: () => Navigator.pushNamed(context, '/notes'),
-            hoverColor: hoverColorL,
-          ),
-          ListTile(
-            leading: Container(
-              child: contactIcon,
+            ListTile(
+              leading: Container(
+                child: contactIcon,
+              ),
+              title: Text('Contacts', style: TextStyle(color: uTextColor)),
+              onTap: () => Navigator.pushNamed(context, '/contacts'),
+              hoverColor: hoverColorL,
             ),
-            title: Text('Contacts', style: TextStyle(color: textColor)),
-            onTap: () => Navigator.pushNamed(context, '/contacts'),
-            hoverColor: hoverColorL,
-          ),
-          ListTile(
-            leading: Container(
-              child: settingsIcon,
+            ListTile(
+              leading: Container(
+                child: settingsIcon,
+              ),
+              title: Text('Settings', style: TextStyle(color: uTextColor)),
+              onTap: () => Navigator.pushNamed(context, '/settings'),
+              hoverColor: hoverColorL,
             ),
-            title: Text('Settings', style: TextStyle(color: textColor)),
-            onTap: () => Navigator.pushNamed(context, '/settings'),
-            hoverColor: hoverColorL,
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -166,6 +169,7 @@ class _TasksPageState extends State<TasksPage> with TickerProviderStateMixin {
 
     return AppBar(
       backgroundColor: accentColor,
+      elevation: 0,
       leading: Container(
         width: 20,
       ),
@@ -311,7 +315,10 @@ class _TasksPageState extends State<TasksPage> with TickerProviderStateMixin {
       drawer: _menu(),
       body: Padding(
         padding: EdgeInsets.only(top: 20.0, bottom: 0.0),
-        child: getCalendarBody(),
+        child: Container(
+          color: uBackground,
+            child: getCalendarBody(),
+        ),
       ),
       floatingActionButton: _buildNavigation(),
     );
