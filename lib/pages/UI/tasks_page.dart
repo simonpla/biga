@@ -1,3 +1,4 @@
+
 import '../../calendar/UI/calendar.dart';
 import 'dart:ui';
 import 'package:flutter/foundation.dart';
@@ -73,7 +74,9 @@ class _TasksPageState extends State<TasksPage> with TickerProviderStateMixin {
                 ),
               ),
               FloatingActionButton(
-                onPressed: () => _handlePressed(),
+                onPressed: () {
+                  showDialog(context: context, builder: (_) => NewTaskPopup());
+                },
                 child: plusIcon,
                 backgroundColor: buttonColor,
               ),
@@ -261,15 +264,14 @@ class _TasksPageState extends State<TasksPage> with TickerProviderStateMixin {
                 color: menuBackgroundL,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(15.0))),
-                child: Center(
-                    child: calendarIcon
-                ),
+                child: Center(child: calendarIcon),
                 itemBuilder: (context) {
                   return List.generate(4, (index) {
                     return PopupMenuItem(
                       child: Row(
                         children: [
-                          Icon(iconsMenuChooseCalendarLayout[index], color: iconColor),
+                          Icon(iconsMenuChooseCalendarLayout[index],
+                              color: iconColor),
                           Container(width: 13),
                           Text(items[index]),
                         ],
@@ -281,7 +283,6 @@ class _TasksPageState extends State<TasksPage> with TickerProviderStateMixin {
                   setState(() {
                     selected = index;
                   });
-
                 },
               ),
             ),
@@ -304,7 +305,8 @@ class _TasksPageState extends State<TasksPage> with TickerProviderStateMixin {
       case 3:
         return Month();
     }
-    return Text('Error: wrong body: $selected', style: TextStyle(color: errorColor, fontSize: 30));
+    return Text('Error: wrong body: $selected',
+        style: TextStyle(color: errorColor, fontSize: 30));
   }
 
   @override
@@ -317,10 +319,68 @@ class _TasksPageState extends State<TasksPage> with TickerProviderStateMixin {
         padding: EdgeInsets.only(top: 20.0, bottom: 0.0),
         child: Container(
           color: uBackground,
-            child: getCalendarBody(),
+          child: getCalendarBody(),
         ),
       ),
       floatingActionButton: _buildNavigation(),
+    );
+  }
+}
+
+class NewTaskPopup extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => NewTaskPopupState();
+}
+
+class NewTaskPopupState extends State<NewTaskPopup>
+    with TickerProviderStateMixin {
+  late AnimationController controller;
+  late Animation<double> scaleAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+
+    controller =
+        AnimationController(vsync: this, duration: Duration(milliseconds: 550));
+    scaleAnimation =
+        CurvedAnimation(parent: controller, curve: Curves.elasticInOut);
+
+    controller.addListener(() {
+      setState(() {});
+    });
+
+    controller.forward();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Material(
+        color: Colors.transparent,
+        child: ScaleTransition(
+          scale: scaleAnimation,
+          child: AlertDialog(
+            title: Center(child: Text('Create new Text')),
+            content: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextFormField(
+                  decoration: const InputDecoration(
+                      border: UnderlineInputBorder(), labelText: 'Input 1'),
+                ),
+              ],
+            ),
+            actions: [
+              ElevatedButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: Text('Close'),
+              ),
+            ],
+            scrollable: true,
+          ),
+        ),
+      ),
     );
   }
 }
