@@ -10,6 +10,7 @@ bool windowsTest = false; //FOR TESTING
 bool darkMode = false;
 
 //Colors
+//TODO: make dark mode work (now: different shades of grey)
 
 var uBackground, uTextColor;
 
@@ -37,7 +38,7 @@ var primaryColorL = Colors.teal[200];
 var primaryColorD = Colors.teal[300];
 var buttonColor = Colors.deepOrange[300];
 var accentColor = Colors.teal[100];
-var backgroundL = Colors.white;
+var backgroundL = Colors.white24;
 var backgroundD = Colors.black45;
 var hoverColorL = Colors.teal[50];
 var hoverColorD = Colors.grey[600];
