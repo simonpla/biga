@@ -115,18 +115,3 @@ List<IconData> iconsMenuChooseCalendarLayout = [
   Icons.calendar_view_week_outlined,
   Icons.calendar_view_month_outlined
 ];
-/*
-class DatePicker extends StatefulWidget {
-  final BuildContext ctx;
-  DatePicker({Key? key, required this.ctx}): super(key: key);
-
-  @override
-  _DatePickerState createState() => _DatePickerState();
-}
-
-DateTime selDate = DateTime.now();
-
-class _DatePickerState extends State<DatePicker> {
-  @override*/
-
-
