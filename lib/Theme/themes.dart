@@ -16,7 +16,9 @@ var uBackground, uTextColor;
 
 void setColorsTry() {
   try {
-    if(defaultTargetPlatform == TargetPlatform.iOS || Platform.isMacOS || iosTest == true) {
+    if (defaultTargetPlatform == TargetPlatform.iOS ||
+        Platform.isMacOS ||
+        iosTest == true) {
       primaryColorL = Colors.blue[300];
       primaryColorD = Colors.blue[400];
       buttonColor = Colors.green[200];
@@ -72,23 +74,23 @@ void setIconsTry() {
           Icon(CupertinoIcons.settings, color: iconColor); //gear, gear_alt?
     }
     if (Platform.isWindows || windowsTest == true) {
-      menuIcon =
-          Icon(FluentIcons.navigation_24_regular, color: iconColor);
+      menuIcon = Icon(FluentIcons.navigation_24_regular, color: iconColor);
       searchIcon = Icon(FluentIcons.search_24_regular, color: iconColor);
       plusIcon = Icon(FluentIcons.add_24_regular, color: iconColor);
-      calendarIcon = Icon(FluentIcons.calendar_ltr_24_regular, color: iconColor);
+      calendarIcon =
+          Icon(FluentIcons.calendar_ltr_24_regular, color: iconColor);
       starIcon = Icon(FluentIcons.star_24_regular, color: iconColor);
       taskIcon = Icon(FluentIcons.tasks_app_24_regular, color: iconColor);
       chatIcon = Icon(FluentIcons.chat_24_regular, color: iconColor);
-      notesIcon = Icon(FluentIcons.text_align_left_24_regular,
-          color: iconColor);
+      notesIcon =
+          Icon(FluentIcons.text_align_left_24_regular, color: iconColor);
       contactIcon = Icon(FluentIcons.contact_card_group_24_regular,
           color: iconColor); // personCircle24Regular
-      settingsIcon =
-          Icon(FluentIcons.settings_24_regular, color: iconColor);
+      settingsIcon = Icon(FluentIcons.settings_24_regular, color: iconColor);
       iconsMenuChooseCalendarLayout[0] = FluentIcons.calendar_agenda_24_regular;
       iconsMenuChooseCalendarLayout[1] = FluentIcons.calendar_day_24_regular;
-      iconsMenuChooseCalendarLayout[2] = FluentIcons.calendar_week_numbers_24_regular;
+      iconsMenuChooseCalendarLayout[2] =
+          FluentIcons.calendar_week_numbers_24_regular;
       iconsMenuChooseCalendarLayout[3] = FluentIcons.calendar_month_24_regular;
     }
   } catch (e) {
@@ -113,3 +115,18 @@ List<IconData> iconsMenuChooseCalendarLayout = [
   Icons.calendar_view_week_outlined,
   Icons.calendar_view_month_outlined
 ];
+/*
+class DatePicker extends StatefulWidget {
+  final BuildContext ctx;
+  DatePicker({Key? key, required this.ctx}): super(key: key);
+
+  @override
+  _DatePickerState createState() => _DatePickerState();
+}
+
+DateTime selDate = DateTime.now();
+
+class _DatePickerState extends State<DatePicker> {
+  @override*/
+
+

@@ -1,4 +1,3 @@
-
 import '../../calendar/UI/calendar.dart';
 import 'dart:ui';
 import 'package:flutter/foundation.dart';
@@ -6,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import '../../Theme/themes.dart';
+import 'dart:io';
+
+DateTime selDate = DateTime.now();
 
 class TasksPage extends StatefulWidget {
   const TasksPage({Key? key}) : super(key: key);
@@ -361,20 +363,30 @@ class NewTaskPopupState extends State<NewTaskPopup>
         child: ScaleTransition(
           scale: scaleAnimation,
           child: AlertDialog(
-            title: Center(child: Text('Create new Text')),
+            title: Center(child: Text('Create new Task')),
             content: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 TextFormField(
                   decoration: const InputDecoration(
-                      border: UnderlineInputBorder(), labelText: 'Input 1'),
+                      border: UnderlineInputBorder(), labelText: 'Title'),
                 ),
+                ElevatedButton(
+                    onPressed: () {
+                      datePicker();
+                    },
+                    child: Text('${selDate.toLocal()}'.split(' ')[0])),
+                //DatePicker(),
               ],
             ),
             actions: [
               ElevatedButton(
                 onPressed: () => Navigator.of(context).pop(),
-                child: Text('Close'),
+                child: Text('Cancel'),
+              ),
+              ElevatedButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: Text('Ok'),
               ),
             ],
             scrollable: true,
@@ -382,5 +394,68 @@ class NewTaskPopupState extends State<NewTaskPopup>
         ),
       ),
     );
+  }
+
+  Widget datePicker() {
+    try {
+      if (defaultTargetPlatform == TargetPlatform.iOS ||
+          Platform.isMacOS ||
+          iosTest == true) {
+        return cupertinoDatePicker();
+      }
+    } catch (e) {
+      print(
+          'could not set platform, using normal ones. normal on web platform');
+    }
+    return FutureBuilder(
+      future: materialDatePicker(),
+      builder: (context, snapshot) {
+        return CircularProgressIndicator();
+      },
+    );
+  }
+
+  materialDatePicker() async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selDate,
+      firstDate: DateTime(1990),
+      lastDate: DateTime(2050),
+      builder: (context, child) {
+        return Theme(
+          data: ThemeData.light(),
+          child: child as Widget,
+        );
+      },
+    );
+    if (picked != null && picked != selDate) {
+      setState(() {
+        selDate = picked;
+      });
+    }
+  }
+
+  cupertinoDatePicker() {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext builder) {
+          return Container(
+            height: MediaQuery.of(context).copyWith().size.height / 3,
+            color: Colors.white,
+            child: CupertinoDatePicker(
+              mode: CupertinoDatePickerMode.date,
+              onDateTimeChanged: (picked) {
+                if (picked != selDate) {
+                  setState(() {
+                    selDate = picked;
+                  });
+                }
+              },
+              initialDateTime: selDate,
+              minimumYear: 1990,
+              maximumYear: 2050,
+            ),
+          );
+        });
   }
 }
