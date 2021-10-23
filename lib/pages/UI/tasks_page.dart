@@ -1,3 +1,6 @@
+import 'package:aufgabenplaner/calendar/functions/calendarFunc.dart';
+import 'package:flutter/widgets.dart';
+
 import '../../calendar/UI/calendar.dart';
 import 'dart:ui';
 import 'package:flutter/foundation.dart';
@@ -8,6 +11,7 @@ import '../../Theme/themes.dart';
 import 'dart:io';
 
 DateTime selDate = DateTime.now();
+TimeOfDay selTime = TimeOfDay.now();
 
 class TasksPage extends StatefulWidget {
   const TasksPage({Key? key}) : super(key: key);
@@ -336,6 +340,7 @@ class NewTaskPopup extends StatefulWidget {
 
 class NewTaskPopupState extends State<NewTaskPopup>
     with TickerProviderStateMixin {
+  /*
   late AnimationController controller;
   late Animation<double> scaleAnimation;
 
@@ -357,7 +362,7 @@ class NewTaskPopupState extends State<NewTaskPopup>
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return Container(
       child: Material(
         color: Colors.transparent,
         child: ScaleTransition(
@@ -365,18 +370,46 @@ class NewTaskPopupState extends State<NewTaskPopup>
           child: AlertDialog(
             title: Center(child: Text('Create new Task')),
             content: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                TextFormField(
-                  decoration: const InputDecoration(
-                      border: UnderlineInputBorder(), labelText: 'Title'),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    TextFormField(
+                      decoration: const InputDecoration(
+                          border: UnderlineInputBorder(), labelText: 'Title'),
+                    ),
+                    SizedBox(height: 10),
+                  ],
                 ),
-                ElevatedButton(
-                    onPressed: () {
-                      datePicker();
-                    },
-                    child: Text('${selDate.toLocal()}'.split(' ')[0])),
-                //DatePicker(),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        datePicker();
+                      },
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Start', style: TextStyle(fontSize: 11)),
+                          Text('${selDate.toLocal()}'.split(' ')[0]),
+                        ],
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        datePicker();
+                      },
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('End', style: TextStyle(fontSize: 11)),
+                          Text('${selDate.toLocal()}'.split(' ')[0]),
+                        ],
+                      ),
+                    ),
+                  ],
+                )
               ],
             ),
             actions: [
@@ -394,6 +427,93 @@ class NewTaskPopupState extends State<NewTaskPopup>
         ),
       ),
     );
+  }*/
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Column(
+        children: [
+          Row(
+            children: [
+              IconButton(
+                  onPressed: () => Navigator.pop(context), icon: closeIcon),
+              Spacer(),
+              Text('Create new task',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+              Spacer(),
+              IconButton(
+                  onPressed: () => Navigator.pop(context), icon: doneIcon),
+            ],
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: 13.0, right: 13.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(left: 7.0, right: 7.0),
+                  child: TextFormField(
+                    decoration: const InputDecoration(
+                        border: UnderlineInputBorder(), labelText: 'Title'),
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Padding(
+                    padding: EdgeInsets.only(left: 7.0),
+                    child: Text('Start', style: TextStyle(fontSize: 15))),
+                Row(
+                  children: [
+                    TextButton(
+                      onPressed: () => datePicker(),
+                      child: Text(
+                        '${formatterYearMonthDay.format(selDate)}',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                    ),
+                    Spacer(),
+                    TextButton(
+                      onPressed: () => timePicker(),
+                      child: Text(
+                        '${selTime.format(context)}',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Padding(
+                    padding: EdgeInsets.only(left: 7.0),
+                    child: Text('End', style: TextStyle(fontSize: 15))),
+                Row(
+                  children: [
+                    TextButton(
+                      onPressed: () => datePicker(),
+                      child: Text(
+                        '${formatterYearMonthDay.format(selDate)}',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                    ),
+                    Spacer(),
+                    TextButton(
+                      onPressed: () => timePicker(),
+                      child: Text(
+                        '${selTime.format(context)}',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   Widget datePicker() {
@@ -405,7 +525,7 @@ class NewTaskPopupState extends State<NewTaskPopup>
       }
     } catch (e) {
       print(
-          'could not set platform, using normal ones. normal on web platform');
+          'could not set platform specific look of date picker, using normal ones. normal on web platform');
     }
     return FutureBuilder(
       future: materialDatePicker(),
@@ -457,5 +577,38 @@ class NewTaskPopupState extends State<NewTaskPopup>
             ),
           );
         });
+  }
+
+  Widget timePicker() {
+    try {
+      if (defaultTargetPlatform == TargetPlatform.iOS ||
+          Platform.isMacOS ||
+          iosTest == true) {
+        return cupertinoDatePicker();
+      }
+    } catch (e) {
+      print(
+          'could not set platform specific look of time picker, using normal ones. normal on web platform');
+    }
+    return FutureBuilder(
+      future: materialTimePicker(),
+      builder: (context, snapshot) {
+        return CircularProgressIndicator();
+      },
+    );
+  }
+
+
+  materialTimePicker() async {
+    final TimeOfDay? picked = await showTimePicker(
+        context: context,
+        initialTime: selTime,
+    );
+    if(picked == null) selTime = TimeOfDay.now();
+    else {
+      setState(() {
+        selTime = picked;
+      });
+    }
   }
 }

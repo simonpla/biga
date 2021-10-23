@@ -72,7 +72,10 @@ void setIconsTry() {
           color: iconColor); //person_crop_circle?
       settingsIcon =
           Icon(CupertinoIcons.settings, color: iconColor); //gear, gear_alt?
+      closeIcon = Icon(CupertinoIcons.xmark, color: iconColor);
+      doneIcon = Icon(CupertinoIcons.check_mark, color: iconColor);
     }
+
     if (Platform.isWindows || windowsTest == true) {
       menuIcon = Icon(FluentIcons.navigation_24_regular, color: iconColor);
       searchIcon = Icon(FluentIcons.search_24_regular, color: iconColor);
@@ -92,6 +95,8 @@ void setIconsTry() {
       iconsMenuChooseCalendarLayout[2] =
           FluentIcons.calendar_week_numbers_24_regular;
       iconsMenuChooseCalendarLayout[3] = FluentIcons.calendar_month_24_regular;
+      closeIcon = Icon(FluentIcons.dismiss_24_regular, color: iconColor);
+      doneIcon = Icon(FluentIcons.check_24_regular, color: iconColor);
     }
   } catch (e) {
     print(
@@ -109,6 +114,8 @@ var chatIcon = Icon(CustomIcons.chat_logo, color: iconColor);
 var notesIcon = Icon(Icons.notes, color: iconColor);
 var contactIcon = Icon(Icons.contacts, color: iconColor);
 var settingsIcon = Icon(Icons.settings, color: iconColor);
+var closeIcon = Icon(Icons.close, color: iconColor);
+var doneIcon = Icon(Icons.check, color: iconColor);
 List<IconData> iconsMenuChooseCalendarLayout = [
   Icons.view_agenda_outlined,
   Icons.view_day_outlined,

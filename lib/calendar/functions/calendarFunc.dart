@@ -8,6 +8,7 @@ var formatterYear = DateFormat('yyyy');
 var formatterWeekDay = DateFormat('EEEE');
 var formatterDay = DateFormat('d');
 var formatterYearMonthDay = DateFormat('yyyy-MM-dd');
+var formatterHourMinute = DateFormat('Hm');
 String chosenMonthStr = 'no month';
 int chosenMonth = 0;
 var chosenMonthDate = DateTime.now();
