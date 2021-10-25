@@ -5,7 +5,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
-bool iosTest = false; //FOR TESTING
+bool iosTest = true; //FOR TESTING
 bool windowsTest = false; //FOR TESTING
 bool darkMode = false;
 

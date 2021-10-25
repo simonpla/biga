@@ -1,6 +1,5 @@
 import 'package:aufgabenplaner/calendar/functions/calendarFunc.dart';
 import 'package:flutter/widgets.dart';
-
 import '../../calendar/UI/calendar.dart';
 import 'dart:ui';
 import 'package:flutter/foundation.dart';
@@ -8,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import '../../Theme/themes.dart';
-import 'dart:io';
 
 DateTime selDate = DateTime.now();
 TimeOfDay selTime = TimeOfDay.now();
@@ -477,7 +475,7 @@ class NewTaskPopupState extends State<NewTaskPopup>
                     TextButton(
                       onPressed: () => timePicker(),
                       child: Text(
-                        '${selTime.format(context)}',
+                        '${formatterHourMinute.format(selDate)}',
                         style: TextStyle(fontSize: 20),
                       ),
                     ),
@@ -502,7 +500,7 @@ class NewTaskPopupState extends State<NewTaskPopup>
                     TextButton(
                       onPressed: () => timePicker(),
                       child: Text(
-                        '${selTime.format(context)}',
+                        '${formatterHourMinute.format(selDate)}',
                         style: TextStyle(fontSize: 20),
                       ),
                     ),
@@ -516,23 +514,20 @@ class NewTaskPopupState extends State<NewTaskPopup>
     );
   }
 
-  Widget datePicker() {
-    try {
-      if (defaultTargetPlatform == TargetPlatform.iOS ||
-          Platform.isMacOS ||
-          iosTest == true) {
-        return cupertinoDatePicker();
-      }
-    } catch (e) {
-      print(
-          'could not set platform specific look of date picker, using normal ones. normal on web platform');
+  Widget? datePicker() {
+    final ThemeData theme = Theme.of(context);
+    if (theme.platform == TargetPlatform.iOS ||
+        theme.platform == TargetPlatform.macOS ||
+        iosTest == true) {
+      return cupertinoDatePicker();
+    } else {
+      return FutureBuilder(
+        future: materialDatePicker(),
+        builder: (context, snapshot) {
+          return CircularProgressIndicator();
+        },
+      );
     }
-    return FutureBuilder(
-      future: materialDatePicker(),
-      builder: (context, snapshot) {
-        return CircularProgressIndicator();
-      },
-    );
   }
 
   materialDatePicker() async {
@@ -560,10 +555,10 @@ class NewTaskPopupState extends State<NewTaskPopup>
         context: context,
         builder: (BuildContext builder) {
           return Container(
-            height: MediaQuery.of(context).copyWith().size.height / 3,
+            height: MediaQuery.of(context).copyWith().size.height / 2,
             color: Colors.white,
             child: CupertinoDatePicker(
-              mode: CupertinoDatePickerMode.date,
+              mode: CupertinoDatePickerMode.dateAndTime,
               onDateTimeChanged: (picked) {
                 if (picked != selDate) {
                   setState(() {
@@ -574,40 +569,40 @@ class NewTaskPopupState extends State<NewTaskPopup>
               initialDateTime: selDate,
               minimumYear: 1990,
               maximumYear: 2050,
+              use24hFormat: true,
             ),
           );
         });
   }
 
-  Widget timePicker() {
-    try {
-      if (defaultTargetPlatform == TargetPlatform.iOS ||
-          Platform.isMacOS ||
-          iosTest == true) {
-        return cupertinoDatePicker();
-      }
-    } catch (e) {
-      print(
-          'could not set platform specific look of time picker, using normal ones. normal on web platform');
+  Widget? timePicker() {
+    final ThemeData theme = Theme.of(context);
+    if (theme.platform == TargetPlatform.iOS ||
+        theme.platform == TargetPlatform.macOS ||
+        iosTest == true) {
+      return cupertinoDatePicker();
+    } else {
+      return FutureBuilder(
+        future: materialTimePicker(),
+        builder: (context, snapshot) {
+          return CircularProgressIndicator();
+        },
+      );
     }
-    return FutureBuilder(
-      future: materialTimePicker(),
-      builder: (context, snapshot) {
-        return CircularProgressIndicator();
-      },
-    );
   }
-
 
   materialTimePicker() async {
     final TimeOfDay? picked = await showTimePicker(
-        context: context,
-        initialTime: selTime,
+      context: context,
+      initialTime: selTime,
     );
-    if(picked == null) selTime = TimeOfDay.now();
+    if (picked == null)
+      selTime = TimeOfDay.now();
     else {
       setState(() {
         selTime = picked;
+        selDate = DateTime(selDate.year, selDate.month, selDate.day,
+            selTime.hour, selTime.minute);
       });
     }
   }
