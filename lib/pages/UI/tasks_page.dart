@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
-import '../../CustomIcons/custom_icons_icons.dart';
+import '../../Theme/themes.dart';
 
 class TasksPage extends StatefulWidget {
   const TasksPage({Key? key}) : super(key: key);
@@ -15,7 +15,7 @@ class TasksPage extends StatefulWidget {
 
 class _TasksPageState extends State<TasksPage> with TickerProviderStateMixin {
   var scaffoldKey = GlobalKey<ScaffoldState>();
-  int selected = 0;
+  int selected = 3;
 
   void _handlePressed() {}
 
@@ -33,7 +33,7 @@ class _TasksPageState extends State<TasksPage> with TickerProviderStateMixin {
             children: [
               Container(
                 decoration: BoxDecoration(
-                  color: Colors.teal[200],
+                  color: primaryColorL,
                   borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(19),
                     topLeft: Radius.circular(19),
@@ -53,7 +53,7 @@ class _TasksPageState extends State<TasksPage> with TickerProviderStateMixin {
                     ),
                     Container(
                       child: IconButton(
-                        icon: const Icon(Icons.menu),
+                        icon: menuIcon,
                         onPressed: () => scaffoldKey.currentState!.openDrawer(),
                       ),
                     ),
@@ -65,7 +65,7 @@ class _TasksPageState extends State<TasksPage> with TickerProviderStateMixin {
                     ),
                     Container(
                       child: IconButton(
-                        icon: const Icon(Icons.search),
+                        icon: searchIcon,
                         onPressed: () => null,
                       ),
                     ),
@@ -74,8 +74,8 @@ class _TasksPageState extends State<TasksPage> with TickerProviderStateMixin {
               ),
               FloatingActionButton(
                 onPressed: () => _handlePressed(),
-                child: const Icon(Icons.add),
-                backgroundColor: Colors.deepOrangeAccent,
+                child: plusIcon,
+                backgroundColor: buttonColor,
               ),
             ],
             innerDistance: -8,
@@ -87,91 +87,89 @@ class _TasksPageState extends State<TasksPage> with TickerProviderStateMixin {
 
   Widget _menu() {
     return Drawer(
-      child: ListView(
-        physics: BouncingScrollPhysics(),
-        padding: EdgeInsets.zero,
-        children: [
-          Container(
-            height: 170,
-            child: DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.teal[100],
-              ),
-              child: Column(
-                children: [
-                  Container(
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text('Foo Bar Baz'),
+      child: Container(
+        color: uBackground,
+        child: ListView(
+          physics: BouncingScrollPhysics(),
+          padding: EdgeInsets.zero,
+          children: [
+            Container(
+              height: 170,
+              child: DrawerHeader(
+                decoration: BoxDecoration(
+                  color: accentColor,
+                ),
+                child: Column(
+                  children: [
+                    Container(
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text('Foo Bar Baz'),
+                      ),
                     ),
-                  ),
-                  Container(height: 10.0),
-                  Container(
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text('foo.bar.baz@example.com'),
+                    Container(height: 10.0),
+                    Container(
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text('foo.bar.baz@example.com'),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-          ListTile(
-            leading: Container(
-              child: Icon(Icons.task, color: Colors.black87),
+            ListTile(
+              leading: Container(
+                child: taskIcon,
+              ),
+              title: Text('Tasks', style: TextStyle(color: uTextColor)),
+              onTap: () => Navigator.pushNamed(context, '/tasks'),
+              hoverColor: hoverColorL,
             ),
-            title: Text('Tasks', style: TextStyle(color: Colors.black87)),
-            onTap: () => null,
-            hoverColor: Colors.deepOrangeAccent[100],
-          ),
-          ListTile(
-            leading: Container(
-              child: Icon(CustomIcons.chat_logo, color: Colors.black87),
+            ListTile(
+              leading: Container(
+                child: chatIcon,
+              ),
+              title: Text('Chat', style: TextStyle(color: uTextColor)),
+              onTap: () => Navigator.pushNamed(context, '/chat'),
+              hoverColor: hoverColorL,
             ),
-            title: Text('Chat', style: TextStyle(color: Colors.black87)),
-            onTap: () => null,
-            hoverColor: Colors.deepOrangeAccent[100],
-          ),
-          ListTile(
-            leading: Container(
-              child: Icon(Icons.notes, color: Colors.black87),
+            ListTile(
+              leading: Container(
+                child: notesIcon,
+              ),
+              title: Text('Notes', style: TextStyle(color: uTextColor)),
+              onTap: () => Navigator.pushNamed(context, '/notes'),
+              hoverColor: hoverColorL,
             ),
-            title: Text('Notes', style: TextStyle(color: Colors.black87)),
-            onTap: () => null,
-            hoverColor: Colors.deepOrangeAccent[100],
-          ),
-          ListTile(
-            leading: Container(
-              child: Icon(Icons.contacts, color: Colors.black87),
+            ListTile(
+              leading: Container(
+                child: contactIcon,
+              ),
+              title: Text('Contacts', style: TextStyle(color: uTextColor)),
+              onTap: () => Navigator.pushNamed(context, '/contacts'),
+              hoverColor: hoverColorL,
             ),
-            title: Text('Contacts', style: TextStyle(color: Colors.black87)),
-            onTap: () => null,
-            hoverColor: Colors.deepOrangeAccent[100],
-          ),
-          ListTile(
-            leading: Container(
-              child: Icon(Icons.settings, color: Colors.black87),
+            ListTile(
+              leading: Container(
+                child: settingsIcon,
+              ),
+              title: Text('Settings', style: TextStyle(color: uTextColor)),
+              onTap: () => Navigator.pushNamed(context, '/settings'),
+              hoverColor: hoverColorL,
             ),
-            title: Text('Settings', style: TextStyle(color: Colors.black87)),
-            onTap: () => null,
-            hoverColor: Colors.deepOrangeAccent[100],
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
   PreferredSizeWidget _appBar() {
-    List<IconData> icons = [
-      Icons.view_agenda_outlined,
-      Icons.view_day_outlined,
-      Icons.calendar_view_week_outlined,
-      Icons.calendar_view_month_outlined
-    ];
     List<String> items = ['appointments', 'day', 'week', 'month'];
 
     return AppBar(
-      backgroundColor: Colors.teal[100],
+      backgroundColor: accentColor,
+      elevation: 0,
       leading: Container(
         width: 20,
       ),
@@ -183,12 +181,12 @@ class _TasksPageState extends State<TasksPage> with TickerProviderStateMixin {
                     height: 50,
                     width: 50,
                     decoration: BoxDecoration(
-                      color: Colors.deepOrangeAccent,
+                      color: buttonColor,
                       borderRadius: BorderRadius.all(Radius.circular(25)),
                     ),
                     child: IconButton(
-                      color: Colors.black87,
-                      icon: Icon(Icons.star),
+                      color: iconColor,
+                      icon: starIcon,
                       onPressed: () => null,
                     ),
                   )
@@ -198,12 +196,12 @@ class _TasksPageState extends State<TasksPage> with TickerProviderStateMixin {
                     height: 50,
                     width: 50,
                     decoration: BoxDecoration(
-                      color: Colors.deepOrangeAccent,
+                      color: buttonColor,
                       borderRadius: BorderRadius.all(Radius.circular(25)),
                     ),
                     child: IconButton(
-                      color: Colors.black87,
-                      icon: Icon(Icons.star),
+                      color: iconColor,
+                      icon: starIcon,
                       onPressed: () => null,
                     ),
                   )
@@ -213,12 +211,12 @@ class _TasksPageState extends State<TasksPage> with TickerProviderStateMixin {
                     height: 50,
                     width: 50,
                     decoration: BoxDecoration(
-                      color: Colors.deepOrangeAccent,
+                      color: buttonColor,
                       borderRadius: BorderRadius.all(Radius.circular(25)),
                     ),
                     child: IconButton(
-                      color: Colors.black87,
-                      icon: Icon(Icons.star),
+                      color: iconColor,
+                      icon: starIcon,
                       onPressed: () => null,
                     ),
                   )
@@ -228,12 +226,12 @@ class _TasksPageState extends State<TasksPage> with TickerProviderStateMixin {
                     height: 50,
                     width: 50,
                     decoration: BoxDecoration(
-                      color: Colors.deepOrangeAccent,
+                      color: buttonColor,
                       borderRadius: BorderRadius.all(Radius.circular(25)),
                     ),
                     child: IconButton(
-                      color: Colors.black87,
-                      icon: Icon(Icons.star),
+                      color: iconColor,
+                      icon: starIcon,
                       onPressed: () => null,
                     ),
                   )
@@ -242,12 +240,12 @@ class _TasksPageState extends State<TasksPage> with TickerProviderStateMixin {
               height: 50,
               width: 50,
               decoration: BoxDecoration(
-                color: Colors.deepOrangeAccent,
+                color: buttonColor,
                 borderRadius: BorderRadius.all(Radius.circular(25)),
               ),
               child: IconButton(
-                color: Colors.black87,
-                icon: Icon(Icons.star),
+                color: iconColor,
+                icon: starIcon,
                 onPressed: () => null,
               ),
             ),
@@ -255,25 +253,23 @@ class _TasksPageState extends State<TasksPage> with TickerProviderStateMixin {
               height: 50,
               width: 50,
               decoration: BoxDecoration(
-                color: Colors.deepOrangeAccent,
+                color: buttonColor,
                 borderRadius: BorderRadius.all(Radius.circular(25)),
               ),
               child: PopupMenuButton<int>(
                 offset: Offset(60, 30),
-                color: Colors.grey[200],
+                color: menuBackgroundL,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(15.0))),
                 child: Center(
-                    child: Icon(
-                  Icons.today_sharp,
-                  color: Colors.black87,
-                )),
+                    child: calendarIcon
+                ),
                 itemBuilder: (context) {
                   return List.generate(4, (index) {
                     return PopupMenuItem(
                       child: Row(
                         children: [
-                          Icon(icons[index], color: Colors.black87),
+                          Icon(iconsMenuChooseCalendarLayout[index], color: iconColor),
                           Container(width: 13),
                           Text(items[index]),
                         ],
@@ -285,6 +281,7 @@ class _TasksPageState extends State<TasksPage> with TickerProviderStateMixin {
                   setState(() {
                     selected = index;
                   });
+
                 },
               ),
             ),
@@ -296,6 +293,20 @@ class _TasksPageState extends State<TasksPage> with TickerProviderStateMixin {
     );
   }
 
+  Widget getCalendarBody() {
+    switch (selected) {
+      case 0:
+        return Container();
+      case 1:
+        return Container();
+      case 2:
+        return Week();
+      case 3:
+        return Month();
+    }
+    return Text('Error: wrong body: $selected', style: TextStyle(color: errorColor, fontSize: 30));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -303,9 +314,11 @@ class _TasksPageState extends State<TasksPage> with TickerProviderStateMixin {
       appBar: _appBar(),
       drawer: _menu(),
       body: Padding(
-        padding:
-            EdgeInsets.only(top: 20.0, bottom: 0.0),
-        child: Calendar(),
+        padding: EdgeInsets.only(top: 20.0, bottom: 0.0),
+        child: Container(
+          color: uBackground,
+            child: getCalendarBody(),
+        ),
       ),
       floatingActionButton: _buildNavigation(),
     );

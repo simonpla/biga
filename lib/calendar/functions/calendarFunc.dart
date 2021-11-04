@@ -1,3 +1,4 @@
+import 'package:aufgabenplaner/Theme/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -58,48 +59,48 @@ List<int> month = [
   -1,
 ];
 List<Color?> dayColor = [
-  Colors.black87,
-  Colors.black87,
-  Colors.black87,
-  Colors.black87,
-  Colors.black87,
-  Colors.black87,
-  Colors.black87,
-  Colors.black87,
-  Colors.black87,
-  Colors.black87,
-  Colors.black87,
-  Colors.black87,
-  Colors.black87,
-  Colors.black87,
-  Colors.black87,
-  Colors.black87,
-  Colors.black87,
-  Colors.black87,
-  Colors.black87,
-  Colors.black87,
-  Colors.black87,
-  Colors.black87,
-  Colors.black87,
-  Colors.black87,
-  Colors.black87,
-  Colors.black87,
-  Colors.black87,
-  Colors.black87,
-  Colors.black87,
-  Colors.black87,
-  Colors.black87,
-  Colors.black87,
-  Colors.black87,
-  Colors.black87,
-  Colors.black87,
-  Colors.black87,
-  Colors.black87,
-  Colors.black87,
-  Colors.black87,
-  Colors.black87,
-  Colors.black87,
-  Colors.black87,
+  uTextColor,
+  uTextColor,
+  uTextColor,
+  uTextColor,
+  uTextColor,
+  uTextColor,
+  uTextColor,
+  uTextColor,
+  uTextColor,
+  uTextColor,
+  uTextColor,
+  uTextColor,
+  uTextColor,
+  uTextColor,
+  uTextColor,
+  uTextColor,
+  uTextColor,
+  uTextColor,
+  uTextColor,
+  uTextColor,
+  uTextColor,
+  uTextColor,
+  uTextColor,
+  uTextColor,
+  uTextColor,
+  uTextColor,
+  uTextColor,
+  uTextColor,
+  uTextColor,
+  uTextColor,
+  uTextColor,
+  uTextColor,
+  uTextColor,
+  uTextColor,
+  uTextColor,
+  uTextColor,
+  uTextColor,
+  uTextColor,
+  uTextColor,
+  uTextColor,
+  uTextColor,
+  uTextColor,
 ];
 int monthPosition = 0;
 
@@ -200,7 +201,7 @@ var _prevDayCount = 0;
 
 void fillMonth() {
   _prevDayCount = 0;
-  for (int i = 0; i < 42; i++) dayColor[i] = Colors.black87;
+  for (int i = 0; i < 42; i++) dayColor[i] = uTextColor;
   //calculate days from last month to display this month
   _prevMonthDay = getLastDay(chosenMonth - 1, yearNum);
   _prevMonthCounter = DateTime(yearNum, chosenMonth, 1).weekday - 1;
@@ -208,7 +209,7 @@ void fillMonth() {
   _prevMonthPtr = _prevMonthCounter - 1;
   for (_forLoop = 0; _forLoop < _prevMonthCounter; _forLoop++) {
     month[_forLoop] = _prevMonthDay - _prevMonthPtr;
-    dayColor[_forLoop] = Colors.grey[500];
+    dayColor[_forLoop] = greyedColor;
     _prevMonthPtr--;
     _prevDayCount++;
   }
@@ -223,7 +224,11 @@ void fillMonth() {
   _nextMonthPtr = dayCounter;
   for (_forLoop = 0; _forLoop < 42 - dayCounter; _forLoop++) {
     month[_nextMonthPtr] = _forLoop + 1;
-    dayColor[_nextMonthPtr] = Colors.grey[500];
+    dayColor[_nextMonthPtr] = greyedColor;
     _nextMonthPtr++;
   }
+}
+
+int weekInMonth(int day) { //TODO: make this work
+  return -1;
 }

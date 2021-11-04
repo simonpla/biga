@@ -3,8 +3,11 @@ import 'pages/UI/tasks_page.dart';
 import 'package:flutter/material.dart';
 import 'package:window_size/window_size.dart';
 import 'dart:io';
+import '../../Theme/themes.dart';
 
 void main() {
+  setColorsTry();
+  setIconsTry();
   try {
     WidgetsFlutterBinding.ensureInitialized();
     if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
@@ -18,19 +21,6 @@ void main() {
   runApp(Biga());
 }
 
-final ThemeData kIOSTheme = ThemeData(
-  primarySwatch: Colors.cyan,
-  primaryColor: Colors.teal,
-  primaryColorBrightness: Brightness.light,
-  accentColor: Colors.grey,
-);
-
-final ThemeData kDefaultTheme = ThemeData(
-  primarySwatch: Colors.cyan,
-  primaryColor: Colors.teal,
-  accentColor: Colors.grey,
-);
-
 class Biga extends StatelessWidget {
   const Biga({
     Key? key,
@@ -39,10 +29,14 @@ class Biga extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'biga',
-      theme: defaultTargetPlatform == TargetPlatform.iOS
-          ? kIOSTheme
-          : kDefaultTheme,
-      home: TasksPage(),
+      initialRoute: '/tasks',
+      routes: {
+        '/tasks': (context) => TasksPage(),
+        '/chat': (context) => Container(),
+        '/notes': (context) => Container(),
+        '/contacts': (context) => Container(),
+        '/settings': (context) => Container(),
+      },
     );
   }
 }
