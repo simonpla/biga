@@ -1,3 +1,5 @@
+import 'package:aufgabenplaner/calendar/functions/calendarFunc.dart';
+import 'package:flutter/widgets.dart';
 import '../../calendar/UI/calendar.dart';
 import 'dart:ui';
 import 'package:flutter/foundation.dart';
@@ -5,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import '../../Theme/themes.dart';
+import '../functions/tasks_page_func.dart';
 
 class TasksPage extends StatefulWidget {
   const TasksPage({Key? key}) : super(key: key);
@@ -73,7 +76,9 @@ class _TasksPageState extends State<TasksPage> with TickerProviderStateMixin {
                 ),
               ),
               FloatingActionButton(
-                onPressed: () => _handlePressed(),
+                onPressed: () {
+                  showDialog(context: context, builder: (_) => NewTaskPopup());
+                },
                 child: plusIcon,
                 backgroundColor: buttonColor,
               ),
@@ -261,15 +266,14 @@ class _TasksPageState extends State<TasksPage> with TickerProviderStateMixin {
                 color: menuBackgroundL,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(15.0))),
-                child: Center(
-                    child: calendarIcon
-                ),
+                child: Center(child: calendarIcon),
                 itemBuilder: (context) {
                   return List.generate(4, (index) {
                     return PopupMenuItem(
                       child: Row(
                         children: [
-                          Icon(iconsMenuChooseCalendarLayout[index], color: iconColor),
+                          Icon(iconsMenuChooseCalendarLayout[index],
+                              color: iconColor),
                           Container(width: 13),
                           Text(items[index]),
                         ],
@@ -281,7 +285,6 @@ class _TasksPageState extends State<TasksPage> with TickerProviderStateMixin {
                   setState(() {
                     selected = index;
                   });
-
                 },
               ),
             ),
@@ -304,7 +307,8 @@ class _TasksPageState extends State<TasksPage> with TickerProviderStateMixin {
       case 3:
         return Month();
     }
-    return Text('Error: wrong body: $selected', style: TextStyle(color: errorColor, fontSize: 30));
+    return Text('Error: wrong body: $selected',
+        style: TextStyle(color: errorColor, fontSize: 30));
   }
 
   @override
@@ -317,10 +321,217 @@ class _TasksPageState extends State<TasksPage> with TickerProviderStateMixin {
         padding: EdgeInsets.only(top: 20.0, bottom: 0.0),
         child: Container(
           color: uBackground,
-            child: getCalendarBody(),
+          child: getCalendarBody(),
         ),
       ),
       floatingActionButton: _buildNavigation(),
     );
+  }
+}
+
+class NewTaskPopup extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => NewTaskPopupState();
+}
+
+class NewTaskPopupState extends State<NewTaskPopup> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Column(
+        children: [
+          Row(
+            children: [
+              IconButton(
+                  onPressed: () => Navigator.pop(context), icon: closeIcon),
+              Spacer(),
+              Text('Create new task',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+              Spacer(),
+              IconButton(
+                  onPressed: () => Navigator.pop(context), icon: doneIcon),
+            ],
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: 13.0, right: 13.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(left: 7.0, right: 7.0),
+                  child: TextFormField(
+                    decoration: const InputDecoration(
+                        border: UnderlineInputBorder(), labelText: 'Title'),
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Padding(
+                    padding: EdgeInsets.only(left: 7.0),
+                    child: Text('Start', style: TextStyle(fontSize: 15))),
+                Row(
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        tempDate = selDateStart;
+                        datePicker(1);
+                      },
+                      child: Text(
+                        '${formatterYearMonthDay.format(selDateStart)}',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                    ),
+                    Spacer(),
+                    TextButton(
+                      onPressed: () {
+                        tempDate = selDateStart;
+                        tempTime = selTimeStart;
+                        timePicker(2);
+                      },
+                      child: Text(
+                        '${formatterHourMinute.format(selDateStart)}',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Padding(
+                    padding: EdgeInsets.only(left: 7.0),
+                    child: Text('End', style: TextStyle(fontSize: 15))),
+                Row(
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        tempDate = selDateEnd;
+                        datePicker(3);
+                      },
+                      child: Text(
+                        '${formatterYearMonthDay.format(selDateEnd)}',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                    ),
+                    Spacer(),
+                    TextButton(
+                      onPressed: () {
+                        tempDate = selDateEnd;
+                        tempTime = selTimeEnd;
+                        timePicker(4);
+                      },
+                      child: Text(
+                        '${formatterHourMinute.format(selDateEnd)}',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget? datePicker(int id) {
+    final ThemeData theme = Theme.of(context);
+    if (theme.platform == TargetPlatform.iOS ||
+        theme.platform == TargetPlatform.macOS ||
+        iosTest == true) {
+      return cupertinoDatePicker(id);
+    } else {
+      return FutureBuilder(
+        future: materialDatePicker(id),
+        builder: (context, snapshot) {
+          return CircularProgressIndicator();
+        },
+      );
+    }
+  }
+
+  materialDatePicker(int id) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: tempDate,
+      firstDate: DateTime(1990),
+      lastDate: DateTime(2050),
+      builder: (context, child) {
+        return Theme(
+          data: ThemeData.light(),
+          child: child as Widget,
+        );
+      },
+    );
+    if (picked != null && picked != tempDate) {
+      setState(() {
+        assignToDateTime(id, picked);
+      });
+    }
+  }
+
+  cupertinoDatePicker(int id) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext builder) {
+          return Container(
+            height: MediaQuery.of(context).copyWith().size.height / 2,
+            color: Colors.white,
+            child: CupertinoDatePicker(
+              mode: CupertinoDatePickerMode.dateAndTime,
+              onDateTimeChanged: (picked) {
+                if (picked != tempDate) {
+                  setState(() {
+                    assignToDateTime(id.isEven ? id - 1 : id, picked);
+                  });
+                }
+              },
+              initialDateTime: tempDate,
+              minimumYear: 1990,
+              maximumYear: 2050,
+              use24hFormat: true,
+            ),
+          );
+        });
+  }
+
+  Widget? timePicker(int id) {
+    final ThemeData theme = Theme.of(context);
+    if (theme.platform == TargetPlatform.iOS ||
+        theme.platform == TargetPlatform.macOS ||
+        iosTest == true) {
+      return cupertinoDatePicker(id);
+    } else {
+      return FutureBuilder(
+        future: materialTimePicker(id),
+        builder: (context, snapshot) {
+          return CircularProgressIndicator();
+        },
+      );
+    }
+  }
+
+  materialTimePicker(int id) async {
+    final TimeOfDay? picked = await showTimePicker(
+      context: context,
+      initialTime: tempTime,
+    );
+    setState(() {
+      if (picked == null) {
+        assignToDateTime(id, TimeOfDay.now());
+        assignToDateTime(
+            id - 1,
+            DateTime(tempDate.year, tempDate.month, tempDate.day, tempTime.hour,
+                tempTime.minute));
+      } else {
+        assignToDateTime(id, picked);
+        assignToDateTime(
+            id - 1,
+            DateTime(tempDate.year, tempDate.month, tempDate.day, tempTime.hour,
+                tempTime.minute));
+      }
+    });
   }
 }

@@ -5,7 +5,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
-bool iosTest = false; //FOR TESTING
+bool iosTest = true; //FOR TESTING
 bool windowsTest = false; //FOR TESTING
 bool darkMode = false;
 
@@ -16,7 +16,9 @@ var uBackground, uTextColor;
 
 void setColorsTry() {
   try {
-    if(defaultTargetPlatform == TargetPlatform.iOS || Platform.isMacOS || iosTest == true) {
+    if (defaultTargetPlatform == TargetPlatform.iOS ||
+        Platform.isMacOS ||
+        iosTest == true) {
       primaryColorL = Colors.blue[300];
       primaryColorD = Colors.blue[400];
       buttonColor = Colors.green[200];
@@ -70,26 +72,31 @@ void setIconsTry() {
           color: iconColor); //person_crop_circle?
       settingsIcon =
           Icon(CupertinoIcons.settings, color: iconColor); //gear, gear_alt?
+      closeIcon = Icon(CupertinoIcons.xmark, color: iconColor);
+      doneIcon = Icon(CupertinoIcons.check_mark, color: iconColor);
     }
+
     if (Platform.isWindows || windowsTest == true) {
-      menuIcon =
-          Icon(FluentIcons.navigation_24_regular, color: iconColor);
+      menuIcon = Icon(FluentIcons.navigation_24_regular, color: iconColor);
       searchIcon = Icon(FluentIcons.search_24_regular, color: iconColor);
       plusIcon = Icon(FluentIcons.add_24_regular, color: iconColor);
-      calendarIcon = Icon(FluentIcons.calendar_ltr_24_regular, color: iconColor);
+      calendarIcon =
+          Icon(FluentIcons.calendar_ltr_24_regular, color: iconColor);
       starIcon = Icon(FluentIcons.star_24_regular, color: iconColor);
       taskIcon = Icon(FluentIcons.tasks_app_24_regular, color: iconColor);
       chatIcon = Icon(FluentIcons.chat_24_regular, color: iconColor);
-      notesIcon = Icon(FluentIcons.text_align_left_24_regular,
-          color: iconColor);
+      notesIcon =
+          Icon(FluentIcons.text_align_left_24_regular, color: iconColor);
       contactIcon = Icon(FluentIcons.contact_card_group_24_regular,
           color: iconColor); // personCircle24Regular
-      settingsIcon =
-          Icon(FluentIcons.settings_24_regular, color: iconColor);
+      settingsIcon = Icon(FluentIcons.settings_24_regular, color: iconColor);
       iconsMenuChooseCalendarLayout[0] = FluentIcons.calendar_agenda_24_regular;
       iconsMenuChooseCalendarLayout[1] = FluentIcons.calendar_day_24_regular;
-      iconsMenuChooseCalendarLayout[2] = FluentIcons.calendar_week_numbers_24_regular;
+      iconsMenuChooseCalendarLayout[2] =
+          FluentIcons.calendar_week_numbers_24_regular;
       iconsMenuChooseCalendarLayout[3] = FluentIcons.calendar_month_24_regular;
+      closeIcon = Icon(FluentIcons.dismiss_24_regular, color: iconColor);
+      doneIcon = Icon(FluentIcons.check_24_regular, color: iconColor);
     }
   } catch (e) {
     print(
@@ -107,6 +114,8 @@ var chatIcon = Icon(CustomIcons.chat_logo, color: iconColor);
 var notesIcon = Icon(Icons.notes, color: iconColor);
 var contactIcon = Icon(Icons.contacts, color: iconColor);
 var settingsIcon = Icon(Icons.settings, color: iconColor);
+var closeIcon = Icon(Icons.close, color: iconColor);
+var doneIcon = Icon(Icons.check, color: iconColor);
 List<IconData> iconsMenuChooseCalendarLayout = [
   Icons.view_agenda_outlined,
   Icons.view_day_outlined,

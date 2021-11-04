@@ -32,11 +32,13 @@ class Biga extends StatelessWidget {
       initialRoute: '/tasks',
       routes: {
         '/tasks': (context) => TasksPage(),
+        '/tasks/new': (context) => NewTaskPopup(),
         '/chat': (context) => Container(),
         '/notes': (context) => Container(),
         '/contacts': (context) => Container(),
         '/settings': (context) => Container(),
       },
+      debugShowCheckedModeBanner: false,
     );
   }
 }
