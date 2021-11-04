@@ -7,9 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import '../../Theme/themes.dart';
-
-DateTime selDate = DateTime.now();
-TimeOfDay selTime = TimeOfDay.now();
+import '../functions/tasks_page_func.dart';
 
 class TasksPage extends StatefulWidget {
   const TasksPage({Key? key}) : super(key: key);
@@ -336,97 +334,7 @@ class NewTaskPopup extends StatefulWidget {
   State<StatefulWidget> createState() => NewTaskPopupState();
 }
 
-class NewTaskPopupState extends State<NewTaskPopup>
-    with TickerProviderStateMixin {
-  /*
-  late AnimationController controller;
-  late Animation<double> scaleAnimation;
-
-  @override
-  void initState() {
-    super.initState();
-
-    controller =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 550));
-    scaleAnimation =
-        CurvedAnimation(parent: controller, curve: Curves.elasticInOut);
-
-    controller.addListener(() {
-      setState(() {});
-    });
-
-    controller.forward();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Material(
-        color: Colors.transparent,
-        child: ScaleTransition(
-          scale: scaleAnimation,
-          child: AlertDialog(
-            title: Center(child: Text('Create new Task')),
-            content: Column(
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    TextFormField(
-                      decoration: const InputDecoration(
-                          border: UnderlineInputBorder(), labelText: 'Title'),
-                    ),
-                    SizedBox(height: 10),
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    TextButton(
-                      onPressed: () {
-                        datePicker();
-                      },
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('Start', style: TextStyle(fontSize: 11)),
-                          Text('${selDate.toLocal()}'.split(' ')[0]),
-                        ],
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        datePicker();
-                      },
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('End', style: TextStyle(fontSize: 11)),
-                          Text('${selDate.toLocal()}'.split(' ')[0]),
-                        ],
-                      ),
-                    ),
-                  ],
-                )
-              ],
-            ),
-            actions: [
-              ElevatedButton(
-                onPressed: () => Navigator.of(context).pop(),
-                child: Text('Cancel'),
-              ),
-              ElevatedButton(
-                onPressed: () => Navigator.of(context).pop(),
-                child: Text('Ok'),
-              ),
-            ],
-            scrollable: true,
-          ),
-        ),
-      ),
-    );
-  }*/
-
+class NewTaskPopupState extends State<NewTaskPopup> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -465,17 +373,24 @@ class NewTaskPopupState extends State<NewTaskPopup>
                 Row(
                   children: [
                     TextButton(
-                      onPressed: () => datePicker(),
+                      onPressed: () {
+                        tempDate = selDateStart;
+                        datePicker(1);
+                      },
                       child: Text(
-                        '${formatterYearMonthDay.format(selDate)}',
+                        '${formatterYearMonthDay.format(selDateStart)}',
                         style: TextStyle(fontSize: 20),
                       ),
                     ),
                     Spacer(),
                     TextButton(
-                      onPressed: () => timePicker(),
+                      onPressed: () {
+                        tempDate = selDateStart;
+                        tempTime = selTimeStart;
+                        timePicker(2);
+                      },
                       child: Text(
-                        '${formatterHourMinute.format(selDate)}',
+                        '${formatterHourMinute.format(selDateStart)}',
                         style: TextStyle(fontSize: 20),
                       ),
                     ),
@@ -490,17 +405,24 @@ class NewTaskPopupState extends State<NewTaskPopup>
                 Row(
                   children: [
                     TextButton(
-                      onPressed: () => datePicker(),
+                      onPressed: () {
+                        tempDate = selDateEnd;
+                        datePicker(3);
+                      },
                       child: Text(
-                        '${formatterYearMonthDay.format(selDate)}',
+                        '${formatterYearMonthDay.format(selDateEnd)}',
                         style: TextStyle(fontSize: 20),
                       ),
                     ),
                     Spacer(),
                     TextButton(
-                      onPressed: () => timePicker(),
+                      onPressed: () {
+                        tempDate = selDateEnd;
+                        tempTime = selTimeEnd;
+                        timePicker(4);
+                      },
                       child: Text(
-                        '${formatterHourMinute.format(selDate)}',
+                        '${formatterHourMinute.format(selDateEnd)}',
                         style: TextStyle(fontSize: 20),
                       ),
                     ),
@@ -514,15 +436,15 @@ class NewTaskPopupState extends State<NewTaskPopup>
     );
   }
 
-  Widget? datePicker() {
+  Widget? datePicker(int id) {
     final ThemeData theme = Theme.of(context);
     if (theme.platform == TargetPlatform.iOS ||
         theme.platform == TargetPlatform.macOS ||
         iosTest == true) {
-      return cupertinoDatePicker();
+      return cupertinoDatePicker(id);
     } else {
       return FutureBuilder(
-        future: materialDatePicker(),
+        future: materialDatePicker(id),
         builder: (context, snapshot) {
           return CircularProgressIndicator();
         },
@@ -530,10 +452,10 @@ class NewTaskPopupState extends State<NewTaskPopup>
     }
   }
 
-  materialDatePicker() async {
+  materialDatePicker(int id) async {
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: selDate,
+      initialDate: tempDate,
       firstDate: DateTime(1990),
       lastDate: DateTime(2050),
       builder: (context, child) {
@@ -543,14 +465,14 @@ class NewTaskPopupState extends State<NewTaskPopup>
         );
       },
     );
-    if (picked != null && picked != selDate) {
+    if (picked != null && picked != tempDate) {
       setState(() {
-        selDate = picked;
+        assignToDateTime(id, picked);
       });
     }
   }
 
-  cupertinoDatePicker() {
+  cupertinoDatePicker(int id) {
     showModalBottomSheet(
         context: context,
         builder: (BuildContext builder) {
@@ -560,13 +482,13 @@ class NewTaskPopupState extends State<NewTaskPopup>
             child: CupertinoDatePicker(
               mode: CupertinoDatePickerMode.dateAndTime,
               onDateTimeChanged: (picked) {
-                if (picked != selDate) {
+                if (picked != tempDate) {
                   setState(() {
-                    selDate = picked;
+                    assignToDateTime(id.isEven ? id - 1 : id, picked);
                   });
                 }
               },
-              initialDateTime: selDate,
+              initialDateTime: tempDate,
               minimumYear: 1990,
               maximumYear: 2050,
               use24hFormat: true,
@@ -575,15 +497,15 @@ class NewTaskPopupState extends State<NewTaskPopup>
         });
   }
 
-  Widget? timePicker() {
+  Widget? timePicker(int id) {
     final ThemeData theme = Theme.of(context);
     if (theme.platform == TargetPlatform.iOS ||
         theme.platform == TargetPlatform.macOS ||
         iosTest == true) {
-      return cupertinoDatePicker();
+      return cupertinoDatePicker(id);
     } else {
       return FutureBuilder(
-        future: materialTimePicker(),
+        future: materialTimePicker(id),
         builder: (context, snapshot) {
           return CircularProgressIndicator();
         },
@@ -591,19 +513,25 @@ class NewTaskPopupState extends State<NewTaskPopup>
     }
   }
 
-  materialTimePicker() async {
+  materialTimePicker(int id) async {
     final TimeOfDay? picked = await showTimePicker(
       context: context,
-      initialTime: selTime,
+      initialTime: tempTime,
     );
-    if (picked == null)
-      selTime = TimeOfDay.now();
-    else {
-      setState(() {
-        selTime = picked;
-        selDate = DateTime(selDate.year, selDate.month, selDate.day,
-            selTime.hour, selTime.minute);
-      });
-    }
+    setState(() {
+      if (picked == null) {
+        assignToDateTime(id, TimeOfDay.now());
+        assignToDateTime(
+            id - 1,
+            DateTime(tempDate.year, tempDate.month, tempDate.day, tempTime.hour,
+                tempTime.minute));
+      } else {
+        assignToDateTime(id, picked);
+        assignToDateTime(
+            id - 1,
+            DateTime(tempDate.year, tempDate.month, tempDate.day, tempTime.hour,
+                tempTime.minute));
+      }
+    });
   }
 }
