@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 DateTime selDateStart = DateTime.now();
 DateTime selDateEnd = DateTime.now();
-late DateTime tempDate;
+DateTime tempDate = DateTime.now();
 TimeOfDay selTimeStart = TimeOfDay.now();
 TimeOfDay selTimeEnd = TimeOfDay.now();
-late TimeOfDay tempTime;
+TimeOfDay tempTime = TimeOfDay.now();
 
-void assignToDateTime(int id, var val) {
+assignToDateTime(int id, var val) { //assigns value to variable, because it changes with Start and End dates
   switch(id) {
     case 1: selDateStart = val; break;
     case 2: selTimeStart = val; break;

@@ -374,7 +374,6 @@ class NewTaskPopupState extends State<NewTaskPopup> {
                   children: [
                     TextButton(
                       onPressed: () {
-                        tempDate = selDateStart;
                         datePicker(1);
                       },
                       child: Text(
@@ -385,8 +384,6 @@ class NewTaskPopupState extends State<NewTaskPopup> {
                     Spacer(),
                     TextButton(
                       onPressed: () {
-                        tempDate = selDateStart;
-                        tempTime = selTimeStart;
                         timePicker(2);
                       },
                       child: Text(
@@ -406,7 +403,6 @@ class NewTaskPopupState extends State<NewTaskPopup> {
                   children: [
                     TextButton(
                       onPressed: () {
-                        tempDate = selDateEnd;
                         datePicker(3);
                       },
                       child: Text(
@@ -417,8 +413,6 @@ class NewTaskPopupState extends State<NewTaskPopup> {
                     Spacer(),
                     TextButton(
                       onPressed: () {
-                        tempDate = selDateEnd;
-                        tempTime = selTimeEnd;
                         timePicker(4);
                       },
                       child: Text(
@@ -453,7 +447,7 @@ class NewTaskPopupState extends State<NewTaskPopup> {
   }
 
   materialDatePicker(int id) async {
-    final DateTime? picked = await showDatePicker(
+    DateTime? picked = await showDatePicker(
       context: context,
       initialDate: tempDate,
       firstDate: DateTime(1990),
@@ -467,6 +461,8 @@ class NewTaskPopupState extends State<NewTaskPopup> {
     );
     if (picked != null && picked != tempDate) {
       setState(() {
+        picked = DateTime(picked!.year, picked!.month, picked!.day, id == 1 ? selTimeStart.hour : selTimeEnd.hour, id == 1 ? selTimeStart.minute : selTimeEnd.minute);
+        print('${picked!.year} ${picked!.month} ${picked!.day} ${id == 1 ? selTimeStart.hour : selTimeEnd.hour} ${id == 1 ? selTimeStart.minute : selTimeEnd.minute}');
         assignToDateTime(id, picked);
       });
     }
@@ -518,20 +514,16 @@ class NewTaskPopupState extends State<NewTaskPopup> {
       context: context,
       initialTime: tempTime,
     );
-    setState(() {
-      if (picked == null) {
-        assignToDateTime(id, TimeOfDay.now());
-        assignToDateTime(
-            id - 1,
-            DateTime(tempDate.year, tempDate.month, tempDate.day, tempTime.hour,
-                tempTime.minute));
-      } else {
+    if (picked != null) {
+      setState(() {
         assignToDateTime(id, picked);
         assignToDateTime(
             id - 1,
-            DateTime(tempDate.year, tempDate.month, tempDate.day, tempTime.hour,
-                tempTime.minute));
-      }
-    });
+            DateTime(tempDate.year, tempDate.month, tempDate.day, picked.hour,
+                picked.minute));
+        print('$selTimeStart $selTimeEnd');
+        print('$selTimeStart $selTimeEnd');
+      });
+    }
   }
 }
