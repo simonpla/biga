@@ -8,7 +8,7 @@ import '../../Theme/themes.dart';
 void main() {
   setColorsTry();
   setIconsTry();
-  try {
+  try { //set minimum window size on desktop to avoid render overflows when the window is unreasonably small
     WidgetsFlutterBinding.ensureInitialized();
     if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
       setWindowTitle('biga');

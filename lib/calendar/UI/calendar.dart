@@ -21,7 +21,6 @@ class _MonthState extends State<Month> {
       yearNum = int.tryParse(year) ?? -1;
     });
     fillMonth();
-    print(month);
   }
 
   Widget _monthNavigation() {
@@ -70,7 +69,7 @@ class _MonthState extends State<Month> {
         bottom: BorderSide(color: uTextColor),
       );
     }
-    if (top == true && last == true) {
+    else if (top == true && last == true) {
       return Border(
         top: BorderSide(color: uTextColor),
         left: BorderSide(color: uTextColor),
@@ -78,13 +77,13 @@ class _MonthState extends State<Month> {
         bottom: BorderSide(color: uTextColor),
       );
     }
-    if (top == false && last == false) {
+    else if (top == false && last == false) {
       return Border(
         left: BorderSide(color: uTextColor),
         bottom: BorderSide(color: uTextColor),
       );
     }
-    if (top == false && last == true) {
+    else if (top == false && last == true) {
       return Border(
         left: BorderSide(color: uTextColor),
         right: BorderSide(color: uTextColor),

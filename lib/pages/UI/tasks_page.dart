@@ -170,7 +170,12 @@ class _TasksPageState extends State<TasksPage> with TickerProviderStateMixin {
   }
 
   PreferredSizeWidget _appBar() {
-    List<String> items = ['appointments', 'day', 'week', 'month'];
+    List<String> items = [
+      'appointments',
+      'day',
+      'week',
+      'month'
+    ]; //TODO: consider replacing appointments with schedule
 
     return AppBar(
       backgroundColor: accentColor,
@@ -335,6 +340,8 @@ class NewTaskPopup extends StatefulWidget {
 }
 
 class NewTaskPopupState extends State<NewTaskPopup> {
+  var _isAllDay = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -342,14 +349,16 @@ class NewTaskPopupState extends State<NewTaskPopup> {
         children: [
           Row(
             children: [
+              Spacer(),
               IconButton(
                   onPressed: () => Navigator.pop(context), icon: closeIcon),
-              Spacer(),
+              Spacer(flex: 80),
               Text('Create new task',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-              Spacer(),
-              IconButton(
-                  onPressed: () => Navigator.pop(context), icon: doneIcon),
+              Spacer(flex: 80),
+              ElevatedButton(
+                  onPressed: () => Navigator.pop(context), child: Text('Save')),
+              Spacer(flex: 2),
             ],
           ),
           Padding(
@@ -367,6 +376,23 @@ class NewTaskPopupState extends State<NewTaskPopup> {
                 SizedBox(
                   height: 20,
                 ),
+                Row(
+                  children: [
+                    Padding(
+                        padding: EdgeInsets.only(left: 7.0),
+                        child: Text('All-day', style: TextStyle(fontSize: 15))),
+                    Spacer(),
+                    Switch(
+                      value: _isAllDay,
+                      onChanged: (value) {
+                        setState(() {
+                          _isAllDay = !_isAllDay; //revert state
+                        });
+                      },
+                      activeColor: buttonColor,
+                    ),
+                  ],
+                ),
                 Padding(
                     padding: EdgeInsets.only(left: 7.0),
                     child: Text('Start', style: TextStyle(fontSize: 15))),
@@ -382,14 +408,17 @@ class NewTaskPopupState extends State<NewTaskPopup> {
                       ),
                     ),
                     Spacer(),
-                    TextButton(
-                      onPressed: () {
-                        timePicker(2);
-                      },
-                      child: Text(
-                        '${formatterHourMinute.format(selDateStart)}',
-                        style: TextStyle(fontSize: 20),
+                    Visibility(
+                      child: TextButton(
+                        onPressed: () {
+                          timePicker(2);
+                        },
+                        child: Text(
+                          '${formatterHourMinute.format(selDateStart)}',
+                          style: TextStyle(fontSize: 20),
+                        ),
                       ),
+                      visible: !_isAllDay, //if All-Day option is opted in, don't show time
                     ),
                   ],
                 ),
@@ -411,14 +440,17 @@ class NewTaskPopupState extends State<NewTaskPopup> {
                       ),
                     ),
                     Spacer(),
-                    TextButton(
-                      onPressed: () {
-                        timePicker(4);
-                      },
-                      child: Text(
-                        '${formatterHourMinute.format(selDateEnd)}',
-                        style: TextStyle(fontSize: 20),
+                    Visibility(
+                      child: TextButton(
+                        onPressed: () {
+                          timePicker(4);
+                        },
+                        child: Text(
+                          '${formatterHourMinute.format(selDateEnd)}',
+                          style: TextStyle(fontSize: 20),
+                        ),
                       ),
+                      visible: !_isAllDay, //if All-Day option is opted in, don't show time
                     ),
                   ],
                 ),
@@ -430,7 +462,7 @@ class NewTaskPopupState extends State<NewTaskPopup> {
     );
   }
 
-  Widget? datePicker(int id) {
+  Widget? datePicker(int id) { //return native looking date picker
     final ThemeData theme = Theme.of(context);
     if (theme.platform == TargetPlatform.iOS ||
         theme.platform == TargetPlatform.macOS ||
@@ -461,8 +493,14 @@ class NewTaskPopupState extends State<NewTaskPopup> {
     );
     if (picked != null && picked != tempDate) {
       setState(() {
-        picked = DateTime(picked!.year, picked!.month, picked!.day, id == 1 ? selTimeStart.hour : selTimeEnd.hour, id == 1 ? selTimeStart.minute : selTimeEnd.minute);
-        print('${picked!.year} ${picked!.month} ${picked!.day} ${id == 1 ? selTimeStart.hour : selTimeEnd.hour} ${id == 1 ? selTimeStart.minute : selTimeEnd.minute}');
+        picked = DateTime(
+            picked!.year,
+            picked!.month,
+            picked!.day,
+            id == 1 ? selTimeStart.hour : selTimeEnd.hour,
+            id == 1 ? selTimeStart.minute : selTimeEnd.minute);
+        print(
+            '${picked!.year} ${picked!.month} ${picked!.day} ${id == 1 ? selTimeStart.hour : selTimeEnd.hour} ${id == 1 ? selTimeStart.minute : selTimeEnd.minute}');
         assignToDateTime(id, picked);
       });
     }
@@ -493,7 +531,7 @@ class NewTaskPopupState extends State<NewTaskPopup> {
         });
   }
 
-  Widget? timePicker(int id) {
+  Widget? timePicker(int id) { //return native looking time picker
     final ThemeData theme = Theme.of(context);
     if (theme.platform == TargetPlatform.iOS ||
         theme.platform == TargetPlatform.macOS ||
