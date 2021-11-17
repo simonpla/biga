@@ -341,6 +341,17 @@ class NewTaskPopup extends StatefulWidget {
 
 class NewTaskPopupState extends State<NewTaskPopup> {
   var _isAllDay = false;
+  var _isRepeat = false;
+  var repeatOne = 'every';
+  var repeatOptionsTwo = ['choose frequency', '', 'second', 'third'];
+  var repeatOptionsTwoSel = 'choose frequency';
+  var repeatOptionsThree = [
+    'choose type',
+    'weekday',
+    'month',
+    'year'
+  ]; //make weekdays and month names as well as year names?
+  var repeatOptionsThreeSel = 'choose type';
 
   @override
   Widget build(BuildContext context) {
@@ -418,7 +429,8 @@ class NewTaskPopupState extends State<NewTaskPopup> {
                           style: TextStyle(fontSize: 20),
                         ),
                       ),
-                      visible: !_isAllDay, //if All-Day option is opted in, don't show time
+                      visible:
+                          !_isAllDay, //if All-Day option is opted in, don't show time
                     ),
                   ],
                 ),
@@ -450,9 +462,70 @@ class NewTaskPopupState extends State<NewTaskPopup> {
                           style: TextStyle(fontSize: 20),
                         ),
                       ),
-                      visible: !_isAllDay, //if All-Day option is opted in, don't show time
+                      visible:
+                          !_isAllDay, //if All-Day option is opted in, don't show time
                     ),
                   ],
+                ),
+                Row(
+                  children: [
+                    Padding(
+                        padding: EdgeInsets.only(left: 7.0),
+                        child: Text('Repeat', style: TextStyle(fontSize: 15))),
+                    Spacer(),
+                    Switch(
+                      value: _isRepeat,
+                      onChanged: (value) {
+                        setState(() {
+                          _isRepeat = !_isRepeat; //revert state
+                        });
+                      },
+                      activeColor: buttonColor,
+                    ),
+                  ],
+                ),
+                Visibility(
+                  child: Row(
+                    children: [
+                      Spacer(),
+                      Text('every', style: TextStyle(fontSize: 15)),
+                      Spacer(),
+                      DropdownButton(
+                        value: repeatOptionsTwoSel,
+                        items: repeatOptionsTwo.map((repeatOptionsTwoPos) {
+                          return DropdownMenuItem(
+                            child: Text(repeatOptionsTwoPos),
+                            value: repeatOptionsTwoPos,
+                          );
+                        }).toList(),
+                        onChanged: (index) {
+                          setState(() {
+                            repeatOptionsTwoSel = index as String;
+                          });
+                        },
+                        focusColor: buttonColor,
+                      ),
+                      Spacer(),
+                      DropdownButton(
+                        value: repeatOptionsThreeSel,
+                        items: repeatOptionsThree.map((repeatOptionsThreePos) {
+                          return DropdownMenuItem(
+                            child: Text(repeatOptionsThreePos),
+                            value: repeatOptionsThreePos,
+                          );
+                        }).toList(),
+                        onChanged: (index) {
+                          setState(() {
+                            repeatOptionsThreeSel = index as String;
+                          });
+                        },
+                        focusColor: buttonColor,
+                      ),
+                      Spacer(),
+                    ],
+                  ),
+                  visible:
+                      _isRepeat, //if Repeat option is opted in, show repeat options
                 ),
               ],
             ),
@@ -462,7 +535,8 @@ class NewTaskPopupState extends State<NewTaskPopup> {
     );
   }
 
-  Widget? datePicker(int id) { //return native looking date picker
+  Widget? datePicker(int id) {
+    //return native looking date picker
     final ThemeData theme = Theme.of(context);
     if (theme.platform == TargetPlatform.iOS ||
         theme.platform == TargetPlatform.macOS ||
@@ -531,7 +605,8 @@ class NewTaskPopupState extends State<NewTaskPopup> {
         });
   }
 
-  Widget? timePicker(int id) { //return native looking time picker
+  Widget? timePicker(int id) {
+    //return native looking time picker
     final ThemeData theme = Theme.of(context);
     if (theme.platform == TargetPlatform.iOS ||
         theme.platform == TargetPlatform.macOS ||
