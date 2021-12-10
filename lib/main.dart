@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:window_size/window_size.dart';
 import 'dart:io';
 import '../../Theme/themes.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 void main() {
   setColorsTry();
@@ -18,7 +19,15 @@ void main() {
   } catch(e) {
     print('setting minimum window size not possible');
   }
-  runApp(Biga());
+  await SentryFlutter.init(
+    (options) {
+      options.dsn = 'https://424162517de748babee6e1b3c418596b@o1088201.ingest.sentry.io/6102840';
+      // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
+      // We recommend adjusting this value in production.
+      options.tracesSampleRate = 1.0;
+    },
+    appRunner: () => runApp(Biga()),
+  );
 }
 
 class Biga extends StatelessWidget {
