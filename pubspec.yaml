@@ -35,6 +35,7 @@ dependencies:
       path: plugins/window_size
   intl: ^0.17.0
   fluentui_system_icons: ^1.1.138
+  sentry_flutter: ^6.2.0
 
 
 dev_dependencies:
