@@ -17,7 +17,7 @@ var uBackground, uTextColor;
 void setColorsTry() {
   try {
     if (defaultTargetPlatform == TargetPlatform.iOS ||
-        Platform.isMacOS ||
+        Platform.isMacOS == true ||
         iosTest == true) {
       primaryColorL = Colors.blue[300];
       primaryColorD = Colors.blue[400];
@@ -57,7 +57,7 @@ final greyedColor = Colors.grey[500];
 //Icons
 void setIconsTry() {
   try {
-    if (defaultTargetPlatform == TargetPlatform.iOS || iosTest == true) {
+    if (defaultTargetPlatform == TargetPlatform.iOS || Platform.isMacOS == true || iosTest == true) {
       menuIcon =
           Icon(CupertinoIcons.line_horizontal_3, color: iconColor); //ellipsis?
       searchIcon = Icon(CupertinoIcons.search, color: iconColor);

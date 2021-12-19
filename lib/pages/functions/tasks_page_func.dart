@@ -15,3 +15,9 @@ assignToDateTime(int id, var val) { //assigns value to variable, because it chan
     case 4: selTimeEnd = val; break;
   }
 }
+
+repeatTextAssign(var value) {
+  if(value == true) {
+    return 'Repeat every';
+  } return 'Repeat';
+}
