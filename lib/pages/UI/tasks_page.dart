@@ -1,8 +1,5 @@
 import 'package:aufgabenplaner/calendar/functions/calendarFunc.dart';
-import 'package:flutter/widgets.dart';
 import '../../calendar/UI/calendar.dart';
-import 'dart:ui';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
