@@ -342,6 +342,7 @@ class NewTaskPopupState extends State<NewTaskPopup> {
   var _isAllDay = false;
   var _isRepeat = false;
   var _repeatText = 'Repeat';
+  var repeatOptionsHourText = '  hour';
   var repeatOptionsHour = [
     '1',
     '2',
@@ -368,6 +369,7 @@ class NewTaskPopupState extends State<NewTaskPopup> {
     '23'
   ];
   var repeatOptionsHourSel = '1';
+  var repeatOptionsDayText = '  day';
   var repeatOptionsDay = [
     '1',
     '2',
@@ -377,8 +379,10 @@ class NewTaskPopupState extends State<NewTaskPopup> {
     '6'
   ]; //make weekdays and month names as well as year names?
   var repeatOptionsDaySel = '1';
+  var repeatOptionsWeekText = '  week';
   var repeatOptionsWeek = ['1', '2', '3'];
   var repeatOptionsWeekSel = '1';
+  var repeatOptionsMonthText = '  month';
   var repeatOptionsMonth = [
     '1',
     '2',
@@ -393,12 +397,15 @@ class NewTaskPopupState extends State<NewTaskPopup> {
     '11'
   ];
   var repeatOptionsMonthSel = '1';
+  var repeatOptionsYearText = '  year';
+  var repeatOptionsYearValue;
   repeatOptionType? _chosenRepeatOptionType = repeatOptionType.hour;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
+        //TODO: make list out of this for scrollability
         children: [
           Row(
             children: [
@@ -546,11 +553,16 @@ class NewTaskPopupState extends State<NewTaskPopup> {
                               onChanged: (index) {
                                 setState(() {
                                   repeatOptionsHourSel = index as String;
+                                  if (index == '1') {
+                                    repeatOptionsHourText = '  hour';
+                                  } else {
+                                    repeatOptionsHourText = '  hours';
+                                  }
                                 });
                               },
                               focusColor: buttonColor,
                             ),
-                            const Text('  hour',
+                            Text(repeatOptionsHourText,
                                 style: TextStyle(fontSize: 15)),
                           ],
                         ),
@@ -579,11 +591,17 @@ class NewTaskPopupState extends State<NewTaskPopup> {
                               onChanged: (index) {
                                 setState(() {
                                   repeatOptionsDaySel = index as String;
+                                  if (index == '1') {
+                                    repeatOptionsDayText = '  day';
+                                  } else {
+                                    repeatOptionsDayText = '  days';
+                                  }
                                 });
                               },
                               focusColor: buttonColor,
                             ),
-                            const Text('  day', style: TextStyle(fontSize: 15)),
+                            Text(repeatOptionsDayText,
+                                style: TextStyle(fontSize: 15)),
                           ],
                         ),
                         leading: Radio<repeatOptionType>(
@@ -611,11 +629,16 @@ class NewTaskPopupState extends State<NewTaskPopup> {
                               onChanged: (index) {
                                 setState(() {
                                   repeatOptionsWeekSel = index as String;
+                                  if (index == '1') {
+                                    repeatOptionsWeekText = '  week';
+                                  } else {
+                                    repeatOptionsWeekText = '  weeks';
+                                  }
                                 });
                               },
                               focusColor: buttonColor,
                             ),
-                            const Text('  week',
+                            Text(repeatOptionsWeekText,
                                 style: TextStyle(fontSize: 15)),
                           ],
                         ),
@@ -644,11 +667,16 @@ class NewTaskPopupState extends State<NewTaskPopup> {
                               onChanged: (index) {
                                 setState(() {
                                   repeatOptionsMonthSel = index as String;
+                                  if (index == '1') {
+                                    repeatOptionsMonthText = '  month';
+                                  } else {
+                                    repeatOptionsMonthText = '  months';
+                                  }
                                 });
                               },
                               focusColor: buttonColor,
                             ),
-                            const Text('  month',
+                            Text(repeatOptionsMonthText,
                                 style: TextStyle(fontSize: 15)),
                           ],
                         ),
@@ -673,9 +701,20 @@ class NewTaskPopupState extends State<NewTaskPopup> {
                                   contentPadding: EdgeInsets.all(8),
                                   border: OutlineInputBorder(),
                                 ),
+                                onChanged: (value) {
+                                  setState(() {
+                                    repeatOptionsYearValue = value;
+                                    if (value == '1' || value == '') {
+                                      repeatOptionsYearText = '  year';
+                                    } else {
+                                      repeatOptionsYearText = '  years';
+                                    }
+                                  });
+                                },
                               ),
                             ),
-                            const Text('  year', style: TextStyle(fontSize: 15)),
+                            Text(repeatOptionsYearText,
+                                style: TextStyle(fontSize: 15)),
                           ],
                         ),
                         leading: Radio<repeatOptionType>(
@@ -688,39 +727,6 @@ class NewTaskPopupState extends State<NewTaskPopup> {
                           },
                         ),
                       ),
-                      /*Spacer(),
-                        DropdownButton(
-                          value: repeatOptionsTwoSel,
-                          items: repeatOptionsTwo.map((repeatOptionsTwoPos) {
-                            return DropdownMenuItem(
-                              child: Text(repeatOptionsTwoPos),
-                              value: repeatOptionsTwoPos,
-                            );
-                          }).toList(),
-                          onChanged: (index) {
-                            setState(() {
-                              repeatOptionsTwoSel = index as String;
-                            });
-                          },
-                          focusColor: buttonColor,
-                        ),
-                        Spacer(),
-                        DropdownButton(
-                          value: repeatOptionsThreeSel,
-                          items: repeatOptionsThree.map((repeatOptionsThreePos) {
-                            return DropdownMenuItem(
-                              child: Text(repeatOptionsThreePos),
-                              value: repeatOptionsThreePos,
-                            );
-                          }).toList(),
-                          onChanged: (index) {
-                            setState(() {
-                              repeatOptionsThreeSel = index as String;
-                            });
-                          },
-                          focusColor: buttonColor,
-                        ),
-                        Spacer(),*/
                     ],
                   ),
                   visible:
