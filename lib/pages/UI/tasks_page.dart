@@ -404,8 +404,8 @@ class NewTaskPopupState extends State<NewTaskPopup> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        //TODO: make list out of this for scrollability
+      body: ListView(
+        physics: BouncingScrollPhysics(),
         children: [
           Row(
             children: [
@@ -541,26 +541,30 @@ class NewTaskPopupState extends State<NewTaskPopup> {
                       ListTile(
                         title: Row(
                           children: [
-                            DropdownButton(
-                              value: repeatOptionsHourSel,
-                              items:
-                                  repeatOptionsHour.map((repeatOptionsHourPos) {
-                                return DropdownMenuItem(
-                                  child: Text(repeatOptionsHourPos),
-                                  value: repeatOptionsHourPos,
-                                );
-                              }).toList(),
-                              onChanged: (index) {
-                                setState(() {
-                                  repeatOptionsHourSel = index as String;
-                                  if (index == '1') {
-                                    repeatOptionsHourText = '  hour';
-                                  } else {
-                                    repeatOptionsHourText = '  hours';
-                                  }
-                                });
-                              },
-                              focusColor: buttonColor,
+                            SizedBox(
+                              width: 60,
+                              child: DropdownButton(
+                                isExpanded: true,
+                                value: repeatOptionsHourSel,
+                                items:
+                                    repeatOptionsHour.map((repeatOptionsHourPos) {
+                                  return DropdownMenuItem(
+                                    child: Text(repeatOptionsHourPos),
+                                    value: repeatOptionsHourPos,
+                                  );
+                                }).toList(),
+                                onChanged: (index) {
+                                  setState(() {
+                                    repeatOptionsHourSel = index as String;
+                                    if (index == '1') {
+                                      repeatOptionsHourText = '  hour';
+                                    } else {
+                                      repeatOptionsHourText = '  hours';
+                                    }
+                                  });
+                                },
+                                focusColor: buttonColor,
+                              ),
                             ),
                             Text(repeatOptionsHourText,
                                 style: TextStyle(fontSize: 15)),
@@ -579,26 +583,30 @@ class NewTaskPopupState extends State<NewTaskPopup> {
                       ListTile(
                         title: Row(
                           children: [
-                            DropdownButton(
-                              value: repeatOptionsDaySel,
-                              items:
-                                  repeatOptionsDay.map((repeatOptionsDayPos) {
-                                return DropdownMenuItem(
-                                  child: Text(repeatOptionsDayPos),
-                                  value: repeatOptionsDayPos,
-                                );
-                              }).toList(),
-                              onChanged: (index) {
-                                setState(() {
-                                  repeatOptionsDaySel = index as String;
-                                  if (index == '1') {
-                                    repeatOptionsDayText = '  day';
-                                  } else {
-                                    repeatOptionsDayText = '  days';
-                                  }
-                                });
-                              },
-                              focusColor: buttonColor,
+                            SizedBox(
+                              width: 60,
+                              child: DropdownButton(
+                                isExpanded: true,
+                                value: repeatOptionsDaySel,
+                                items:
+                                    repeatOptionsDay.map((repeatOptionsDayPos) {
+                                  return DropdownMenuItem(
+                                    child: Text(repeatOptionsDayPos),
+                                    value: repeatOptionsDayPos,
+                                  );
+                                }).toList(),
+                                onChanged: (index) {
+                                  setState(() {
+                                    repeatOptionsDaySel = index as String;
+                                    if (index == '1') {
+                                      repeatOptionsDayText = '  day';
+                                    } else {
+                                      repeatOptionsDayText = '  days';
+                                    }
+                                  });
+                                },
+                                focusColor: buttonColor,
+                              ),
                             ),
                             Text(repeatOptionsDayText,
                                 style: TextStyle(fontSize: 15)),
@@ -617,26 +625,30 @@ class NewTaskPopupState extends State<NewTaskPopup> {
                       ListTile(
                         title: Row(
                           children: [
-                            DropdownButton(
-                              value: repeatOptionsWeekSel,
-                              items:
-                                  repeatOptionsWeek.map((repeatOptionsWeekPos) {
-                                return DropdownMenuItem(
-                                  child: Text(repeatOptionsWeekPos),
-                                  value: repeatOptionsWeekPos,
-                                );
-                              }).toList(),
-                              onChanged: (index) {
-                                setState(() {
-                                  repeatOptionsWeekSel = index as String;
-                                  if (index == '1') {
-                                    repeatOptionsWeekText = '  week';
-                                  } else {
-                                    repeatOptionsWeekText = '  weeks';
-                                  }
-                                });
-                              },
-                              focusColor: buttonColor,
+                            SizedBox(
+                              width: 60,
+                              child: DropdownButton(
+                                isExpanded: true,
+                                value: repeatOptionsWeekSel,
+                                items:
+                                    repeatOptionsWeek.map((repeatOptionsWeekPos) {
+                                  return DropdownMenuItem(
+                                    child: Text(repeatOptionsWeekPos),
+                                    value: repeatOptionsWeekPos,
+                                  );
+                                }).toList(),
+                                onChanged: (index) {
+                                  setState(() {
+                                    repeatOptionsWeekSel = index as String;
+                                    if (index == '1') {
+                                      repeatOptionsWeekText = '  week';
+                                    } else {
+                                      repeatOptionsWeekText = '  weeks';
+                                    }
+                                  });
+                                },
+                                focusColor: buttonColor,
+                              ),
                             ),
                             Text(repeatOptionsWeekText,
                                 style: TextStyle(fontSize: 15)),
@@ -655,26 +667,30 @@ class NewTaskPopupState extends State<NewTaskPopup> {
                       ListTile(
                         title: Row(
                           children: [
-                            DropdownButton(
-                              value: repeatOptionsMonthSel,
-                              items: repeatOptionsMonth
-                                  .map((repeatOptionsMonthPos) {
-                                return DropdownMenuItem(
-                                  child: Text(repeatOptionsMonthPos),
-                                  value: repeatOptionsMonthPos,
-                                );
-                              }).toList(),
-                              onChanged: (index) {
-                                setState(() {
-                                  repeatOptionsMonthSel = index as String;
-                                  if (index == '1') {
-                                    repeatOptionsMonthText = '  month';
-                                  } else {
-                                    repeatOptionsMonthText = '  months';
-                                  }
-                                });
-                              },
-                              focusColor: buttonColor,
+                            SizedBox(
+                              width: 60,
+                              child: DropdownButton(
+                                isExpanded: true,
+                                value: repeatOptionsMonthSel,
+                                items: repeatOptionsMonth
+                                    .map((repeatOptionsMonthPos) {
+                                  return DropdownMenuItem(
+                                    child: Text(repeatOptionsMonthPos),
+                                    value: repeatOptionsMonthPos,
+                                  );
+                                }).toList(),
+                                onChanged: (index) {
+                                  setState(() {
+                                    repeatOptionsMonthSel = index as String;
+                                    if (index == '1') {
+                                      repeatOptionsMonthText = '  month';
+                                    } else {
+                                      repeatOptionsMonthText = '  months';
+                                    }
+                                  });
+                                },
+                                focusColor: buttonColor,
+                              ),
                             ),
                             Text(repeatOptionsMonthText,
                                 style: TextStyle(fontSize: 15)),
