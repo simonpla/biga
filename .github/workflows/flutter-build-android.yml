@@ -1,0 +1,19 @@
+name: biga build
+
+on: push
+    
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1 # java environment
+    - uses: actions/setup-java@v1
+      with:
+        java-version: '12.x'    
+    - uses: subosito/flutter-action@v1 # setup flutter
+      with:
+        channel: 'stable' # use stable channel
+    - run: flutter pub get # get dependencies
+    - run: flutter format --set-exit-if-changed . # check for formatting
+    - run: flutter analyze . # error analysis
+    - run: flutter build apk # build
