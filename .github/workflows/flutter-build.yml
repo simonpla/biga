@@ -15,7 +15,6 @@ jobs:
         channel: 'stable' # use stable channel
     - run: flutter config --enable-macos-desktop
     - run: flutter pub get # get dependencies
-    - run: flutter format --set-exit-if-changed . # check for formatting
     - run: flutter analyze . # error analysis
     - run: flutter build apk --split-per-abi # build apk
     - run: flutter build macos # build desktop
