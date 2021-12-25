@@ -4,7 +4,7 @@ on: push
     
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
     - uses: actions/checkout@v1 # java environment
     - uses: actions/setup-java@v1
@@ -13,7 +13,12 @@ jobs:
     - uses: subosito/flutter-action@v1 # setup flutter
       with:
         channel: 'stable' # use stable channel
+    - run: flutter config --enable-macos-desktop
     - run: flutter pub get # get dependencies
     - run: flutter format --set-exit-if-changed . # check for formatting
     - run: flutter analyze . # error analysis
-    - run: flutter build apk # build
+    - run: flutter build apk --split-per-abi # build apk
+    - run: flutter build macos # build desktop
+    - run: flutter build web # build web
+    # build ios
+    - run: flutter build ios --no-codesign
