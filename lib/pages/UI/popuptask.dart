@@ -154,7 +154,7 @@ class NewTaskPopupState extends State<NewTaskPopup> {
                         ),
                       ),
                       visible:
-                      !_isAllDay, //if All-Day option is opted in, don't show time
+                          !_isAllDay, //if All-Day option is opted in, don't show time
                     ),
                   ],
                 ),
@@ -187,7 +187,7 @@ class NewTaskPopupState extends State<NewTaskPopup> {
                         ),
                       ),
                       visible:
-                      !_isAllDay, //if All-Day option is opted in, don't show time
+                          !_isAllDay, //if All-Day option is opted in, don't show time
                     ),
                   ],
                 ),
@@ -196,7 +196,7 @@ class NewTaskPopupState extends State<NewTaskPopup> {
                     Padding(
                         padding: EdgeInsets.only(left: 7.0),
                         child:
-                        Text(_repeatText, style: TextStyle(fontSize: 15))),
+                            Text(_repeatText, style: TextStyle(fontSize: 15))),
                     Spacer(),
                     Switch(
                       value: _isRepeat,
@@ -221,8 +221,8 @@ class NewTaskPopupState extends State<NewTaskPopup> {
                               child: DropdownButton(
                                 isExpanded: true,
                                 value: repeatOptionsHourSel,
-                                items:
-                                repeatOptionsHour.map((repeatOptionsHourPos) {
+                                items: repeatOptionsHour
+                                    .map((repeatOptionsHourPos) {
                                   return DropdownMenuItem(
                                     child: Text(repeatOptionsHourPos),
                                     value: repeatOptionsHourPos,
@@ -264,7 +264,7 @@ class NewTaskPopupState extends State<NewTaskPopup> {
                                 isExpanded: true,
                                 value: repeatOptionsDaySel,
                                 items:
-                                repeatOptionsDay.map((repeatOptionsDayPos) {
+                                    repeatOptionsDay.map((repeatOptionsDayPos) {
                                   return DropdownMenuItem(
                                     child: Text(repeatOptionsDayPos),
                                     value: repeatOptionsDayPos,
@@ -305,8 +305,8 @@ class NewTaskPopupState extends State<NewTaskPopup> {
                               child: DropdownButton(
                                 isExpanded: true,
                                 value: repeatOptionsWeekSel,
-                                items:
-                                repeatOptionsWeek.map((repeatOptionsWeekPos) {
+                                items: repeatOptionsWeek
+                                    .map((repeatOptionsWeekPos) {
                                   return DropdownMenuItem(
                                     child: Text(repeatOptionsWeekPos),
                                     value: repeatOptionsWeekPos,
@@ -421,7 +421,7 @@ class NewTaskPopupState extends State<NewTaskPopup> {
                     ],
                   ),
                   visible:
-                  _isRepeat, //if Repeat option is opted in, show repeat options
+                      _isRepeat, //if Repeat option is opted in, show repeat options
                 ),
                 Padding(
                   padding: EdgeInsets.only(left: 7.0, right: 7.0),
@@ -543,25 +543,31 @@ class NewTaskPopupState extends State<NewTaskPopup> {
     }
   }
 
+  var typeStatus = [buttonColor, Colors.white, Colors.white];
+
   Widget taskTypeChooser() {
-    var _typeStatus = [true, false, false];
     return Row(
-      //mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Spacer(),
         Container(
           decoration: BoxDecoration(
             border: Border.all(color: buttonColor!),
-            color: _typeStatus[0] ? buttonColor! : Colors.white,
-            borderRadius: BorderRadius.only(topLeft: Radius.circular(5), bottomLeft: Radius.circular(5)),
+            color: typeStatus[0],
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(5), bottomLeft: Radius.circular(5)),
           ),
-          //width: 50,
           child: TextButton(
             onPressed: () {
               setState(() {
-                if(!_typeStatus[0]) _typeStatus[0] = true; //change selection if not already selected
-                if(_typeStatus[1]) _typeStatus[1] = false;
-                if(_typeStatus[2]) _typeStatus[2] = false;
+                if (typeStatus[0] != buttonColor) {
+                  typeStatus[0] = buttonColor;
+                } //change selection if not already selected
+                if (typeStatus[1] != Colors.white) {
+                  typeStatus[1] = Colors.white;
+                }
+                if (typeStatus[2] != Colors.white) {
+                  typeStatus[2] = Colors.white;
+                }
               });
             },
             child: const Text('Task'),
@@ -570,15 +576,20 @@ class NewTaskPopupState extends State<NewTaskPopup> {
         Container(
           decoration: BoxDecoration(
             border: Border.all(color: buttonColor!),
-            color: _typeStatus[1] ? buttonColor! : Colors.white,
+            color: typeStatus[1],
           ),
-          //width: 50,
           child: TextButton(
             onPressed: () {
               setState(() {
-                if(_typeStatus[0]) _typeStatus[0] = false; //same as above
-                if(!_typeStatus[1]) _typeStatus[1] = true;
-                if(_typeStatus[2]) _typeStatus[2] = false;
+                if (typeStatus[0] != Colors.white) {
+                  typeStatus[0] = Colors.white;
+                } //same as above
+                if (typeStatus[1] != buttonColor) {
+                  typeStatus[1] = buttonColor;
+                }
+                if (typeStatus[2] != Colors.white) {
+                  typeStatus[2] = Colors.white;
+                }
               });
             },
             child: const Text('Goal'),
@@ -587,16 +598,22 @@ class NewTaskPopupState extends State<NewTaskPopup> {
         Container(
           decoration: BoxDecoration(
             border: Border.all(color: buttonColor!),
-            color:  _typeStatus[2] ? buttonColor! : Colors.white,
-            borderRadius: BorderRadius.only(topRight: Radius.circular(5), bottomRight: Radius.circular(5)),
+            color: typeStatus[2],
+            borderRadius: BorderRadius.only(
+                topRight: Radius.circular(5), bottomRight: Radius.circular(5)),
           ),
-          //width: 100,
           child: TextButton(
             onPressed: () {
               setState(() {
-                if(_typeStatus[0]) _typeStatus[0] = false; //sama as above 
-                if(_typeStatus[1]) _typeStatus[1] = false;
-                if(!_typeStatus[2]) _typeStatus[2] = true;
+                if (typeStatus[0] != Colors.white) {
+                  typeStatus[0] = Colors.white;
+                } //same as above
+                if (typeStatus[1] != Colors.white) {
+                  typeStatus[1] = Colors.white;
+                }
+                if (typeStatus[2] != buttonColor) {
+                  typeStatus[2] = buttonColor;
+                }
               });
             },
             child: const Text('Appointment'),
