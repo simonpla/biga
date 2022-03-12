@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../functions/tasks_page_func.dart';
+import '../functions/popuptask_func.dart';
 import '../../Theme/themes.dart';
 import 'package:flutter/cupertino.dart';
 import '../../calendar/functions/calendarFunc.dart';
@@ -9,71 +10,7 @@ class NewTaskPopup extends StatefulWidget {
   State<StatefulWidget> createState() => NewTaskPopupState();
 }
 
-enum repeatOptionType { hour, day, week, month, year }
-
 class NewTaskPopupState extends State<NewTaskPopup> {
-  var _isAllDay = false;
-  var _isRepeat = false;
-  var _repeatText = 'Repeat';
-  var repeatOptionsHourText = '  hour';
-  var repeatOptionsHour = [
-    '1',
-    '2',
-    '3',
-    '4',
-    '5',
-    '6',
-    '7',
-    '8',
-    '9',
-    '10',
-    '11',
-    '12',
-    '13',
-    '14',
-    '15',
-    '16',
-    '17',
-    '18',
-    '19',
-    '20',
-    '21',
-    '22',
-    '23'
-  ];
-  var repeatOptionsHourSel = '1';
-  var repeatOptionsDayText = '  day';
-  var repeatOptionsDay = [
-    '1',
-    '2',
-    '3',
-    '4',
-    '5',
-    '6'
-  ]; //make weekdays and month names as well as year names?
-  var repeatOptionsDaySel = '1';
-  var repeatOptionsWeekText = '  week';
-  var repeatOptionsWeek = ['1', '2', '3'];
-  var repeatOptionsWeekSel = '1';
-  var repeatOptionsMonthText = '  month';
-  var repeatOptionsMonth = [
-    '1',
-    '2',
-    '3',
-    '4',
-    '5',
-    '6',
-    '7',
-    '8',
-    '9',
-    '10',
-    '11'
-  ];
-  var repeatOptionsMonthSel = '1';
-  var repeatOptionsYearText = '  year';
-  var repeatOptionsYearValue;
-  repeatOptionType? _chosenRepeatOptionType = repeatOptionType.hour;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -103,9 +40,33 @@ class NewTaskPopupState extends State<NewTaskPopup> {
               children: [
                 Padding(
                   padding: EdgeInsets.only(left: 7.0, right: 7.0),
-                  child: TextFormField(
-                    decoration: const InputDecoration(
-                        border: UnderlineInputBorder(), labelText: 'Title'),
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width - 14 - 80,
+                        child: TextFormField(
+                          decoration: const InputDecoration(
+                              border: UnderlineInputBorder(), labelText: 'Title'),
+                          onChanged: (value) {
+                            curr_title = value;
+                          },
+                        ),
+                      ),
+                      Spacer(),
+                      SizedBox(
+                        width: 40,
+                        child: RawMaterialButton(
+                          onPressed: () {
+
+                          },
+                          elevation: 0.0,
+                          fillColor: Colors.orange,
+                          child: Container(),
+                          padding: EdgeInsets.all(15.0),
+                          shape: CircleBorder(),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 SizedBox(
@@ -118,10 +79,10 @@ class NewTaskPopupState extends State<NewTaskPopup> {
                         child: Text('All-day', style: TextStyle(fontSize: 15))),
                     Spacer(),
                     Switch(
-                      value: _isAllDay,
+                      value: isAllDay,
                       onChanged: (value) {
                         setState(() {
-                          _isAllDay = !_isAllDay; //revert state
+                          isAllDay = !isAllDay; //revert state
                         });
                       },
                       activeColor: buttonColor,
@@ -154,7 +115,7 @@ class NewTaskPopupState extends State<NewTaskPopup> {
                         ),
                       ),
                       visible:
-                          !_isAllDay, //if All-Day option is opted in, don't show time
+                          !isAllDay, //if All-Day option is opted in, don't show time
                     ),
                   ],
                 ),
@@ -187,7 +148,7 @@ class NewTaskPopupState extends State<NewTaskPopup> {
                         ),
                       ),
                       visible:
-                          !_isAllDay, //if All-Day option is opted in, don't show time
+                          !isAllDay, //if All-Day option is opted in, don't show time
                     ),
                   ],
                 ),
@@ -196,238 +157,42 @@ class NewTaskPopupState extends State<NewTaskPopup> {
                     Padding(
                         padding: EdgeInsets.only(left: 7.0),
                         child:
-                            Text(_repeatText, style: TextStyle(fontSize: 15))),
+                            Text(repeatText, style: TextStyle(fontSize: 15))),
                     Spacer(),
                     Switch(
-                      value: _isRepeat,
+                      value: isRepeat,
                       onChanged: (value) {
                         setState(() {
-                          _isRepeat = !_isRepeat; //revert state
-                          _repeatText = repeatTextAssign(value);
+                          isRepeat = !isRepeat; //revert state
+                          repeatText = repeatTextAssign(value);
                         });
                       },
                       activeColor: buttonColor,
                     ),
                   ],
                 ),
-                Visibility(
-                  child: Column(
-                    children: [
-                      ListTile(
-                        title: Row(
-                          children: [
-                            SizedBox(
-                              width: 60,
-                              child: DropdownButton(
-                                isExpanded: true,
-                                value: repeatOptionsHourSel,
-                                items: repeatOptionsHour
-                                    .map((repeatOptionsHourPos) {
-                                  return DropdownMenuItem(
-                                    child: Text(repeatOptionsHourPos),
-                                    value: repeatOptionsHourPos,
-                                  );
-                                }).toList(),
-                                onChanged: (index) {
-                                  setState(() {
-                                    repeatOptionsHourSel = index as String;
-                                    if (index == '1') {
-                                      repeatOptionsHourText = '  hour';
-                                    } else {
-                                      repeatOptionsHourText = '  hours';
-                                    }
-                                  });
-                                },
-                                focusColor: buttonColor,
-                              ),
-                            ),
-                            Text(repeatOptionsHourText,
-                                style: TextStyle(fontSize: 15)),
-                          ],
-                        ),
-                        leading: Radio<repeatOptionType>(
-                          value: repeatOptionType.hour,
-                          groupValue: _chosenRepeatOptionType,
-                          onChanged: (repeatOptionType? value) {
-                            setState(() {
-                              _chosenRepeatOptionType = value;
-                            });
-                          },
-                        ),
-                      ),
-                      ListTile(
-                        title: Row(
-                          children: [
-                            SizedBox(
-                              width: 60,
-                              child: DropdownButton(
-                                isExpanded: true,
-                                value: repeatOptionsDaySel,
-                                items:
-                                    repeatOptionsDay.map((repeatOptionsDayPos) {
-                                  return DropdownMenuItem(
-                                    child: Text(repeatOptionsDayPos),
-                                    value: repeatOptionsDayPos,
-                                  );
-                                }).toList(),
-                                onChanged: (index) {
-                                  setState(() {
-                                    repeatOptionsDaySel = index as String;
-                                    if (index == '1') {
-                                      repeatOptionsDayText = '  day';
-                                    } else {
-                                      repeatOptionsDayText = '  days';
-                                    }
-                                  });
-                                },
-                                focusColor: buttonColor,
-                              ),
-                            ),
-                            Text(repeatOptionsDayText,
-                                style: TextStyle(fontSize: 15)),
-                          ],
-                        ),
-                        leading: Radio<repeatOptionType>(
-                          value: repeatOptionType.day,
-                          groupValue: _chosenRepeatOptionType,
-                          onChanged: (repeatOptionType? value) {
-                            setState(() {
-                              _chosenRepeatOptionType = value;
-                            });
-                          },
-                        ),
-                      ),
-                      ListTile(
-                        title: Row(
-                          children: [
-                            SizedBox(
-                              width: 60,
-                              child: DropdownButton(
-                                isExpanded: true,
-                                value: repeatOptionsWeekSel,
-                                items: repeatOptionsWeek
-                                    .map((repeatOptionsWeekPos) {
-                                  return DropdownMenuItem(
-                                    child: Text(repeatOptionsWeekPos),
-                                    value: repeatOptionsWeekPos,
-                                  );
-                                }).toList(),
-                                onChanged: (index) {
-                                  setState(() {
-                                    repeatOptionsWeekSel = index as String;
-                                    if (index == '1') {
-                                      repeatOptionsWeekText = '  week';
-                                    } else {
-                                      repeatOptionsWeekText = '  weeks';
-                                    }
-                                  });
-                                },
-                                focusColor: buttonColor,
-                              ),
-                            ),
-                            Text(repeatOptionsWeekText,
-                                style: TextStyle(fontSize: 15)),
-                          ],
-                        ),
-                        leading: Radio<repeatOptionType>(
-                          value: repeatOptionType.week,
-                          groupValue: _chosenRepeatOptionType,
-                          onChanged: (repeatOptionType? value) {
-                            setState(() {
-                              _chosenRepeatOptionType = value;
-                            });
-                          },
-                        ),
-                      ),
-                      ListTile(
-                        title: Row(
-                          children: [
-                            SizedBox(
-                              width: 60,
-                              child: DropdownButton(
-                                isExpanded: true,
-                                value: repeatOptionsMonthSel,
-                                items: repeatOptionsMonth
-                                    .map((repeatOptionsMonthPos) {
-                                  return DropdownMenuItem(
-                                    child: Text(repeatOptionsMonthPos),
-                                    value: repeatOptionsMonthPos,
-                                  );
-                                }).toList(),
-                                onChanged: (index) {
-                                  setState(() {
-                                    repeatOptionsMonthSel = index as String;
-                                    if (index == '1') {
-                                      repeatOptionsMonthText = '  month';
-                                    } else {
-                                      repeatOptionsMonthText = '  months';
-                                    }
-                                  });
-                                },
-                                focusColor: buttonColor,
-                              ),
-                            ),
-                            Text(repeatOptionsMonthText,
-                                style: TextStyle(fontSize: 15)),
-                          ],
-                        ),
-                        leading: Radio<repeatOptionType>(
-                          value: repeatOptionType.month,
-                          groupValue: _chosenRepeatOptionType,
-                          onChanged: (repeatOptionType? value) {
-                            setState(() {
-                              _chosenRepeatOptionType = value;
-                            });
-                          },
-                        ),
-                      ),
-                      ListTile(
-                        title: Row(
-                          children: [
-                            SizedBox(
-                              width: 60,
-                              height: 35,
-                              child: TextFormField(
-                                decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.all(8),
-                                  border: OutlineInputBorder(),
-                                ),
-                                onChanged: (value) {
-                                  setState(() {
-                                    repeatOptionsYearValue = value;
-                                    if (value == '1' || value == '') {
-                                      repeatOptionsYearText = '  year';
-                                    } else {
-                                      repeatOptionsYearText = '  years';
-                                    }
-                                  });
-                                },
-                              ),
-                            ),
-                            Text(repeatOptionsYearText,
-                                style: TextStyle(fontSize: 15)),
-                          ],
-                        ),
-                        leading: Radio<repeatOptionType>(
-                          value: repeatOptionType.year,
-                          groupValue: _chosenRepeatOptionType,
-                          onChanged: (repeatOptionType? value) {
-                            setState(() {
-                              _chosenRepeatOptionType = value;
-                            });
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                  visible:
-                      _isRepeat, //if Repeat option is opted in, show repeat options
-                ),
+                repeatWidget(),
                 Padding(
                   padding: EdgeInsets.only(left: 7.0, right: 7.0),
                   child: TextFormField(
                     decoration: const InputDecoration(
                         border: UnderlineInputBorder(), labelText: 'Location'),
+                    onChanged: (value) {
+                      curr_location = value;
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 7.0, right: 7.0),
+                  child: TextField(
+                    keyboardType: TextInputType.multiline,
+                    maxLines: null,
+                    decoration: const InputDecoration(
+                      labelText: 'Notes',
+                    ),
+                    onChanged: (value) {
+                      curr_notes = value;
+                    },
                   ),
                 ),
               ],
@@ -543,7 +308,7 @@ class NewTaskPopupState extends State<NewTaskPopup> {
     }
   }
 
-  var typeStatus = [buttonColor, Colors.white, Colors.white];
+  var typeStatus = [Colors.white, Colors.white, buttonColor];
 
   Widget taskTypeChooser() {
     return Row(
@@ -621,6 +386,212 @@ class NewTaskPopupState extends State<NewTaskPopup> {
         ),
         Spacer(),
       ],
+    );
+  }
+
+  repeatWidget() {
+    return Visibility(
+      child: Column(
+        children: [
+          ListTile(
+            title: Row(
+              children: [
+                SizedBox(
+                  width: 60,
+                  child: DropdownButton(
+                    isExpanded: true,
+                    value: repeatOptionsHourSel,
+                    items: repeatOptionsHour.map((repeatOptionsHourPos) {
+                      return DropdownMenuItem(
+                        child: Text(repeatOptionsHourPos),
+                        value: repeatOptionsHourPos,
+                      );
+                    }).toList(),
+                    onChanged: (index) {
+                      setState(() {
+                        repeatOptionsHourSel = index as String;
+                        if (index == '1') {
+                          repeatOptionsHourText = '  hour';
+                        } else {
+                          repeatOptionsHourText = '  hours';
+                        }
+                      });
+                    },
+                    focusColor: buttonColor,
+                  ),
+                ),
+                Text(repeatOptionsHourText, style: TextStyle(fontSize: 15)),
+              ],
+            ),
+            leading: Radio<repeatOptionType>(
+              value: repeatOptionType.hour,
+              groupValue: chosenRepeatOptionType,
+              onChanged: (repeatOptionType? value) {
+                setState(() {
+                  chosenRepeatOptionType = value;
+                });
+              },
+            ),
+          ),
+          ListTile(
+            title: Row(
+              children: [
+                SizedBox(
+                  width: 60,
+                  child: DropdownButton(
+                    isExpanded: true,
+                    value: repeatOptionsDaySel,
+                    items: repeatOptionsDay.map((repeatOptionsDayPos) {
+                      return DropdownMenuItem(
+                        child: Text(repeatOptionsDayPos),
+                        value: repeatOptionsDayPos,
+                      );
+                    }).toList(),
+                    onChanged: (index) {
+                      setState(() {
+                        repeatOptionsDaySel = index as String;
+                        if (index == '1') {
+                          repeatOptionsDayText = '  day';
+                        } else {
+                          repeatOptionsDayText = '  days';
+                        }
+                      });
+                    },
+                    focusColor: buttonColor,
+                  ),
+                ),
+                Text(repeatOptionsDayText, style: TextStyle(fontSize: 15)),
+              ],
+            ),
+            leading: Radio<repeatOptionType>(
+              value: repeatOptionType.day,
+              groupValue: chosenRepeatOptionType,
+              onChanged: (repeatOptionType? value) {
+                setState(() {
+                  chosenRepeatOptionType = value;
+                });
+              },
+            ),
+          ),
+          ListTile(
+            title: Row(
+              children: [
+                SizedBox(
+                  width: 60,
+                  child: DropdownButton(
+                    isExpanded: true,
+                    value: repeatOptionsWeekSel,
+                    items: repeatOptionsWeek.map((repeatOptionsWeekPos) {
+                      return DropdownMenuItem(
+                        child: Text(repeatOptionsWeekPos),
+                        value: repeatOptionsWeekPos,
+                      );
+                    }).toList(),
+                    onChanged: (index) {
+                      setState(() {
+                        repeatOptionsWeekSel = index as String;
+                        if (index == '1') {
+                          repeatOptionsWeekText = '  week';
+                        } else {
+                          repeatOptionsWeekText = '  weeks';
+                        }
+                      });
+                    },
+                    focusColor: buttonColor,
+                  ),
+                ),
+                Text(repeatOptionsWeekText, style: TextStyle(fontSize: 15)),
+              ],
+            ),
+            leading: Radio<repeatOptionType>(
+              value: repeatOptionType.week,
+              groupValue: chosenRepeatOptionType,
+              onChanged: (repeatOptionType? value) {
+                setState(() {
+                  chosenRepeatOptionType = value;
+                });
+              },
+            ),
+          ),
+          ListTile(
+            title: Row(
+              children: [
+                SizedBox(
+                  width: 60,
+                  child: DropdownButton(
+                    isExpanded: true,
+                    value: repeatOptionsMonthSel,
+                    items: repeatOptionsMonth.map((repeatOptionsMonthPos) {
+                      return DropdownMenuItem(
+                        child: Text(repeatOptionsMonthPos),
+                        value: repeatOptionsMonthPos,
+                      );
+                    }).toList(),
+                    onChanged: (index) {
+                      setState(() {
+                        repeatOptionsMonthSel = index as String;
+                        if (index == '1') {
+                          repeatOptionsMonthText = '  month';
+                        } else {
+                          repeatOptionsMonthText = '  months';
+                        }
+                      });
+                    },
+                    focusColor: buttonColor,
+                  ),
+                ),
+                Text(repeatOptionsMonthText, style: TextStyle(fontSize: 15)),
+              ],
+            ),
+            leading: Radio<repeatOptionType>(
+              value: repeatOptionType.month,
+              groupValue: chosenRepeatOptionType,
+              onChanged: (repeatOptionType? value) {
+                setState(() {
+                  chosenRepeatOptionType = value;
+                });
+              },
+            ),
+          ),
+          ListTile(
+            title: Row(
+              children: [
+                SizedBox(
+                  width: 60,
+                  height: 35,
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                      contentPadding: EdgeInsets.all(8),
+                      border: OutlineInputBorder(),
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        repeatOptionsYearValue = value;
+                        if (value == '1' || value == '') {
+                          repeatOptionsYearText = '  year';
+                        } else {
+                          repeatOptionsYearText = '  years';
+                        }
+                      });
+                    },
+                  ),
+                ),
+                Text(repeatOptionsYearText, style: TextStyle(fontSize: 15)),
+              ],
+            ),
+            leading: Radio<repeatOptionType>(
+              value: repeatOptionType.year,
+              groupValue: chosenRepeatOptionType,
+              onChanged: (repeatOptionType? value) {
+                setState(() {
+                  chosenRepeatOptionType = value;
+                });
+              },
+            ),
+          ),
+        ],
+      ),
+      visible: isRepeat, //if Repeat option is opted in, show repeat options
     );
   }
 }

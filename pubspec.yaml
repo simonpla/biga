@@ -35,6 +35,8 @@ dependencies:
       path: plugins/window_size
   intl: ^0.17.0
   fluentui_system_icons: ^1.1.138
+  flutter_colorpicker: ^1.0.3
+
 
 
 dev_dependencies:

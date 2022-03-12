@@ -105,7 +105,7 @@ List<Color?> dayColor = [
 ];
 int monthPosition = 0;
 
-class Task {
+class Task { //TODO: change to struct
   Task(this.title, this.start, this.end, this.importance, this.place,
       this.recColor);
   String title;
