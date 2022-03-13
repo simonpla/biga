@@ -46,7 +46,8 @@ class NewTaskPopupState extends State<NewTaskPopup> {
                         width: MediaQuery.of(context).size.width - 14 - 80,
                         child: TextFormField(
                           decoration: const InputDecoration(
-                              border: UnderlineInputBorder(), labelText: 'Title'),
+                              border: UnderlineInputBorder(),
+                              labelText: 'Title'),
                           onChanged: (value) {
                             curr_title = value;
                           },
@@ -56,9 +57,7 @@ class NewTaskPopupState extends State<NewTaskPopup> {
                       SizedBox(
                         width: 40,
                         child: RawMaterialButton(
-                          onPressed: () {
-
-                          },
+                          onPressed: () => colorPicker(),
                           elevation: 0.0,
                           fillColor: Colors.orange,
                           child: Container(),
@@ -592,6 +591,44 @@ class NewTaskPopupState extends State<NewTaskPopup> {
         ],
       ),
       visible: isRepeat, //if Repeat option is opted in, show repeat options
+    );
+  }
+
+  colorPicker() {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) => SimpleDialog(
+        title: Text('pick a color'),
+        children: [
+          colorColumn(0, availableColors),
+          colorColumn(1, availableColors),
+        ],
+      ),
+    );
+  }
+
+  colorColumn(d1, colors) {
+    return Column(
+      children: [
+        colorBox(d1, 0, colors),
+        colorBox(d1, 1, colors),
+        colorBox(d1, 2, colors),
+        colorBox(d1, 3, colors),
+      ],
+    );
+  }
+
+  colorBox(d1, d2, colors) {
+    return SizedBox(
+      width: 40,
+      child: RawMaterialButton(
+        onPressed: () {},
+        elevation: 0.0,
+        fillColor: colors[d1][d2],
+        child: Container(),
+        padding: EdgeInsets.all(15.0),
+        shape: CircleBorder(),
+      ),
     );
   }
 }

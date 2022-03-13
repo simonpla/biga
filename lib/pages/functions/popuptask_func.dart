@@ -69,14 +69,18 @@ enum repeatOptionType { hour, day, week, month, year }
 repeatOptionType? chosenRepeatOptionType = repeatOptionType.hour;
 
 var availableColors = [
-  Colors.red,
-  Colors.orange,
-  Colors.yellow,
-  Colors.blue,
-  Colors.green,
-  Colors.deepPurple,
-  Colors.pink,
-  Colors.teal,
+  [
+    Colors.red,
+    Colors.orange,
+    Colors.yellow,
+    Colors.blue,
+  ],
+  [
+    Colors.green,
+    Colors.deepPurple,
+    Colors.pink,
+    Colors.teal,
+  ],
 ];
 
 saveTask() {
