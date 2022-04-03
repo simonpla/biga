@@ -82,6 +82,7 @@ var availableColors = [
     Colors.teal,
   ],
 ];
+var usedColor = Colors.orange;
 
 saveTask() {
   var newTask = Task(

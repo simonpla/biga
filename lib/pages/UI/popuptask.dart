@@ -59,7 +59,7 @@ class NewTaskPopupState extends State<NewTaskPopup> {
                         child: RawMaterialButton(
                           onPressed: () => colorPicker(),
                           elevation: 0.0,
-                          fillColor: Colors.orange,
+                          fillColor: usedColor,
                           child: Container(),
                           padding: EdgeInsets.all(15.0),
                           shape: CircleBorder(),
@@ -598,17 +598,33 @@ class NewTaskPopupState extends State<NewTaskPopup> {
     return showDialog(
       context: context,
       builder: (BuildContext context) => SimpleDialog(
-        title: Text('pick a color'),
+        title: Center(child: Text('pick a color')),
         children: [
-          colorColumn(0, availableColors),
-          colorColumn(1, availableColors),
+          Center(
+            child: Container(
+              width: 300/*MediaQuery.of(context).copyWith().size.width - 800*/,
+              height: 130/*MediaQuery.of(context).copyWith().size.width - 500*/,
+              child: Row(
+                children: [
+                  Spacer(),
+                  Column(
+                    children: [
+                      colorColumn(0, availableColors),
+                      colorColumn(1, availableColors),
+                    ],
+                  ),
+                  Spacer(),
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );
   }
 
   colorColumn(d1, colors) {
-    return Column(
+    return Row(
       children: [
         colorBox(d1, 0, colors),
         colorBox(d1, 1, colors),
@@ -620,9 +636,14 @@ class NewTaskPopupState extends State<NewTaskPopup> {
 
   colorBox(d1, d2, colors) {
     return SizedBox(
-      width: 40,
+      width: 60,
       child: RawMaterialButton(
-        onPressed: () {},
+        onPressed: () {
+          setState(() {
+            usedColor = colors[d1][d2];
+            Navigator.pop(context, true);
+          });
+        },
         elevation: 0.0,
         fillColor: colors[d1][d2],
         child: Container(),
