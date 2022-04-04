@@ -21,13 +21,13 @@ class NewTaskPopupState extends State<NewTaskPopup> {
             children: [
               Spacer(),
               IconButton(
-                  onPressed: () => Navigator.pop(context), icon: closeIcon),
+                  onPressed: () => Navigator.pop(context), icon: closeIcon, iconSize: 23),
               Spacer(flex: 80),
-              Text('Create new task',
+              Text(pageDesc,
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
               Spacer(flex: 80),
               ElevatedButton(
-                  onPressed: () => Navigator.pop(context), child: Text('Save')),
+                  onPressed: () => Navigator.pop(context), child: Text(saveDesc)),
               Spacer(flex: 2),
             ],
           ),
@@ -45,9 +45,9 @@ class NewTaskPopupState extends State<NewTaskPopup> {
                       SizedBox(
                         width: MediaQuery.of(context).size.width - 14 - 80,
                         child: TextFormField(
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                               border: UnderlineInputBorder(),
-                              labelText: 'Title'),
+                              labelText: titleDesc),
                           onChanged: (value) {
                             curr_title = value;
                           },
@@ -59,7 +59,7 @@ class NewTaskPopupState extends State<NewTaskPopup> {
                         child: RawMaterialButton(
                           onPressed: () => colorPicker(),
                           elevation: 0.0,
-                          fillColor: usedColor,
+                          fillColor: usedTaskColor,
                           child: Container(),
                           padding: EdgeInsets.all(15.0),
                           shape: CircleBorder(),
@@ -75,7 +75,7 @@ class NewTaskPopupState extends State<NewTaskPopup> {
                   children: [
                     Padding(
                         padding: EdgeInsets.only(left: 7.0),
-                        child: Text('All-day', style: TextStyle(fontSize: 15))),
+                        child: Text(allDayDesc, style: TextStyle(fontSize: 15))),
                     Spacer(),
                     Switch(
                       value: isAllDay,
@@ -90,7 +90,7 @@ class NewTaskPopupState extends State<NewTaskPopup> {
                 ),
                 Padding(
                     padding: EdgeInsets.only(left: 7.0),
-                    child: Text('Start', style: TextStyle(fontSize: 15))),
+                    child: Text(startDesc, style: TextStyle(fontSize: 15))),
                 Row(
                   children: [
                     TextButton(
@@ -123,7 +123,7 @@ class NewTaskPopupState extends State<NewTaskPopup> {
                 ),
                 Padding(
                     padding: EdgeInsets.only(left: 7.0),
-                    child: Text('End', style: TextStyle(fontSize: 15))),
+                    child: Text(endDesc, style: TextStyle(fontSize: 15))),
                 Row(
                   children: [
                     TextButton(
@@ -174,8 +174,8 @@ class NewTaskPopupState extends State<NewTaskPopup> {
                 Padding(
                   padding: EdgeInsets.only(left: 7.0, right: 7.0),
                   child: TextFormField(
-                    decoration: const InputDecoration(
-                        border: UnderlineInputBorder(), labelText: 'Location'),
+                    decoration: InputDecoration(
+                        border: UnderlineInputBorder(), labelText: locationDesc),
                     onChanged: (value) {
                       curr_location = value;
                     },
@@ -186,8 +186,8 @@ class NewTaskPopupState extends State<NewTaskPopup> {
                   child: TextField(
                     keyboardType: TextInputType.multiline,
                     maxLines: null,
-                    decoration: const InputDecoration(
-                      labelText: 'Notes',
+                    decoration: InputDecoration(
+                      labelText: notesDesc,
                     ),
                     onChanged: (value) {
                       curr_notes = value;
@@ -334,7 +334,7 @@ class NewTaskPopupState extends State<NewTaskPopup> {
                 }
               });
             },
-            child: const Text('Task'),
+            child: Text(typeDesc[0]),
           ),
         ),
         Container(
@@ -356,7 +356,7 @@ class NewTaskPopupState extends State<NewTaskPopup> {
                 }
               });
             },
-            child: const Text('Goal'),
+            child: Text(typeDesc[1]),
           ),
         ),
         Container(
@@ -380,7 +380,7 @@ class NewTaskPopupState extends State<NewTaskPopup> {
                 }
               });
             },
-            child: const Text('Appointment'),
+            child: Text(typeDesc[2]),
           ),
         ),
         Spacer(),
@@ -410,13 +410,12 @@ class NewTaskPopupState extends State<NewTaskPopup> {
                       setState(() {
                         repeatOptionsHourSel = index as String;
                         if (index == '1') {
-                          repeatOptionsHourText = '  hour';
+                          repeatOptionsHourText = repeatOptionsDesc[0];
                         } else {
-                          repeatOptionsHourText = '  hours';
+                          repeatOptionsHourText = repeatOptionsDesc[0] + 's';
                         }
                       });
                     },
-                    focusColor: buttonColor,
                   ),
                 ),
                 Text(repeatOptionsHourText, style: TextStyle(fontSize: 15)),
@@ -450,13 +449,12 @@ class NewTaskPopupState extends State<NewTaskPopup> {
                       setState(() {
                         repeatOptionsDaySel = index as String;
                         if (index == '1') {
-                          repeatOptionsDayText = '  day';
+                          repeatOptionsDayText = repeatOptionsDesc[1];
                         } else {
-                          repeatOptionsDayText = '  days';
+                          repeatOptionsDayText = repeatOptionsDesc[1] + 's';
                         }
                       });
                     },
-                    focusColor: buttonColor,
                   ),
                 ),
                 Text(repeatOptionsDayText, style: TextStyle(fontSize: 15)),
@@ -490,13 +488,12 @@ class NewTaskPopupState extends State<NewTaskPopup> {
                       setState(() {
                         repeatOptionsWeekSel = index as String;
                         if (index == '1') {
-                          repeatOptionsWeekText = '  week';
+                          repeatOptionsWeekText = repeatOptionsDesc[2];
                         } else {
-                          repeatOptionsWeekText = '  weeks';
+                          repeatOptionsWeekText = repeatOptionsDesc[2] + 's';
                         }
                       });
                     },
-                    focusColor: buttonColor,
                   ),
                 ),
                 Text(repeatOptionsWeekText, style: TextStyle(fontSize: 15)),
@@ -530,13 +527,12 @@ class NewTaskPopupState extends State<NewTaskPopup> {
                       setState(() {
                         repeatOptionsMonthSel = index as String;
                         if (index == '1') {
-                          repeatOptionsMonthText = '  month';
+                          repeatOptionsMonthText = repeatOptionsDesc[3];
                         } else {
-                          repeatOptionsMonthText = '  months';
+                          repeatOptionsMonthText = repeatOptionsDesc[3] + 's';
                         }
                       });
                     },
-                    focusColor: buttonColor,
                   ),
                 ),
                 Text(repeatOptionsMonthText, style: TextStyle(fontSize: 15)),
@@ -567,9 +563,9 @@ class NewTaskPopupState extends State<NewTaskPopup> {
                       setState(() {
                         repeatOptionsYearValue = value;
                         if (value == '1' || value == '') {
-                          repeatOptionsYearText = '  year';
+                          repeatOptionsYearText = repeatOptionsDesc[4];
                         } else {
-                          repeatOptionsYearText = '  years';
+                          repeatOptionsYearText = repeatOptionsDesc[4] + 's';
                         }
                       });
                     },
@@ -598,22 +594,21 @@ class NewTaskPopupState extends State<NewTaskPopup> {
     return showDialog(
       context: context,
       builder: (BuildContext context) => SimpleDialog(
-        title: Center(child: Text('pick a color')),
+        title: Center(child: Text(colorPickerDesc)),
         children: [
           Center(
             child: Container(
-              width: 300/*MediaQuery.of(context).copyWith().size.width - 800*/,
-              height: 130/*MediaQuery.of(context).copyWith().size.width - 500*/,
+              width: 300,
+              height: 130,
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Spacer(),
                   Column(
                     children: [
-                      colorColumn(0, availableColors),
-                      colorColumn(1, availableColors),
+                      colorColumn(0, availableTaskColors),
+                      colorColumn(1, availableTaskColors),
                     ],
                   ),
-                  Spacer(),
                 ],
               ),
             ),
@@ -640,7 +635,7 @@ class NewTaskPopupState extends State<NewTaskPopup> {
       child: RawMaterialButton(
         onPressed: () {
           setState(() {
-            usedColor = colors[d1][d2];
+            usedTaskColor = colors[d1][d2];
             Navigator.pop(context, true);
           });
         },

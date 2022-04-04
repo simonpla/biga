@@ -68,7 +68,7 @@ var repeatOptionsYearValue;
 enum repeatOptionType { hour, day, week, month, year }
 repeatOptionType? chosenRepeatOptionType = repeatOptionType.hour;
 
-var availableColors = [
+var availableTaskColors = [
   [
     Colors.red,
     Colors.orange,
@@ -82,7 +82,20 @@ var availableColors = [
     Colors.teal,
   ],
 ];
-var usedColor = Colors.orange;
+var usedTaskColor = Colors.orange;
+
+var pageDesc = 'create new task';
+var typeDesc = ['task', 'goal', 'appointment'];
+var saveDesc = 'save';
+var titleDesc = 'title';
+var colorPickerDesc = 'pick a color';
+var allDayDesc = 'all-day';
+var startDesc = 'start';
+var endDesc = 'end';
+var repeatDesc = 'repeat';
+var repeatOptionsDesc = ['  hour', '  day', '  week', '  month', '  year'];
+var locationDesc = 'location';
+var notesDesc = 'notes';
 
 saveTask() {
   var newTask = Task(
