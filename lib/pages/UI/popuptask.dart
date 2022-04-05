@@ -14,191 +14,89 @@ class NewTaskPopupState extends State<NewTaskPopup> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
-        physics: BouncingScrollPhysics(),
-        children: [
-          Row(
+      body: currentView(),
+    );
+  }
+
+  Widget currentView() {
+    if (typeStatus[0] == buttonColor) {
+      return taskTypeChooser();
+    }
+    if (typeStatus[1] == buttonColor) {
+      return goalView();
+    }
+    if (typeStatus[2] == buttonColor) {
+      return appointmentView();
+    }
+    return Container();
+  }
+
+  Widget goalView() {
+    return ListView(
+      physics: BouncingScrollPhysics(),
+      children: [
+        topBar(pageDesc + typeDesc[1]),
+        taskTypeChooser(),
+        SizedBox(height: 10),
+        Padding(
+          padding: EdgeInsets.only(left: 13.0, right: 13.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Spacer(),
-              IconButton(
-                  onPressed: () => Navigator.pop(context), icon: closeIcon, iconSize: 23),
-              Spacer(flex: 80),
-              Text(pageDesc,
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-              Spacer(flex: 80),
-              ElevatedButton(
-                  onPressed: () => Navigator.pop(context), child: Text(saveDesc)),
-              Spacer(flex: 2),
+              titleAndColorBar(),
+              SizedBox(
+                height: 20,
+              ),
+              Padding(
+                  padding: EdgeInsets.only(left: 7.0),
+                  child: Text(endDesc, style: TextStyle(fontSize: 15))),
+              endDate(),
+              repeatSwitch(),
+              repeatWidget(),
+              notesBox(),
             ],
           ),
-          taskTypeChooser(),
-          SizedBox(height: 10),
-          Padding(
-            padding: EdgeInsets.only(left: 13.0, right: 13.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(left: 7.0, right: 7.0),
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width - 14 - 80,
-                        child: TextFormField(
-                          decoration: InputDecoration(
-                              border: UnderlineInputBorder(),
-                              labelText: titleDesc),
-                          onChanged: (value) {
-                            curr_title = value;
-                          },
-                        ),
-                      ),
-                      Spacer(),
-                      SizedBox(
-                        width: 40,
-                        child: RawMaterialButton(
-                          onPressed: () => colorPicker(),
-                          elevation: 0.0,
-                          fillColor: usedTaskColor,
-                          child: Container(),
-                          padding: EdgeInsets.all(15.0),
-                          shape: CircleBorder(),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Row(
-                  children: [
-                    Padding(
-                        padding: EdgeInsets.only(left: 7.0),
-                        child: Text(allDayDesc, style: TextStyle(fontSize: 15))),
-                    Spacer(),
-                    Switch(
-                      value: isAllDay,
-                      onChanged: (value) {
-                        setState(() {
-                          isAllDay = !isAllDay; //revert state
-                        });
-                      },
-                      activeColor: buttonColor,
-                    ),
-                  ],
-                ),
-                Padding(
-                    padding: EdgeInsets.only(left: 7.0),
-                    child: Text(startDesc, style: TextStyle(fontSize: 15))),
-                Row(
-                  children: [
-                    TextButton(
-                      onPressed: () {
-                        datePicker(1);
-                      },
-                      child: Text(
-                        '${formatterYearMonthDay.format(selDateStart)}',
-                        style: TextStyle(fontSize: 20),
-                      ),
-                    ),
-                    Spacer(),
-                    Visibility(
-                      child: TextButton(
-                        onPressed: () {
-                          timePicker(2);
-                        },
-                        child: Text(
-                          '${formatterHourMinute.format(selDateStart)}',
-                          style: TextStyle(fontSize: 20),
-                        ),
-                      ),
-                      visible:
-                          !isAllDay, //if All-Day option is opted in, don't show time
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Padding(
-                    padding: EdgeInsets.only(left: 7.0),
-                    child: Text(endDesc, style: TextStyle(fontSize: 15))),
-                Row(
-                  children: [
-                    TextButton(
-                      onPressed: () {
-                        datePicker(3);
-                      },
-                      child: Text(
-                        '${formatterYearMonthDay.format(selDateEnd)}',
-                        style: TextStyle(fontSize: 20),
-                      ),
-                    ),
-                    Spacer(),
-                    Visibility(
-                      child: TextButton(
-                        onPressed: () {
-                          timePicker(4);
-                        },
-                        child: Text(
-                          '${formatterHourMinute.format(selDateEnd)}',
-                          style: TextStyle(fontSize: 20),
-                        ),
-                      ),
-                      visible:
-                          !isAllDay, //if All-Day option is opted in, don't show time
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Padding(
-                        padding: EdgeInsets.only(left: 7.0),
-                        child:
-                            Text(repeatText, style: TextStyle(fontSize: 15))),
-                    Spacer(),
-                    Switch(
-                      value: isRepeat,
-                      onChanged: (value) {
-                        setState(() {
-                          isRepeat = !isRepeat; //revert state
-                          repeatText = repeatTextAssign(value);
-                        });
-                      },
-                      activeColor: buttonColor,
-                    ),
-                  ],
-                ),
-                repeatWidget(),
-                Padding(
-                  padding: EdgeInsets.only(left: 7.0, right: 7.0),
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                        border: UnderlineInputBorder(), labelText: locationDesc),
-                    onChanged: (value) {
-                      curr_location = value;
-                    },
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: 7.0, right: 7.0),
-                  child: TextField(
-                    keyboardType: TextInputType.multiline,
-                    maxLines: null,
-                    decoration: InputDecoration(
-                      labelText: notesDesc,
-                    ),
-                    onChanged: (value) {
-                      curr_notes = value;
-                    },
-                  ),
-                ),
-              ],
-            ),
+        ),
+      ],
+    );
+  }
+
+  Widget appointmentView() {
+    return ListView(
+      physics: BouncingScrollPhysics(),
+      children: [
+        topBar(pageDesc + typeDesc[2]),
+        taskTypeChooser(),
+        SizedBox(height: 10),
+        Padding(
+          padding: EdgeInsets.only(left: 13.0, right: 13.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              titleAndColorBar(),
+              SizedBox(
+                height: 20,
+              ),
+              allDaySwitch(),
+              Padding(
+                  padding: EdgeInsets.only(left: 7.0),
+                  child: Text(startDesc, style: TextStyle(fontSize: 15))),
+              startDate(),
+              SizedBox(
+                height: 10,
+              ),
+              Padding(
+                  padding: EdgeInsets.only(left: 7.0),
+                  child: Text(endDesc, style: TextStyle(fontSize: 15))),
+              endDate(),
+              repeatSwitch(),
+              repeatWidget(),
+              locationBox(),
+              notesBox(),
+            ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -307,7 +205,24 @@ class NewTaskPopupState extends State<NewTaskPopup> {
     }
   }
 
-  var typeStatus = [Colors.white, Colors.white, buttonColor];
+  Widget topBar(pageDescription) {
+    return Row(
+      children: [
+        Spacer(),
+        IconButton(
+            onPressed: () => Navigator.pop(context),
+            icon: closeIcon,
+            iconSize: 23),
+        Spacer(flex: 80),
+        Text(pageDescription,
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+        Spacer(flex: 80),
+        ElevatedButton(
+            onPressed: () => Navigator.pop(context), child: Text(saveDesc)),
+        Spacer(flex: 2),
+      ],
+    );
+  }
 
   Widget taskTypeChooser() {
     return Row(
@@ -388,7 +303,138 @@ class NewTaskPopupState extends State<NewTaskPopup> {
     );
   }
 
-  repeatWidget() {
+  Widget titleAndColorBar() {
+    return Padding(
+      padding: EdgeInsets.only(left: 7.0, right: 7.0),
+      child: Row(
+        children: [
+          SizedBox(
+            width: MediaQuery.of(context).size.width - 14 - 80,
+            child: TextFormField(
+              decoration: InputDecoration(
+                  border: UnderlineInputBorder(), labelText: titleDesc),
+              onChanged: (value) {
+                curr_title = value;
+              },
+            ),
+          ),
+          Spacer(),
+          SizedBox(
+            width: 40,
+            child: RawMaterialButton(
+              onPressed: () => colorPicker(),
+              elevation: 0.0,
+              fillColor: usedTaskColor,
+              child: Container(),
+              padding: EdgeInsets.all(15.0),
+              shape: CircleBorder(),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget allDaySwitch() {
+    return Row(
+      children: [
+        Padding(
+            padding: EdgeInsets.only(left: 7.0),
+            child: Text(allDayDesc, style: TextStyle(fontSize: 15))),
+        Spacer(),
+        Switch(
+          value: isAllDay,
+          onChanged: (value) {
+            setState(() {
+              isAllDay = !isAllDay; //revert state
+            });
+          },
+          activeColor: buttonColor,
+        ),
+      ],
+    );
+  }
+
+  Widget startDate() {
+    return Row(
+      children: [
+        TextButton(
+          onPressed: () {
+            datePicker(1);
+          },
+          child: Text(
+            '${formatterYearMonthDay.format(selDateStart)}',
+            style: TextStyle(fontSize: 20),
+          ),
+        ),
+        Spacer(),
+        Visibility(
+          child: TextButton(
+            onPressed: () {
+              timePicker(2);
+            },
+            child: Text(
+              '${formatterHourMinute.format(selDateStart)}',
+              style: TextStyle(fontSize: 20),
+            ),
+          ),
+          visible: !isAllDay, //if All-Day option is opted in, don't show time
+        ),
+      ],
+    );
+  }
+
+  Widget endDate() {
+    return Row(
+      children: [
+        TextButton(
+          onPressed: () {
+            datePicker(3);
+          },
+          child: Text(
+            '${formatterYearMonthDay.format(selDateEnd)}',
+            style: TextStyle(fontSize: 20),
+          ),
+        ),
+        Spacer(),
+        Visibility(
+          child: TextButton(
+            onPressed: () {
+              timePicker(4);
+            },
+            child: Text(
+              '${formatterHourMinute.format(selDateEnd)}',
+              style: TextStyle(fontSize: 20),
+            ),
+          ),
+          visible: !isAllDay, //if All-Day option is opted in, don't show time
+        ),
+      ],
+    );
+  }
+
+  Widget repeatSwitch() {
+    return Row(
+      children: [
+        Padding(
+            padding: EdgeInsets.only(left: 7.0),
+            child: Text(repeatText, style: TextStyle(fontSize: 15))),
+        Spacer(),
+        Switch(
+          value: isRepeat,
+          onChanged: (value) {
+            setState(() {
+              isRepeat = !isRepeat; //revert state
+              repeatText = repeatTextAssign(value);
+            });
+          },
+          activeColor: buttonColor,
+        ),
+      ],
+    );
+  }
+
+  Widget repeatWidget() {
     return Visibility(
       child: Column(
         children: [
@@ -590,6 +636,35 @@ class NewTaskPopupState extends State<NewTaskPopup> {
     );
   }
 
+  Widget locationBox() {
+    return Padding(
+      padding: EdgeInsets.only(left: 7.0, right: 7.0),
+      child: TextFormField(
+        decoration: InputDecoration(
+            border: UnderlineInputBorder(), labelText: locationDesc),
+        onChanged: (value) {
+          curr_location = value;
+        },
+      ),
+    );
+  }
+
+  Widget notesBox() {
+    return Padding(
+      padding: EdgeInsets.only(left: 7.0, right: 7.0),
+      child: TextField(
+        keyboardType: TextInputType.multiline,
+        maxLines: null,
+        decoration: InputDecoration(
+          labelText: notesDesc,
+        ),
+        onChanged: (value) {
+          curr_notes = value;
+        },
+      ),
+    );
+  }
+
   colorPicker() {
     return showDialog(
       context: context,
@@ -618,7 +693,7 @@ class NewTaskPopupState extends State<NewTaskPopup> {
     );
   }
 
-  colorColumn(d1, colors) {
+  Widget colorColumn(d1, colors) {
     return Row(
       children: [
         colorBox(d1, 0, colors),
@@ -629,7 +704,7 @@ class NewTaskPopupState extends State<NewTaskPopup> {
     );
   }
 
-  colorBox(d1, d2, colors) {
+  Widget colorBox(d1, d2, colors) {
     return SizedBox(
       width: 60,
       child: RawMaterialButton(

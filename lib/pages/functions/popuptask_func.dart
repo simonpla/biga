@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import '../../Theme/themes.dart';
 import '../../calendar/functions/calendarFunc.dart';
 
 var curr_title;
@@ -84,7 +84,9 @@ var availableTaskColors = [
 ];
 var usedTaskColor = Colors.orange;
 
-var pageDesc = 'create new task';
+var typeStatus = [Colors.white, Colors.white, buttonColor];
+
+var pageDesc = 'create new ';
 var typeDesc = ['task', 'goal', 'appointment'];
 var saveDesc = 'save';
 var titleDesc = 'title';
