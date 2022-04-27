@@ -24,7 +24,7 @@ class NewTaskPopupState extends State<NewTaskPopup> {
   void initState() {
     super.initState();
     timer =
-        Timer.periodic(Duration(microseconds: 1), (Timer t) => checkSetState());
+        Timer.periodic(Duration(milliseconds: 50), (Timer t) => checkSetState());
   }
 
   @override

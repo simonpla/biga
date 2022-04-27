@@ -19,8 +19,6 @@ class AsigneeState extends State<Asignee> {
   @override
   void initState() {
     super.initState();
-    _asigneeTimer =
-        Timer.periodic(Duration(microseconds: 1), (Timer t) => _checkSetState());
   }
 
   @override
@@ -31,81 +29,106 @@ class AsigneeState extends State<Asignee> {
 
   @override
   Widget build(BuildContext context) {
-    return PopupMenuButton<int>(
-        color: menuBackgroundL,
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(15.0))),
-        itemBuilder: (context) {
-          return _buildListView(context);
-        });
+    return ElevatedButton(
+      onPressed: () {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return Dialog(
+              backgroundColor: menuBackgroundL,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(15.0))),
+              child: StatefulBuilder(
+                builder: (context, setState) {
+                  _checkSetState() {
+                    if (_setStateNeededPopUp == true) {
+                      setState(() {
+                        _setStateNeededPopUp = false;
+                      });
+                    }
+                  }
+
+                  _asigneeTimer = Timer.periodic(
+                      Duration(milliseconds: 20), (Timer t) => _checkSetState());
+
+                  return Padding(
+                    padding: EdgeInsets.all(10),
+                    child: _buildListView(context),
+                  );
+                }
+              ),
+            );
+          },
+        );
+      },
+      child: Text("asignee"),
+    );
   }
 
-  List<PopupMenuItem<int>> _buildListView(org_context) {
-    return List.generate(
-      filtered_items.length + 1,
-      (index) {
-        return PopupMenuItem(
-          child: StatefulBuilder(
-              builder: (BuildContext context, StateSetter setState) {
-            if (index == 0) {
-              // search as first item
-              return _search(org_context);
-            }
-            return _buildRow(filtered_items[index - 1]);
-          }),
-        );
+  Widget _buildListView(org_context) {
+    return ListView.builder(
+      shrinkWrap: true,
+      itemCount: filtered_items.length + 1,
+      itemBuilder: (context, index) {
+        if (index == 0) {
+          // search as first item
+          return Column(
+            children: [
+              _search(org_context),
+              SizedBox(height: 7),
+            ],
+          );
+        }
+        return _buildRow(filtered_items[index - 1]);
       },
     );
   }
 
-  PopupMenuEntry<int> _search(context) {
-    return PopupMenuItem(
-      child: StatefulBuilder(
-          builder: (BuildContext context, StateSetter setState) {
-        return TextField(
-          style: TextStyle(color: uTextColor),
-          decoration: InputDecoration(
-            prefixIcon: searchIcon,
-            suffixIcon: IconButton(
-              icon: closeIcon,
-              onPressed: () {
-                FocusScope.of(context).requestFocus(FocusNode());
-              },
-            ),
-            hintText: "search",
-          ),
-          onChanged: (value) {
-            filtered_items.clear(); // remove everything
-            items.forEach((element) {
-              if (value == "") {
-                filtered_items.add(element);
-              } else {
-                if (element.toLowerCase().contains(value.toLowerCase())) {
-                  filtered_items.add(element);
-                }
-              }
-            });
-            _setStateNeededPopUp = true;
+  Widget _search(context) {
+    return TextField(
+      style: TextStyle(color: uTextColor),
+      decoration: InputDecoration(
+        prefixIcon: searchIcon,
+        suffixIcon: IconButton(
+          icon: closeIcon,
+          onPressed: () {
+            FocusScope.of(context).requestFocus(FocusNode());
           },
-        );
-      }),
-    );
-  }
-
-  PopupMenuEntry<int> _buildRow(String c) {
-    return PopupMenuItem(
-      child: Text(
-        c,
+        ),
+        hintText: "search",
       ),
+      onChanged: (value) {
+        filtered_items.clear(); // remove everything
+        items.forEach((element) {
+          if (value == "") {
+            filtered_items.add(element);
+          } else {
+            if (element.toLowerCase().contains(value.toLowerCase())) {
+              filtered_items.add(element);
+            }
+          }
+        });
+        _setStateNeededPopUp = true;
+      },
     );
   }
 
-  _checkSetState() {
-    if (_setStateNeededPopUp == true) {
-      setState(() {
-        _setStateNeededPopUp = false;
-      });
-      print('rebuilt');
-    }
+  Widget _buildRow(String c) {
+    return InkWell(
+      child: Container(
+        padding: EdgeInsets.only(left: 6, right: 10, top: 5, bottom: 5),
+        height: 32,
+        child: Text(
+          c,
+          style: TextStyle(
+            fontSize: 16,
+            color: uTextColor,
+          ),
+        ),
+      ),
+      onTap: () {
+
+      },
+    );
   }
 }
