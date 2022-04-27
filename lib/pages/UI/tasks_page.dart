@@ -1,7 +1,7 @@
 import '../../calendar/UI/calendar.dart';
 import 'package:flutter/material.dart';
 import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
-import 'popuptask.dart';
+import '../popuptask/popuptask.dart';
 import '../../Theme/themes.dart';
 
 class TasksPage extends StatefulWidget {
@@ -13,7 +13,7 @@ class TasksPage extends StatefulWidget {
 
 class _TasksPageState extends State<TasksPage> with TickerProviderStateMixin {
   var scaffoldKey = GlobalKey<ScaffoldState>();
-  int selected = 3;
+  var selected = 3;
 
   Widget _buildNavigation() {
     return Align(
