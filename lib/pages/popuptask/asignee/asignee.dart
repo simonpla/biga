@@ -6,7 +6,9 @@ var items = ['hi', 'tomtom', 'yeeeah', 'hi2', 'tomtom2', 'yeeeah2'];
 List<String> filtered_items = [...items]; // clone items
 
 class Asignee extends StatefulWidget {
-  const Asignee({Key? key}) : super(key: key);
+  var org_context;
+
+  Asignee(this.org_context, {Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => AsigneeState();
@@ -15,11 +17,6 @@ class Asignee extends StatefulWidget {
 class AsigneeState extends State<Asignee> {
   var _setStateNeededPopUp = false;
   Timer? _asigneeTimer;
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   void dispose() {
@@ -35,6 +32,7 @@ class AsigneeState extends State<Asignee> {
           context: context,
           builder: (context) {
             return Dialog(
+              insetPadding: EdgeInsets.only(left: MediaQuery.of(widget.org_context).size.width / 4, right: MediaQuery.of(widget.org_context).size.width / 4),
               backgroundColor: menuBackgroundL,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(15.0))),

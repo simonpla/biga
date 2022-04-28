@@ -74,7 +74,7 @@ class NewTaskPopupState extends State<NewTaskPopup> {
                   padding: EdgeInsets.only(left: 7.0),
                   child: Text(endDesc, style: TextStyle(fontSize: 15))),
               endDate(context),
-              Asignee(),
+              Asignee(context),
             ],
           ),
         ),
