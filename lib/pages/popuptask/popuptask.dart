@@ -8,6 +8,7 @@ import 'date/date.dart';
 import 'location/location.dart';
 import 'notes/notes.dart';
 import 'repeat/repeat.dart';
+import 'taskGroup/taskGroup.dart';
 import 'taskTypeChooser/taskTypeChooser.dart';
 import 'title_color/title_color.dart';
 import 'topBar/topBar.dart';
@@ -24,7 +25,7 @@ class NewTaskPopupState extends State<NewTaskPopup> {
   void initState() {
     super.initState();
     timer =
-        Timer.periodic(Duration(milliseconds: 50), (Timer t) => checkSetState());
+        Timer.periodic(Duration(milliseconds: 1), (Timer t) => checkSetState());
   }
 
   @override
@@ -75,6 +76,8 @@ class NewTaskPopupState extends State<NewTaskPopup> {
                   child: Text(endDesc, style: TextStyle(fontSize: 15))),
               endDate(context),
               Asignee(context),
+              SizedBox(height: 20),
+              TaskGroup(context),
             ],
           ),
         ),

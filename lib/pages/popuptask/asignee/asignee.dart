@@ -47,7 +47,7 @@ class AsigneeState extends State<Asignee> {
                   }
 
                   _asigneeTimer = Timer.periodic(
-                      Duration(milliseconds: 20), (Timer t) => _checkSetState());
+                      Duration(milliseconds: 1), (Timer t) => _checkSetState());
 
                   return Padding(
                     padding: EdgeInsets.all(10),
