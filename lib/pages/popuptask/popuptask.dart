@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import '../../main.dart';
 import 'popuptask_func.dart';
 import '../../Theme/themes.dart';
 
@@ -13,7 +14,13 @@ import 'taskTypeChooser/taskTypeChooser.dart';
 import 'title_color/title_color.dart';
 import 'topBar/topBar.dart';
 
+var showError = false;
+
 class NewTaskPopup extends StatefulWidget {
+  var fromId;
+
+  NewTaskPopup(this.fromId, {Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() => NewTaskPopupState();
 }
@@ -36,29 +43,30 @@ class NewTaskPopupState extends State<NewTaskPopup> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: currentView(),
+    return Dialog(
+      child: currentView(widget.fromId),
     );
   }
 
-  Widget currentView() {
+  Widget currentView(fromId) {
     if (typeStatus[0] == buttonColor) {
-      return taskView();
+      return taskView(fromId);
     }
     if (typeStatus[1] == buttonColor) {
-      return goalView();
+      return goalView(fromId);
     }
     if (typeStatus[2] == buttonColor) {
-      return appointmentView();
+      return appointmentView(fromId);
     }
     return Container();
   }
 
-  Widget taskView() {
+  Widget taskView(fromId) {
     return ListView(
+      shrinkWrap: true,
       physics: BouncingScrollPhysics(),
       children: [
-        topBar(context, pageDesc + typeDesc[0]),
+        topBar(context, pageDesc + typeDesc[0], fromId),
         taskTypeChooser(),
         SizedBox(height: 10),
         Padding(
@@ -66,6 +74,15 @@ class NewTaskPopupState extends State<NewTaskPopup> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Visibility(
+                  child: Text(
+                    'Error: Please fill out all fields',
+                    style: TextStyle(
+                      color: Colors.red,
+                    ),
+                  ),
+                visible: showError,
+              ),
               titleAndColorBar(context),
               notesBox(),
               SizedBox(
@@ -75,9 +92,15 @@ class NewTaskPopupState extends State<NewTaskPopup> {
                   padding: EdgeInsets.only(left: 7.0),
                   child: Text(endDesc, style: TextStyle(fontSize: 15))),
               endDate(context),
+              SizedBox(
+                height: 20,
+              ),
               Asignee(context),
+              SizedBox(
+                height: 20,
+              ),
+              TaskGroup(context, groups, filtered_groups, used_groups, 0),
               SizedBox(height: 20),
-              TaskGroup(context),
             ],
           ),
         ),
@@ -85,11 +108,12 @@ class NewTaskPopupState extends State<NewTaskPopup> {
     );
   }
 
-  Widget goalView() {
+  Widget goalView(fromId) {
     return ListView(
+      shrinkWrap: true,
       physics: BouncingScrollPhysics(),
       children: [
-        topBar(context, pageDesc + typeDesc[1]),
+        topBar(context, pageDesc + typeDesc[1], fromId),
         taskTypeChooser(),
         SizedBox(height: 10),
         Padding(
@@ -97,6 +121,15 @@ class NewTaskPopupState extends State<NewTaskPopup> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Visibility(
+                child: Text(
+                  'Error: Please fill out all fields',
+                  style: TextStyle(
+                    color: Colors.red,
+                  ),
+                ),
+                visible: showError,
+              ),
               titleAndColorBar(context),
               SizedBox(
                 height: 20,
@@ -108,6 +141,7 @@ class NewTaskPopupState extends State<NewTaskPopup> {
               repeatSwitch(),
               repeatWidget(),
               notesBox(),
+              SizedBox(height: 20),
             ],
           ),
         ),
@@ -115,11 +149,12 @@ class NewTaskPopupState extends State<NewTaskPopup> {
     );
   }
 
-  Widget appointmentView() {
+  Widget appointmentView(fromId) {
     return ListView(
+      shrinkWrap: true,
       physics: BouncingScrollPhysics(),
       children: [
-        topBar(context, pageDesc + typeDesc[2]),
+        topBar(context, pageDesc + typeDesc[2], fromId),
         taskTypeChooser(),
         SizedBox(height: 10),
         Padding(
@@ -127,6 +162,15 @@ class NewTaskPopupState extends State<NewTaskPopup> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Visibility(
+                child: Text(
+                  'Error: Please fill out all fields',
+                  style: TextStyle(
+                    color: Colors.red,
+                  ),
+                ),
+                visible: showError,
+              ),
               titleAndColorBar(context),
               SizedBox(
                 height: 20,
@@ -147,6 +191,7 @@ class NewTaskPopupState extends State<NewTaskPopup> {
               repeatWidget(),
               locationBox(),
               notesBox(),
+              SizedBox(height: 20),
             ],
           ),
         ),
@@ -155,11 +200,10 @@ class NewTaskPopupState extends State<NewTaskPopup> {
   }
 
   checkSetState() {
-    if (setStateNeeded == true) {
+    if (setStateNeeded[0] == true) {
       setState(() {
-        setStateNeeded = false;
+        setStateNeeded[0] = false;
       });
     }
   }
-
 }

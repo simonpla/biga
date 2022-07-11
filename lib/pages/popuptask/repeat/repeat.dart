@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../Theme/themes.dart';
+import '../../../main.dart';
 import '../popuptask_func.dart';
 import '../../functions/tasks_page_func.dart';
 
@@ -77,7 +78,7 @@ Widget repeatSwitch() {
         onChanged: (value) {
           isRepeat = !isRepeat; //revert state
           repeatText = repeatTextAssign(value);
-          setStateNeeded = true;
+          setStateNeeded[0] = true;
         },
         activeColor: buttonColor,
       ),
@@ -110,7 +111,7 @@ Widget repeatWidget() {
                     } else {
                       repeatOptionsHourText = repeatOptionsDesc[0] + 's';
                     }
-                    setStateNeeded = true;
+                    setStateNeeded[0] = true;
                   },
                 ),
               ),
@@ -122,7 +123,7 @@ Widget repeatWidget() {
             groupValue: chosenRepeatOptionType,
             onChanged: (repeatOptionType? value) {
               chosenRepeatOptionType = value;
-              setStateNeeded = true;
+              setStateNeeded[0] = true;
             },
           ),
         ),
@@ -147,7 +148,7 @@ Widget repeatWidget() {
                     } else {
                       repeatOptionsDayText = repeatOptionsDesc[1] + 's';
                     }
-                    setStateNeeded = true;
+                    setStateNeeded[0] = true;
                   },
                 ),
               ),
@@ -159,7 +160,7 @@ Widget repeatWidget() {
             groupValue: chosenRepeatOptionType,
             onChanged: (repeatOptionType? value) {
               chosenRepeatOptionType = value;
-              setStateNeeded = true;
+              setStateNeeded[0] = true;
             },
           ),
         ),
@@ -184,7 +185,7 @@ Widget repeatWidget() {
                     } else {
                       repeatOptionsWeekText = repeatOptionsDesc[2] + 's';
                     }
-                    setStateNeeded = true;
+                    setStateNeeded[0] = true;
                   },
                 ),
               ),
@@ -196,7 +197,7 @@ Widget repeatWidget() {
             groupValue: chosenRepeatOptionType,
             onChanged: (repeatOptionType? value) {
               chosenRepeatOptionType = value;
-              setStateNeeded = true;
+              setStateNeeded[0] = true;
             },
           ),
         ),
@@ -221,7 +222,7 @@ Widget repeatWidget() {
                     } else {
                       repeatOptionsMonthText = repeatOptionsDesc[3] + 's';
                     }
-                    setStateNeeded = true;
+                    setStateNeeded[0] = true;
                   },
                 ),
               ),
@@ -233,7 +234,7 @@ Widget repeatWidget() {
             groupValue: chosenRepeatOptionType,
             onChanged: (repeatOptionType? value) {
               chosenRepeatOptionType = value;
-              setStateNeeded = true;
+              setStateNeeded[0] = true;
             },
           ),
         ),
@@ -255,7 +256,7 @@ Widget repeatWidget() {
                     } else {
                       repeatOptionsYearText = repeatOptionsDesc[4] + 's';
                     }
-                    setStateNeeded = true;
+                    setStateNeeded[0] = true;
                   },
                 ),
               ),
@@ -267,7 +268,7 @@ Widget repeatWidget() {
             groupValue: chosenRepeatOptionType,
             onChanged: (repeatOptionType? value) {
               chosenRepeatOptionType = value;
-              setStateNeeded = true;
+              setStateNeeded[0] = true;
             },
           ),
         ),

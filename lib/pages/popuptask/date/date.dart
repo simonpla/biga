@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../../Theme/themes.dart';
 import '../../../calendar/functions/calendarFunc.dart';
+import '../../../main.dart';
 import '../popuptask_func.dart';
 import '../../functions/tasks_page_func.dart';
 
@@ -18,7 +19,7 @@ Widget allDaySwitch() {
         value: isAllDay,
         onChanged: (value) {
           isAllDay = !isAllDay; //revert state
-          setStateNeeded = true;
+          setStateNeeded[0] = true;
         },
         activeColor: buttonColor,
       ),
@@ -124,7 +125,7 @@ materialDatePicker(context, int id) async {
     print(
         '${picked.year} ${picked.month} ${picked.day} ${id == 1 ? selTimeStart.hour : selTimeEnd.hour} ${id == 1 ? selTimeStart.minute : selTimeEnd.minute}');
     assignToDateTime(id, picked);
-    setStateNeeded = true;
+    setStateNeeded[0] = true;
   }
 }
 
@@ -140,7 +141,7 @@ cupertinoDatePicker(context, int id) {
             onDateTimeChanged: (picked) {
               if (picked != tempDate) {
                 assignToDateTime(id.isEven ? id - 1 : id, picked);
-                setStateNeeded = true;
+                setStateNeeded[0] = true;
               }
             },
             initialDateTime: tempDate,
@@ -182,6 +183,6 @@ materialTimePicker(context, int id) async {
             picked.minute));
     print('$selTimeStart $selTimeEnd');
     print('$selTimeStart $selTimeEnd');
-    setStateNeeded = true;
+    setStateNeeded[0] = true;
   }
 }

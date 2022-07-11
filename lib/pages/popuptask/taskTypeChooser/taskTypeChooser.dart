@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../Theme/themes.dart';
+import '../../../main.dart';
 import '../popuptask_func.dart';
 
 var typeStatus = [Colors.white, Colors.white, buttonColor];
@@ -26,7 +27,7 @@ Widget taskTypeChooser() {
             if (typeStatus[2] != Colors.white) {
               typeStatus[2] = Colors.white;
             }
-            setStateNeeded = true;
+            setStateNeeded[0] = true;
           },
           child: Text(typeDesc[0]),
         ),
@@ -47,7 +48,7 @@ Widget taskTypeChooser() {
             if (typeStatus[2] != Colors.white) {
               typeStatus[2] = Colors.white;
             }
-            setStateNeeded = true;
+            setStateNeeded[0] = true;
           },
           child: Text(typeDesc[1]),
         ),
@@ -70,7 +71,7 @@ Widget taskTypeChooser() {
             if (typeStatus[2] != buttonColor) {
               typeStatus[2] = buttonColor;
             }
-            setStateNeeded = true;
+            setStateNeeded[0] = true;
           },
           child: Text(typeDesc[2]),
         ),

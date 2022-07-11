@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../main.dart';
 import '../popuptask_func.dart';
 
 var curr_title;
@@ -23,17 +24,18 @@ Widget titleAndColorBar(context) {
     padding: EdgeInsets.only(left: 7.0, right: 7.0),
     child: Row(
       children: [
-        SizedBox(
-          width: MediaQuery.of(context).size.width - 14 - 80,
-          child: TextFormField(
-            decoration: InputDecoration(
-                border: UnderlineInputBorder(), labelText: titleDesc),
-            onChanged: (value) {
-              curr_title = value;
-            },
+        Expanded(
+          child: SizedBox(
+            //width: MediaQuery.of(context).size.width - 14 - 80,
+            child: TextFormField(
+              decoration: InputDecoration(
+                  border: UnderlineInputBorder(), labelText: titleDesc),
+              onChanged: (value) {
+                curr_title = value;
+              },
+            ),
           ),
         ),
-        Spacer(),
         SizedBox(
           width: 40,
           child: RawMaterialButton(
@@ -96,7 +98,7 @@ Widget colorBox(context, d1, d2, colors) {
       onPressed: () {
         usedTaskColor = colors[d1][d2];
         Navigator.pop(context, true);
-        setStateNeeded = true;
+        setStateNeeded[0] = true;
       },
       elevation: 0.0,
       fillColor: colors[d1][d2],

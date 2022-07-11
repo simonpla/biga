@@ -2,6 +2,8 @@ import 'package:aufgabenplaner/Theme/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../../pages/contacts/contactsFunc.dart';
+
 var now = DateTime.now();
 var formatterMonth = DateFormat('MM');
 var formatterYear = DateFormat('yyyy');
@@ -105,13 +107,36 @@ List<Color?> dayColor = [
 ];
 int monthPosition = 0;
 
-class Task { //TODO: change to struct
-  Task(this.title, this.start, this.end, this.importance, this.place,
+class Task {
+  Task(this.title, this.notes, this.end, this.importance, this.asignees, this.group,
       this.recColor);
   String title;
+  DateTime end;
+  var importance;
+  var notes = '';
+  List<Contact> asignees;
+  var group;
+  Color recColor = Colors.blue;
+}
+
+class Goal {
+  Goal(this.title, this.end, this.importance, this.notes, this.recColor);
+  String title;
+  DateTime end;
+  var importance;
+  var notes = '';
+  Color recColor = Colors.blue;
+}
+
+class Appointment {
+  Appointment(this.title, this.allDay, this.start, this.end, this.importance,
+      this.notes, this.place, this.recColor);
+  String title;
+  bool allDay;
   DateTime start;
   DateTime end;
   var importance;
+  var notes = '';
   var place = '';
   Color recColor = Colors.blue;
 }
@@ -230,6 +255,7 @@ void fillMonth() {
   }
 }
 
-int weekInMonth(int day) { //TODO: make this work
+int weekInMonth(int day) {
+  //TODO: make this work
   return -1;
 }

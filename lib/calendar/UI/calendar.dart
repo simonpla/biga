@@ -39,6 +39,7 @@ class _MonthState extends State<Month> {
               });
               fillMonth();
             },
+            splashRadius: 16,
           ),
           Text(monthName(chosenMonth) + ' $yearNum',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
@@ -54,6 +55,7 @@ class _MonthState extends State<Month> {
               });
               fillMonth();
             },
+            splashRadius: 16,
           ),
         ],
       ),
@@ -63,30 +65,30 @@ class _MonthState extends State<Month> {
   Border _getBorder(bool top, bool last) {
     if (top == true) {
       return Border(
-        top: BorderSide(color: uTextColor),
-        left: BorderSide(color: uTextColor),
-        bottom: BorderSide(color: uTextColor),
+        top: BorderSide(color: uTextColor, width: 0.5),
+        left: BorderSide(color: uTextColor, width: 0.5),
+        bottom: BorderSide(color: uTextColor, width: 0.5),
       );
     }
     else if (top == true && last == true) {
       return Border(
-        top: BorderSide(color: uTextColor),
-        left: BorderSide(color: uTextColor),
-        right: BorderSide(color: uTextColor),
-        bottom: BorderSide(color: uTextColor),
+        top: BorderSide(color: uTextColor, width: 0.5),
+        left: BorderSide(color: uTextColor, width: 0.5),
+        right: BorderSide(color: uTextColor, width: 0.5),
+        bottom: BorderSide(color: uTextColor, width: 0.5),
       );
     }
     else if (top == false && last == false) {
       return Border(
-        left: BorderSide(color: uTextColor),
-        bottom: BorderSide(color: uTextColor),
+        left: BorderSide(color: uTextColor, width: 0.5),
+        bottom: BorderSide(color: uTextColor, width: 0.5),
       );
     }
     else if (top == false && last == true) {
       return Border(
-        left: BorderSide(color: uTextColor),
-        right: BorderSide(color: uTextColor),
-        bottom: BorderSide(color: uTextColor),
+        left: BorderSide(color: uTextColor, width: 0.5),
+        right: BorderSide(color: uTextColor, width: 0.5),
+        bottom: BorderSide(color: uTextColor, width: 0.5),
       );
     }
     return Border();
