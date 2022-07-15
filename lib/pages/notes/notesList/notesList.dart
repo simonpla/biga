@@ -1,4 +1,5 @@
 import 'package:aufgabenplaner/main.dart';
+import 'package:aufgabenplaner/pages/notes/notesList/newNoteField/newNoteField.dart';
 import 'package:aufgabenplaner/pages/notes/notesList/nubble/nubble.dart';
 import 'package:flutter/material.dart';
 
@@ -14,6 +15,7 @@ List<Pair<String, Color?>> notes = List.generate(
     17, (index) => Pair('Tom$index', Colors.grey[600]),
     growable: true);
 var newNote = false;
+var NSC = ScrollController();
 
 Widget notesList(orgContext) {
   return Container(
@@ -22,6 +24,7 @@ Widget notesList(orgContext) {
         : MediaQuery.of(orgContext).size.width / 4.5,
     color: Color(0xfff2d3cb),
     child: ListView(
+      controller: NSC,
       children: [
         Stack(
           children: [
@@ -30,26 +33,7 @@ Widget notesList(orgContext) {
               itemCount: newNote ? notes.length + 1 : notes.length,
               itemBuilder: (context, indexNL) {
                 if (indexNL == notes.length && newNote) {
-                  return Column(
-                    children: [
-                      SizedBox(height: 20),
-                      TextField(
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold),
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          contentPadding: EdgeInsets.all(8),
-                          isDense: true,
-                        ),
-                        onSubmitted: (value) {
-                          notes.add(Pair(value, Colors.grey[600]));
-                          setStateNeeded[5] = true;
-                          newNote = false;
-                        },
-                      ),
-                      SizedBox(height: 20),
-                    ],
-                  );
+                  return newNoteField(orgContext, indexNL);
                 } else {
                   return Row(
                     children: [
@@ -62,27 +46,26 @@ Widget notesList(orgContext) {
                             : MediaQuery.of(orgContext).size.width * 0.20 - 30,
                         child: Row(
                           children: [
-                            Spacer(flex: indexNL == selectedNote ? 2 : 1),
-                            InkWell(
-                              child: Column(
-                                children: [
-                                  SizedBox(height: 20),
-                                  Text(notes[indexNL].item1,
-                                      style: TextStyle(
-                                          fontSize: 17,
-                                          fontWeight: FontWeight.bold,
-                                          color: notes[indexNL].item2)),
-                                  SizedBox(height: 20),
-                                ],
+                            SizedBox(width: indexNL == selectedNote ? 30 : 20),
+                            Expanded(
+                              child: InkWell(
+                                child: Text(
+                                  notes[indexNL].item1,
+                                  maxLines: 1,
+                                  style: TextStyle(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.bold,
+                                      color: notes[indexNL].item2),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                onTap: () {
+                                  notes[selectedNote].item2 = Colors.grey[600];
+                                  selectedNote = indexNL;
+                                  notes[selectedNote].item2 = Colors.white;
+                                  setStateNeeded[5] = true;
+                                },
                               ),
-                              onTap: () {
-                                notes[selectedNote].item2 = Colors.grey[600];
-                                selectedNote = indexNL;
-                                notes[selectedNote].item2 = Colors.white;
-                                setStateNeeded[5] = true;
-                              },
                             ),
-                            Spacer(),
                           ],
                         ),
                       ),
@@ -120,7 +103,7 @@ Widget getBar(index) {
         ),
       ],
     );
-  } else if (index == notes.length - 1) {
+  } else if ((index == notes.length - 1 && !newNote) || index == -1) {
     return Column(
       children: [
         Container(
@@ -145,15 +128,4 @@ Widget getBar(index) {
       ),
     );
   }
-}
-
-Widget getNubble() {
-  return Transform.rotate(
-    angle: 89.6,
-    child: Icon(
-      Triangle.round,
-      color: Colors.white,
-      size: 40,
-    ),
-  );
 }

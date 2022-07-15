@@ -2,6 +2,7 @@ import 'package:aufgabenplaner/main.dart';
 import 'package:aufgabenplaner/pages/chat/newChatPopup.dart';
 import 'package:aufgabenplaner/pages/contacts/newContactPopup/newContactPopup.dart';
 import 'package:aufgabenplaner/pages/notes/notes.dart';
+import 'package:aufgabenplaner/pages/notes/notesList/newNoteField/newNoteField.dart';
 import 'package:aufgabenplaner/pages/notes/notesList/notesList.dart';
 import 'package:aufgabenplaner/pages/tasks/kanban/kanban.dart';
 import 'package:flutter/material.dart';
@@ -28,12 +29,19 @@ Widget _buildOnPlus(buildId, context) {
       });
       break;
     case 3:
+      newTextFocus.requestFocus();
       newNote = true;
       notesControllers.add(PainterController());
       notesControllers[notesControllers.length - 1].thickness = 3.0;
       notesControllers[notesControllers.length - 1].backgroundColor = Colors.white;
       Navigator.pop(context);
       setStateNeeded[5] = true;
+      Future.delayed(Duration(milliseconds: 30), () {
+        NSC.animateTo(
+            NSC.position.maxScrollExtent,
+            duration: Duration(milliseconds: 200),
+            curve: Curves.fastOutSlowIn);
+      });
   }
   return SizedBox();
 }
