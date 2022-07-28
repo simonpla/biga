@@ -18,6 +18,9 @@ var newNote = false;
 var NSC = ScrollController();
 
 Widget notesList(orgContext) {
+  if (notes[selectedNote].item2 != Colors.white) {
+    notes[selectedNote].item2 = Colors.white;
+  }
   return Container(
     width: MediaQuery.of(orgContext).size.width / 4.5 > 300
         ? 250
@@ -61,7 +64,6 @@ Widget notesList(orgContext) {
                                 onTap: () {
                                   notes[selectedNote].item2 = Colors.grey[600];
                                   selectedNote = indexNL;
-                                  notes[selectedNote].item2 = Colors.white;
                                   setStateNeeded[5] = true;
                                 },
                               ),

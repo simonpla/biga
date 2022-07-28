@@ -32,7 +32,7 @@ Widget newNoteField(orgContext, indexNL) {
             notes.add(Pair(value, Colors.grey[600]));
             notes[selectedNote].item2 = Colors.grey[600];
             selectedNote = notes.length - 1;
-            notes[notes.length - 1].item2 = Colors.white;
+            //notes[notes.length - 1].item2 = Colors.white;
             setStateNeeded[5] = true;
             newNote = false;
           },

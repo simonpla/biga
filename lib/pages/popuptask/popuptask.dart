@@ -6,7 +6,6 @@ import '../../Theme/themes.dart';
 
 import 'asignee/asignee.dart';
 import 'date/date.dart';
-import 'location/location.dart';
 import 'notes/notes.dart';
 import 'repeat/repeat.dart';
 import 'taskGroup/taskGroup.dart';
@@ -17,7 +16,7 @@ import 'topBar/topBar.dart';
 var showError = false;
 
 class NewTaskPopup extends StatefulWidget {
-  var fromId;
+  final fromId;
 
   NewTaskPopup(this.fromId, {Key? key}) : super(key: key);
 
@@ -54,9 +53,6 @@ class NewTaskPopupState extends State<NewTaskPopup> {
     }
     if (typeStatus[1] == buttonColor) {
       return goalView(fromId);
-    }
-    if (typeStatus[2] == buttonColor) {
-      return appointmentView(fromId);
     }
     return Container();
   }
@@ -140,56 +136,6 @@ class NewTaskPopupState extends State<NewTaskPopup> {
               endDate(context),
               repeatSwitch(),
               repeatWidget(),
-              notesBox(),
-              SizedBox(height: 20),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget appointmentView(fromId) {
-    return ListView(
-      shrinkWrap: true,
-      physics: BouncingScrollPhysics(),
-      children: [
-        topBar(context, pageDesc + typeDesc[2], fromId),
-        taskTypeChooser(),
-        SizedBox(height: 10),
-        Padding(
-          padding: EdgeInsets.only(left: 13.0, right: 13.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Visibility(
-                child: Text(
-                  'Error: Please fill out all fields',
-                  style: TextStyle(
-                    color: Colors.red,
-                  ),
-                ),
-                visible: showError,
-              ),
-              titleAndColorBar(context),
-              SizedBox(
-                height: 20,
-              ),
-              allDaySwitch(),
-              Padding(
-                  padding: EdgeInsets.only(left: 7.0),
-                  child: Text(startDesc, style: TextStyle(fontSize: 15))),
-              startDate(context),
-              SizedBox(
-                height: 10,
-              ),
-              Padding(
-                  padding: EdgeInsets.only(left: 7.0),
-                  child: Text(endDesc, style: TextStyle(fontSize: 15))),
-              endDate(context),
-              repeatSwitch(),
-              repeatWidget(),
-              locationBox(),
               notesBox(),
               SizedBox(height: 20),
             ],

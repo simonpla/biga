@@ -14,11 +14,17 @@ import '../../Theme/themes.dart';
 Widget _buildOnPlus(buildId, context) {
   switch (buildId) {
     case 0:
-      taskCards.add('new thing');
+      taskCards.add(PairK('new thing', FocusNode()));
       tasks.add(List.empty(growable: true));
       editName.add(true);
       Navigator.pop(context);
       setStateNeeded[4] = true;
+      Future.delayed(Duration(milliseconds: 30), () {
+        kanbanSC.animateTo(kanbanSC.position.maxScrollExtent,
+            duration: Duration(milliseconds: 200), curve: Curves.fastOutSlowIn);
+      });
+      taskCards[taskCards.length - 1].item2.requestFocus();
+      taskCardExpanded.add(PairK(false, -1));
       break;
     case 1:
       return NewContactPopup();
@@ -33,14 +39,13 @@ Widget _buildOnPlus(buildId, context) {
       newNote = true;
       notesControllers.add(PainterController());
       notesControllers[notesControllers.length - 1].thickness = 3.0;
-      notesControllers[notesControllers.length - 1].backgroundColor = Colors.white;
+      notesControllers[notesControllers.length - 1].backgroundColor =
+          Colors.white;
       Navigator.pop(context);
       setStateNeeded[5] = true;
       Future.delayed(Duration(milliseconds: 30), () {
-        NSC.animateTo(
-            NSC.position.maxScrollExtent,
-            duration: Duration(milliseconds: 200),
-            curve: Curves.fastOutSlowIn);
+        NSC.animateTo(NSC.position.maxScrollExtent,
+            duration: Duration(milliseconds: 200), curve: Curves.fastOutSlowIn);
       });
   }
   return SizedBox();
@@ -80,6 +85,7 @@ Widget buildLowerNavigation(context, scaffoldKey, buildId) {
                   ),
                   Container(
                     child: IconButton(
+                      splashRadius: 5,
                       icon: menuIcon,
                       onPressed: () => scaffoldKey.currentState!.openDrawer(),
                     ),
@@ -92,6 +98,7 @@ Widget buildLowerNavigation(context, scaffoldKey, buildId) {
                   ),
                   Container(
                     child: IconButton(
+                      splashRadius: 5,
                       icon: searchIcon,
                       onPressed: () => null,
                     ),
@@ -100,6 +107,7 @@ Widget buildLowerNavigation(context, scaffoldKey, buildId) {
               ),
             ),
             FloatingActionButton(
+              splashColor: Colors.transparent,
               onPressed: () {
                 showDialog(
                     context: context,

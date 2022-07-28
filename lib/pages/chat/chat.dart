@@ -98,7 +98,6 @@ class _ChatPageState extends State<ChatPage> {
 
   checkSetState() {
     if (setStateNeeded[3] == true) {
-      print('in 3 !');
       setState(() {
         setStateNeeded[3] = false;
       });
