@@ -11,6 +11,8 @@ import '../../../Theme/themes.dart';
 import '../../../calendar/functions/calendarFunc.dart';
 import '../popuptask_func.dart';
 
+var editIndex = -1;
+
 Widget topBar(context, pageDescription, fromId) {
   return Row(
     children: [
@@ -30,8 +32,19 @@ Widget topBar(context, pageDescription, fromId) {
               used_items.isNotEmpty &&
               used_groups.isNotEmpty) {
             showError = false;
-            tasks[fromId].add(Task(curr_title, curr_notes, selDateEnd, 1,
-                used_items, used_groups[0], usedTaskColor));
+            if (pageDesc == 'edit ') {
+              tasks[fromId][editIndex] = Task(curr_title, curr_notes, selDateEnd, 1,
+                  used_items, used_groups[0], usedTaskColor);
+            } else {
+              tasks[fromId].add(Task(
+                  curr_title,
+                  curr_notes,
+                  selDateEnd,
+                  1,
+                  used_items,
+                  used_groups[0],
+                  usedTaskColor));
+            }
             curr_title = '';
             curr_notes = '';
             setStateNeeded[0] = true;

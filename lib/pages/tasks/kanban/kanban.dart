@@ -1,5 +1,15 @@
 import 'package:aufgabenplaner/main.dart';
+import 'package:aufgabenplaner/pages/contacts/newContactPopup/newContactPopup.dart';
+import 'package:aufgabenplaner/pages/functions/tasks_page_func.dart';
+import 'package:aufgabenplaner/pages/popuptask/asignee/asignee.dart';
+import 'package:aufgabenplaner/pages/popuptask/date/date.dart';
+import 'package:aufgabenplaner/pages/popuptask/notes/notes.dart';
 import 'package:aufgabenplaner/pages/popuptask/popuptask.dart';
+import 'package:aufgabenplaner/pages/popuptask/popuptask_func.dart';
+import 'package:aufgabenplaner/pages/popuptask/taskGroup/taskGroup.dart';
+import 'package:aufgabenplaner/pages/popuptask/title_color/title_color.dart';
+import 'package:aufgabenplaner/pages/popuptask/topBar/topBar.dart';
+import 'package:aufgabenplaner/pages/tasks/kanban/taskDisplay/taskDisplay.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../../calendar/functions/calendarFunc.dart';
@@ -113,217 +123,25 @@ Widget kanban(orgContext) {
                               hoverColor: Colors.transparent,
                               highlightColor: Colors.transparent,
                               onTap: () {
+                                pageDesc = 'create new ';
                                 showDialog(
                                     context: orgContext,
-                                    builder: (contextSD) =>
-                                        NewTaskPopup(indexK));
+                                    builder: (contextSD) {
+                                      titleController.text = '';
+                                      notesController.text = '';
+                                      selDateEnd = DateTime.now();
+                                      filtered_items.addAll(used_items);
+                                      used_items = [];
+                                      filtered_groups.addAll(used_groups);
+                                      used_groups = [];
+                                      usedTaskColor = Colors.orange;
+                                      return NewTaskPopup(indexK);
+                                    });
                               }),
                           SizedBox(
                             height: 60.0 * tasks[indexK].length +
-                                (taskCardExpanded[indexK].item1 ? 100 : 0),
-                            child: ListView.builder(
-                                itemCount: tasks[indexK].length,
-                                itemBuilder: (context, indexT) {
-                                  return InkWell(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        SizedBox(height: 5),
-                                        Container(
-                                          height:
-                                              taskCardExpanded[indexK].item2 ==
-                                                      indexT
-                                                  ? 130
-                                                  : 30, // 30
-                                          padding: EdgeInsets.all(5),
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(7)),
-                                            color: Colors.white,
-                                          ),
-                                          child: Column(
-                                            children: [
-                                              Row(
-                                                children: [
-                                                  Expanded(
-                                                    child: Text(
-                                                      tasks[indexK][indexT]
-                                                          .title,
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                    ),
-                                                  ),
-                                                  Container(
-                                                    width: 14,
-                                                    height: 14,
-                                                    decoration: BoxDecoration(
-                                                      color: tasks[indexK]
-                                                              [indexT]
-                                                          .recColor,
-                                                      shape: BoxShape.circle,
-                                                    ),
-                                                  ),
-                                                  SizedBox(width: 5),
-                                                  InkWell(
-                                                    child: Icon(
-                                                        CupertinoIcons
-                                                            .trash_fill,
-                                                        size: 14),
-                                                    onTap: () {
-                                                      tasks[indexK]
-                                                          .removeAt(indexT);
-                                                      setStateNeeded[4] = true;
-                                                    },
-                                                  ),
-                                                ],
-                                              ),
-                                              Visibility(
-                                                visible:
-                                                    taskCardExpanded[indexK]
-                                                            .item2 ==
-                                                        indexT,
-                                                child: Divider(
-                                                    height: 4, endIndent: 40),
-                                              ),
-                                              Visibility(
-                                                visible:
-                                                    taskCardExpanded[indexK]
-                                                            .item2 ==
-                                                        indexT,
-                                                child: SizedBox(
-                                                  height: 100,
-                                                  child: ListView(
-                                                    children: [
-                                                      Text(
-                                                        'notes',
-                                                        style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            fontSize: 10.0),
-                                                      ),
-                                                      SizedBox(height: 1),
-                                                      Text(
-                                                        tasks[indexK][indexT]
-                                                            .notes,
-                                                      ),
-                                                      Divider(
-                                                          height: 4,
-                                                          endIndent: 10),
-                                                      Text(
-                                                        'project',
-                                                        style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            fontSize: 10.0),
-                                                      ),
-                                                      SizedBox(height: 1),
-                                                      Container(
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                                left: 4,
-                                                                top: 2,
-                                                                bottom: 2),
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          color: Colors
-                                                              .purple[200],
-                                                          borderRadius:
-                                                              BorderRadius.all(
-                                                                  Radius
-                                                                      .circular(
-                                                                          5)),
-                                                        ),
-                                                        child: Align(
-                                                          alignment: Alignment
-                                                              .centerLeft,
-                                                          child: Text(
-                                                            tasks[indexK]
-                                                                    [indexT]
-                                                                .group
-                                                                .item1,
-                                                            style: TextStyle(
-                                                                color: Colors
-                                                                    .white),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Divider(
-                                                          height: 4,
-                                                          endIndent: 10),
-                                                      Text(
-                                                        'asignee',
-                                                        style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            fontSize: 10.0),
-                                                      ),
-                                                      SizedBox(height: 1),
-                                                      SizedBox(
-                                                        height: tasks[indexK]
-                                                                    [indexT]
-                                                                .asignees
-                                                                .length *
-                                                            20.0,
-                                                        child: ListView.builder(
-                                                          itemCount:
-                                                              tasks[indexK]
-                                                                      [indexT]
-                                                                  .asignees
-                                                                  .length,
-                                                          itemBuilder: (context,
-                                                              indexA) {
-                                                            return Container(
-                                                              padding: EdgeInsets
-                                                                  .only(
-                                                                      left: 4,
-                                                                      top: 2,
-                                                                      bottom:
-                                                                          2),
-                                                              child: Align(
-                                                                alignment: Alignment
-                                                                    .centerLeft,
-                                                                child: Text(
-                                                                  tasks[indexK][
-                                                                          indexT]
-                                                                      .asignees[
-                                                                          indexA]
-                                                                      .name,
-                                                                ),
-                                                              ),
-                                                            );
-                                                          },
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        SizedBox(height: 5),
-                                      ],
-                                    ),
-                                    onTap: () {
-                                      if (taskCardExpanded[indexK].item1 &&
-                                          taskCardExpanded[indexK].item2 !=
-                                              indexT) {
-                                        taskCardExpanded[indexK].item2 = indexT;
-                                      } else if (taskCardExpanded[indexK]
-                                              .item1 &&
-                                          taskCardExpanded[indexK].item2 ==
-                                              indexT) {
-                                        taskCardExpanded[indexK].item1 = false;
-                                        taskCardExpanded[indexK].item2 = -1;
-                                      } else {
-                                        taskCardExpanded[indexK].item1 = true;
-                                        taskCardExpanded[indexK].item2 = indexT;
-                                      }
-                                      setStateNeeded[4] = true;
-                                    },
-                                  );
-                                }),
+                                (taskCardExpanded[indexK].item1 ? 130 : 0),
+                            child: taskDisplay(orgContext, indexK),
                           ),
                         ],
                       ),

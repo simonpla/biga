@@ -17,7 +17,8 @@ var availableTaskColors = [
     Colors.teal,
   ],
 ];
-var usedTaskColor = Colors.orange;
+Color usedTaskColor = Colors.orange;
+TextEditingController titleController = TextEditingController();
 
 Widget titleAndColorBar(context) {
   return Padding(
@@ -28,6 +29,7 @@ Widget titleAndColorBar(context) {
           child: SizedBox(
             //width: MediaQuery.of(context).size.width - 14 - 80,
             child: TextFormField(
+              controller: titleController,
               decoration: InputDecoration(
                   border: UnderlineInputBorder(), labelText: titleDesc),
               onChanged: (value) {
