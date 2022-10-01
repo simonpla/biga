@@ -35,13 +35,29 @@ Widget menuDrawer(context) {
               ),
             ),
           ),
-          ListTile(
+          ExpansionTile(
             leading: Container(
               child: taskIcon,
             ),
             title: Text('Tasks', style: TextStyle(color: uTextColor)),
-            onTap: () => Navigator.pushNamed(context, '/tasks'),
-            hoverColor: hoverColorL,
+            children: [
+              ListTile(
+                title: Text(
+                  'board',
+                  style: TextStyle(color: uTextColor),
+                ),
+                onTap: () => Navigator.pushNamed(context, '/kanban'),
+                hoverColor: hoverColorL,
+              ),
+              ListTile(
+                title: Text(
+                  'timeline',
+                  style: TextStyle(color: uTextColor),
+                ),
+                onTap: () => Navigator.pushNamed(context, '/timeline'),
+                hoverColor: hoverColorL,
+              ),
+            ],
           ),
           ListTile(
             leading: Container(

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../database/database.dart';
 import '../../../../main.dart';
 import '../../../functions/tasks_page_func.dart';
 import '../../../popuptask/asignee/asignee.dart';
@@ -75,8 +76,16 @@ Widget taskDisplay(orgContext, indexK) {
                         SizedBox(width: 5),
                         InkWell(
                           child: Icon(CupertinoIcons.trash_fill, size: 14),
-                          onTap: () {
+                          onTap: () async {
                             tasks[indexK].removeAt(indexT);
+                            await connection.transaction((ctx) async {
+                              var id = '$indexK,$indexT';
+                              await ctx.query(
+                                  "DELETE FROM tasks WHERE id=@a",
+                                  substitutionValues: {
+                                    "a": id,
+                                  });
+                            });
                             setStateNeeded[4] = true;
                           },
                         ),

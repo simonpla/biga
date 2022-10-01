@@ -1,7 +1,9 @@
 import 'package:aufgabenplaner/Theme/themes.dart';
 import 'package:aufgabenplaner/pages/chat/chat.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
+import '../../../database/database.dart';
 import '../../../main.dart';
 import '../chatFunc.dart';
 
@@ -37,10 +39,22 @@ Widget newMessageTextField(context, chatId) {
             radius: 17,
             hoverColor: Colors.transparent,
             highlightColor: Colors.transparent,
-            onTap: () {
+            onTap: () async {
               if (newMessage.text != '') {
                 messages[chats[chatId].item2].add(
                     Message(newMessage.text, DateTime.now(), 'delivered', 0, 0));
+                await connection.transaction((connection) async {
+                  await connection.query(
+                      "INSERT INTO messages VALUES (@a, @b, @c, @d, @e, @f)",
+                      substitutionValues: {
+                        "a": '${chats[chatId].item1},${chats[chatId].item2}',
+                        "b": newMessage.text,
+                        "c": DateFormat('yyyy-MM-dd H:mm:s').format(DateTime.now()),
+                        "d": 'delivered',
+                        "e": 0,
+                        "f": 0,
+                      });
+                });
               }
               newMessage.text = ''; // reset text
               setStateNeeded[3] = true;

@@ -1,18 +1,16 @@
 import 'package:aufgabenplaner/main.dart';
-import 'package:aufgabenplaner/pages/contacts/newContactPopup/newContactPopup.dart';
 import 'package:aufgabenplaner/pages/functions/tasks_page_func.dart';
 import 'package:aufgabenplaner/pages/popuptask/asignee/asignee.dart';
-import 'package:aufgabenplaner/pages/popuptask/date/date.dart';
 import 'package:aufgabenplaner/pages/popuptask/notes/notes.dart';
 import 'package:aufgabenplaner/pages/popuptask/popuptask.dart';
 import 'package:aufgabenplaner/pages/popuptask/popuptask_func.dart';
 import 'package:aufgabenplaner/pages/popuptask/taskGroup/taskGroup.dart';
 import 'package:aufgabenplaner/pages/popuptask/title_color/title_color.dart';
-import 'package:aufgabenplaner/pages/popuptask/topBar/topBar.dart';
 import 'package:aufgabenplaner/pages/tasks/kanban/taskDisplay/taskDisplay.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../../calendar/functions/calendarFunc.dart';
+import '../../../database/database.dart';
 
 class PairK<T1, T2> {
   T1 item1;
@@ -23,24 +21,20 @@ class PairK<T1, T2> {
 
 var kanbanSC = ScrollController();
 
-List<PairK<String, FocusNode>> taskCards = [
-  PairK('To Do', FocusNode()),
-  PairK('In Progress', FocusNode()),
-  PairK('Done', FocusNode()),
-];
+List<PairK<String, FocusNode>> taskCards = List.empty(growable: true);
 
-var editName = [false, false, false];
+var editName = List.empty(growable: true);
 
-var taskCardExpanded = [PairK(false, -1), PairK(false, -1), PairK(false, -1)];
+var taskCardExpanded = [];
 
-List<List<Task>> tasks =
-    List.generate(3, (index) => List.empty(growable: true), growable: true);
+List<List<Task>> tasks = List.empty(growable: true);
 
 Widget kanban(orgContext) {
   return Padding(
     padding: EdgeInsets.only(top: 25.0, bottom: 100.0),
-    child: Scrollbar(
+    child: CupertinoScrollbar(
       controller: kanbanSC,
+      thumbVisibility: true,
       child: ListView.builder(
         shrinkWrap: true,
         controller: kanbanSC,
@@ -88,11 +82,20 @@ Widget kanban(orgContext) {
                                     color: Colors.black,
                                     size: 19,
                                   ),
-                                  onTap: () {
+                                  onTap: () async {
                                     taskCards.removeAt(indexK);
                                     editName.removeAt(indexK);
                                     tasks.removeAt(indexK);
                                     taskCardExpanded.removeAt(indexK);
+                                    await connection.transaction((ctx) async {
+                                      await ctx.query(
+                                          "DELETE FROM taskCards WHERE id=@a",
+                                          substitutionValues: {"a": indexK});
+                                      var idWC = '$indexK%';
+                                      await ctx.query(
+                                          "DELETE FROM tasks WHERE id LIKE @a",
+                                          substitutionValues: {"a": idWC});
+                                    });
                                     setStateNeeded[4] = true;
                                   },
                                 )
@@ -110,10 +113,18 @@ Widget kanban(orgContext) {
                                 contentPadding: EdgeInsets.all(8),
                                 isDense: true,
                               ),
-                              onSubmitted: (value) {
+                              onSubmitted: (value) async {
                                 taskCards[indexK].item1 = value;
                                 editName[indexK] = false;
                                 setStateNeeded[4] = true;
+                                await connection.transaction((ctx) async {
+                                  await ctx.query(
+                                      "INSERT INTO taskCards VALUES (@a, @b)",
+                                      substitutionValues: {
+                                        "a": value,
+                                        "b": indexK
+                                      });
+                                });
                               },
                             ),
                           ),

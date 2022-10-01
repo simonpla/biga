@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-
-import '../contacts.dart';
 import '../contactsFunc.dart';
 
 Widget contactsListDisplay(orgContext) {
@@ -38,13 +36,14 @@ Widget contactsElement(int lr, indexCLD, orgContext) {
       ),
       child: Row(
         children: [
-          Container(
+          SizedBox(
             height: 60,
             width: 60,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(60)),
-              border: Border.all(),
-              //color: Colors.blue,
+            child: ClipOval(
+              child: Image.network(
+                'https://upload.wikimedia.org/wikipedia/commons/5/56/Donald_Trump_official_portrait.jpg',
+                fit: BoxFit.cover,
+              ),
             ),
           ),
           Expanded(child: twoTextColumn(lr, indexCLD, false)),
@@ -59,25 +58,29 @@ Widget twoTextColumn(int lr, indexCLD, bool second) {
   return Column(
     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
     children: [
-      Flexible(
-        child: Container(
-          height: 25,
-          padding: EdgeInsets.only(left: 7, right: 7),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(15)),
-            border: Border.all(),
-            color: Color(0xADABA2DF),
-          ),
-          child: Center(
-            child: Text(
-              second == true
-                  ? contacts[indexCLD * 2 + lr].team
-                  : contacts[indexCLD * 2 + lr].name,
-              overflow: TextOverflow.ellipsis,
-              maxLines: 1,
+      Row(
+        children: [
+          Spacer(),
+          Container(
+            height: 25,
+            padding: EdgeInsets.only(left: 7, right: 7),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(15)),
+              border: Border.all(),
+              color: Color(0xADABA2DF),
+            ),
+            child: Center(
+              child: Text(
+                second == true
+                    ? contacts[indexCLD * 2 + lr].team
+                    : contacts[indexCLD * 2 + lr].name,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+              ),
             ),
           ),
-        ),
+          Spacer(),
+        ],
       ),
       Text(
         second == true

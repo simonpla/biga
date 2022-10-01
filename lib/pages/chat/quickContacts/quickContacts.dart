@@ -14,8 +14,11 @@ Widget quickContacts(chatId) {
       controller: ScrollController(),
       itemCount: chats.length,
       itemBuilder: (context, indexQC) {
-        return SizedBox(
+        return Container(
           height: 65,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(7)),
+          ),
           child: InkWell(
             hoverColor: Colors.transparent,
             highlightColor: Colors.transparent,

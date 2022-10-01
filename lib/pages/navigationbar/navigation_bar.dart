@@ -6,16 +6,17 @@ import 'package:aufgabenplaner/pages/notes/notesList/newNoteField/newNoteField.d
 import 'package:aufgabenplaner/pages/notes/notesList/notesList.dart';
 import 'package:aufgabenplaner/pages/tasks/kanban/kanban.dart';
 import 'package:flutter/material.dart';
-import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:painter/painter.dart';
 import '../../Theme/themes.dart';
+import '../tasks/timeline/timelineDisplay/timelineDisplay.dart';
 
 Widget _buildOnPlus(buildId, context) {
   switch (buildId) {
     case 0:
       taskCards.add(PairK('new thing', FocusNode()));
       tasks.add(List.empty(growable: true));
+      usableTimeLineTasks.add(List.empty(growable: true));
       editName.add(true);
       Navigator.pop(context);
       setStateNeeded[4] = true;
@@ -53,60 +54,67 @@ Widget _buildOnPlus(buildId, context) {
 
 Widget buildLowerNavigation(context, scaffoldKey, buildId) {
   return Align(
-    alignment: Alignment.bottomLeft,
-    child: Row(
-      children: [
-        Container(
-            height: 30,
-            width: MediaQuery.of(context).size.width / 2 > 250
-                ? (MediaQuery.of(context).size.width - 250) / 2 - 10
-                : MediaQuery.of(context).size.width / 4 - 10),
-        RowSuper(
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                color: primaryColorL,
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(19),
-                  topLeft: Radius.circular(19),
+    alignment: Alignment.bottomCenter,
+    child: Container(
+      height: 56,
+      width: (MediaQuery.of(context).size.width / 2 > 250
+              ? 250
+              : MediaQuery.of(context).size.width / 2) +
+          20,
+      child: Stack(
+        children: [
+          Column(
+            children: [
+              Spacer(),
+              Container(
+                decoration: BoxDecoration(
+                  color: primaryColorL,
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(19),
+                    topLeft: Radius.circular(19),
+                  ),
+                ),
+                height: 40,
+                width: MediaQuery.of(context).size.width / 2 > 250
+                    ? 250
+                    : MediaQuery.of(context).size.width / 2,
+                child: Row(
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width / 2 > 250
+                          ? 50
+                          : MediaQuery.of(context).size.width / 10,
+                      height: 10,
+                    ),
+                    Container(
+                      child: IconButton(
+                        splashRadius: 5,
+                        icon: menuIcon,
+                        onPressed: () => scaffoldKey.currentState!.openDrawer(),
+                      ),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width / 2 > 250
+                          ? 50
+                          : MediaQuery.of(context).size.width / 10,
+                      height: 10,
+                    ),
+                    Container(
+                      child: IconButton(
+                        splashRadius: 5,
+                        icon: searchIcon,
+                        onPressed: () => null,
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              height: 40,
-              width: MediaQuery.of(context).size.width / 2 > 250
-                  ? 250
-                  : MediaQuery.of(context).size.width / 2,
-              child: Row(
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width / 2 > 250
-                        ? 50
-                        : MediaQuery.of(context).size.width / 10,
-                    height: 10,
-                  ),
-                  Container(
-                    child: IconButton(
-                      splashRadius: 5,
-                      icon: menuIcon,
-                      onPressed: () => scaffoldKey.currentState!.openDrawer(),
-                    ),
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width / 2 > 250
-                        ? 50
-                        : MediaQuery.of(context).size.width / 10,
-                    height: 10,
-                  ),
-                  Container(
-                    child: IconButton(
-                      splashRadius: 5,
-                      icon: searchIcon,
-                      onPressed: () => null,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            FloatingActionButton(
+              Spacer(),
+            ],
+          ),
+          Positioned(
+            right: 0,
+            child: FloatingActionButton(
               splashColor: Colors.transparent,
               onPressed: () {
                 showDialog(
@@ -116,10 +124,9 @@ Widget buildLowerNavigation(context, scaffoldKey, buildId) {
               child: plusIcon,
               backgroundColor: buttonColor,
             ),
-          ],
-          innerDistance: -8,
-        ),
-      ],
+          ),
+        ],
+      ),
     ),
   );
 }

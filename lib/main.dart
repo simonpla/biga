@@ -1,6 +1,8 @@
+import 'package:aufgabenplaner/database/database.dart';
 import 'package:aufgabenplaner/pages/chat/chat.dart';
 import 'package:aufgabenplaner/pages/contacts/contacts.dart';
 import 'package:aufgabenplaner/pages/notes/notes.dart';
+import 'package:aufgabenplaner/pages/tasks/timeline/timeline.dart';
 
 import 'pages/tasks/tasks_page.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +17,10 @@ final setStateNeeded = [
   false,
   false,
   false,
-]; // 0 is popuptask, 1 contactpopup, 2 contacts, 3 chat, 4 tasks page 5 notes
+  false,
+]; // 0 is popuptask, 1 contactpopup, 2 contacts, 3 chat, 4 tasks page 5 notes 6 timeline
+
+
 
 void main() {
   setColorsTry();
@@ -25,12 +30,15 @@ void main() {
     WidgetsFlutterBinding.ensureInitialized();
     if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
       setWindowTitle('biga');
-      setWindowMinSize(const Size(400, 550));
+      setWindowMinSize(const Size(600, 550));
       setWindowMaxSize(Size.infinite);
     }
   } catch (e) {
     print('setting minimum window size not possible');
   }
+
+  dbSetup();
+
   runApp(Biga());
 }
 
@@ -42,9 +50,10 @@ class Biga extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'biga',
-      initialRoute: '/tasks',
+      initialRoute: '/kanban',
       routes: {
-        '/tasks': (context) => TasksPage(),
+        '/kanban': (context) => TasksPage(),
+        '/timeline': (context) => Timeline(),
         '/chat': (context) => ChatPage(),
         '/notes': (context) => Notes(),
         '/contacts': (context) => Contacts(),

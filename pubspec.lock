@@ -7,21 +7,14 @@ packages:
       name: archive
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.3.0"
-  assorted_layout_widgets:
-    dependency: "direct main"
-    description:
-      name: assorted_layout_widgets
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "5.8.5"
+    version: "3.3.1"
   async:
     dependency: transitive
     description:
       name: async
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.8.2"
+    version: "2.9.0"
   boolean_selector:
     dependency: transitive
     description:
@@ -29,27 +22,27 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0"
+  buffer:
+    dependency: transitive
+    description:
+      name: buffer
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.1"
   characters:
     dependency: transitive
     description:
       name: characters
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.0"
-  charcode:
-    dependency: transitive
-    description:
-      name: charcode
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.3.1"
+    version: "1.2.1"
   clock:
     dependency: transitive
     description:
       name: clock
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.0"
+    version: "1.1.1"
   collection:
     dependency: transitive
     description:
@@ -77,19 +70,26 @@ packages:
       name: fake_async
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.3.0"
+    version: "1.3.1"
   fluentui_system_icons:
     dependency: "direct main"
     description:
       name: fluentui_system_icons
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.173"
+    version: "1.1.178"
   flutter:
     dependency: "direct main"
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_svg:
+    dependency: transitive
+    description:
+      name: flutter_svg
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.4"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -115,28 +115,21 @@ packages:
       name: matcher
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.12.11"
+    version: "0.12.12"
   material_color_utilities:
     dependency: transitive
     description:
       name: material_color_utilities
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.1.4"
-  matrix4_transform:
-    dependency: transitive
-    description:
-      name: matrix4_transform
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.1"
+    version: "0.1.5"
   meta:
     dependency: transitive
     description:
       name: meta
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.7.0"
+    version: "1.8.0"
   painter:
     dependency: "direct main"
     description:
@@ -150,7 +143,28 @@ packages:
       name: path
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.8.1"
+    version: "1.8.2"
+  path_drawing:
+    dependency: transitive
+    description:
+      name: path_drawing
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.1"
+  path_parsing:
+    dependency: transitive
+    description:
+      name: path_parsing
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.1"
+  pedantic:
+    dependency: transitive
+    description:
+      name: pedantic
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.11.1"
   petitparser:
     dependency: transitive
     description:
@@ -158,13 +172,34 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "5.0.0"
+  postgres:
+    dependency: "direct main"
+    description:
+      name: postgres
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.5.2"
+  sasl_scram:
+    dependency: transitive
+    description:
+      name: sasl_scram
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.1"
+  saslprep:
+    dependency: transitive
+    description:
+      name: saslprep
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.2"
   signature:
     dependency: "direct main"
     description:
       name: signature
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.0.1"
+    version: "5.2.1"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -176,7 +211,7 @@ packages:
       name: source_span
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.8.2"
+    version: "1.9.0"
   stack_trace:
     dependency: transitive
     description:
@@ -197,21 +232,21 @@ packages:
       name: string_scanner
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.0"
+    version: "1.1.1"
   term_glyph:
     dependency: transitive
     description:
       name: term_glyph
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.0"
+    version: "1.2.1"
   test_api:
     dependency: transitive
     description:
       name: test_api
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.9"
+    version: "0.4.12"
   typed_data:
     dependency: transitive
     description:
@@ -219,6 +254,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.3.1"
+  unorm_dart:
+    dependency: transitive
+    description:
+      name: unorm_dart
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.0"
   vector_math:
     dependency: transitive
     description:
@@ -231,7 +273,7 @@ packages:
     description:
       path: "plugins/window_size"
       ref: HEAD
-      resolved-ref: "5c51870ced62a00e809ba4b81a846a052d241c9f"
+      resolved-ref: "12decbe0f592e14e03223f6f2c0c7e0e2dbd70a1"
       url: "https://github.com/google/flutter-desktop-embedding.git"
     source: git
     version: "0.1.0"
@@ -244,4 +286,4 @@ packages:
     version: "6.1.0"
 sdks:
   dart: ">=2.17.0 <3.0.0"
-  flutter: ">=2.0.0"
+  flutter: ">=2.11.0-0.1.pre"

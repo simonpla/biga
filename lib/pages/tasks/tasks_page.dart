@@ -1,8 +1,5 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
-import '../../Theme/themes.dart';
-
 import '../../main.dart';
 import '../appBar/appBar.dart';
 import '../navigationbar/navigation_bar.dart';

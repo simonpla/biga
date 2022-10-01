@@ -43,79 +43,153 @@ class NewContactPopupState extends State<NewContactPopup> {
   void dispose() {
     timer?.cancel();
     super.dispose();
+    setStateNeeded[2] = true;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [
-          Row(
-            children: [
-              Spacer(),
-              IconButton(
-                  onPressed: () => Navigator.pop(context),
-                  icon: closeIcon,
-                  iconSize: 23),
-              Spacer(flex: 80),
-              Text('create new contact',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-              Spacer(flex: 80),
-              ElevatedButton(
-                  onPressed: () {
-                    if (nameController.text.isNotEmpty &&
-                        telController.text.isNotEmpty &&
-                        mailController.text.isNotEmpty &&
-                        companyController.text.isNotEmpty &&
-                        used_groups1.isNotEmpty) {
-                      newContact(
-                          nameController.text,
-                          telController.text,
-                          mailController.text,
-                          companyController.text,
-                          used_groups1[0].item1);
-                    }
-                    Navigator.pop(context);
-                    setStateNeeded[2] = true;
-                  },
-                  child: Text('save')),
-              Spacer(flex: 2),
-            ],
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: 20, right: 20),
-            child: Column(
+    return Dialog(
+      child: Padding(
+        padding: EdgeInsets.only(left: 13, top: 5, right: 13, bottom: 13),
+        child: ListView(
+          shrinkWrap: true,
+          physics: BouncingScrollPhysics(),
+          children: [
+            Row(
               children: [
-                TextField(
-                  controller: nameController,
-                  decoration: InputDecoration(
-                    labelText: 'name',
-                  ),
-                ),
-                TextField(
-                  controller: mailController,
-                  decoration: InputDecoration(
-                    labelText: 'email',
-                  ),
-                ),
-                TextField(
-                  controller: telController,
-                  decoration: InputDecoration(
-                    labelText: 'phone number',
-                  ),
-                ),
-                TextField(
-                  controller: companyController,
-                  decoration: InputDecoration(
-                    labelText: 'company',
-                  ),
-                ),
-                SizedBox(height: 10),
-                TaskGroup(context, groups1, filtered_groups1, used_groups1, 1),
+                Spacer(),
+                IconButton(
+                    onPressed: () => Navigator.pop(context),
+                    icon: closeIcon,
+                    iconSize: 23),
+                Spacer(flex: 80),
+                Text('create new contact',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+                Spacer(flex: 80),
+                ElevatedButton(
+                    onPressed: () {
+                      if (nameController.text.isNotEmpty &&
+                          telController.text.isNotEmpty &&
+                          mailController.text.isNotEmpty &&
+                          companyController.text.isNotEmpty &&
+                          used_groups1.isNotEmpty) {
+                        newContact(
+                            nameController.text,
+                            telController.text,
+                            mailController.text,
+                            companyController.text,
+                            used_groups1[0].item1);
+                      }
+                      Navigator.pop(context);
+                      setStateNeeded[2] = true;
+                    },
+                    child: Text('save')),
+                Spacer(flex: 2),
               ],
             ),
-          ),
-        ],
+            Padding(
+              padding: EdgeInsets.only(left: 5, right: 5),
+              child: Column(
+                children: [
+                  SizedBox(height: 10),
+                  SizedBox(
+                    height: 40,
+                    child: TextField(
+                      controller: nameController,
+                      cursorColor: Color(0xADABA2DF),
+                      decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Colors.black, width: 0.7),
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Color(0xADABA2DF), width: 0.7),
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                        ),
+                        contentPadding: EdgeInsets.only(left: 7, top: 4),
+                        floatingLabelStyle: TextStyle(color: Colors.black),
+                        labelText: 'name',
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  SizedBox(
+                    height: 40,
+                    child: TextField(
+                      controller: mailController,
+                      cursorColor: Color(0xADABA2DF),
+                      decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Colors.black, width: 0.7),
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Color(0xADABA2DF), width: 0.7),
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                        ),
+                        contentPadding: EdgeInsets.only(left: 7, top: 4),
+                        floatingLabelStyle: TextStyle(color: Colors.black),
+                        labelText: 'email',
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  SizedBox(
+                    height: 40,
+                    child: TextField(
+                      controller: telController,
+                      cursorColor: Color(0xADABA2DF),
+                      decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Colors.black, width: 0.7),
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Color(0xADABA2DF), width: 0.7),
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                        ),
+                        contentPadding: EdgeInsets.only(left: 7, top: 4),
+                        floatingLabelStyle: TextStyle(color: Colors.black),
+                        labelText: 'phone number',
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  SizedBox(
+                    height: 40,
+                    child: TextField(
+                      controller: companyController,
+                      cursorColor: Color(0xADABA2DF),
+                      decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Colors.black, width: 0.7),
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Color(0xADABA2DF), width: 0.7),
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                        ),
+                        contentPadding: EdgeInsets.only(left: 7, top: 4),
+                        floatingLabelStyle: TextStyle(color: Colors.black),
+                        labelText: 'company',
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  TaskGroup(context, groups1, filtered_groups1, used_groups1, 1),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -145,7 +145,7 @@ cupertinoDatePicker(context, int id) {
               }
             },
             initialDateTime: tempDate,
-            minimumYear: 1990,
+            minimumYear: 0,
             maximumYear: 2050,
             use24hFormat: true,
           ),
@@ -171,16 +171,15 @@ Widget? timePicker(context, int id) {
 }
 
 materialTimePicker(context, int id) async {
-  final TimeOfDay? picked = await showTimePicker(
+  final DateTime? picked = await showDatePicker(
     context: context,
-    initialTime: tempTime,
+    initialDate: tempDate,
+    firstDate: DateTime.now(),
+    lastDate: DateTime(2050),
   );
   if (picked != null) {
     assignToDateTime(id, picked);
-    assignToDateTime(
-        id - 1,
-        DateTime(tempDate.year, tempDate.month, tempDate.day, picked.hour,
-            picked.minute));
+    assignToDateTime(id - 1, picked);
     print('$selTimeStart $selTimeEnd');
     print('$selTimeStart $selTimeEnd');
     setStateNeeded[0] = true;
