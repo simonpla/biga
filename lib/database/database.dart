@@ -1,9 +1,12 @@
 import 'package:aufgabenplaner/main.dart';
 import 'package:aufgabenplaner/pages/chat/chatFunc.dart';
+import 'package:aufgabenplaner/pages/notes/notesList/notesList.dart';
 import 'package:flutter/material.dart';
+import 'package:painter/painter.dart';
 import 'package:postgres/postgres.dart';
 import '../calendar/functions/calendarFunc.dart';
 import '../pages/contacts/contactsFunc.dart';
+import '../pages/notes/notes.dart';
 import '../pages/tasks/kanban/kanban.dart';
 import '../pages/tasks/timeline/timelineDisplay/timelineDisplay.dart';
 
@@ -33,7 +36,7 @@ _readTasks() async {
   try {
     await connection.transaction((ctx) async {
       var dbTaskCards = await ctx.query("SELECT * FROM taskCards");
-      for (int i=0; i<dbTaskCards.length; i++) {
+      for (int i = 0; i < dbTaskCards.length; i++) {
         tasks.add(List<Task>.empty(growable: true));
         taskCards.add(PairK(dbTaskCards[i][0], FocusNode()));
         usableTimeLineTasks.add(List.empty(growable: true));
@@ -114,6 +117,45 @@ _readMessages() async {
   setStateNeeded[3] = true;
 }
 
+_readNotes() async {
+  //try {
+  await connection.transaction((ctx) async {
+    var dbNotes = await ctx.query("SELECT * FROM notes");
+
+    for (int i = 0; i < dbNotes.length; i++) {
+      while (notes.length < dbNotes[i][0] + 1) {
+        notes.add(PairNL('shouldn\'t be here', Colors.grey[600]));
+        textFields.add(List.empty(growable: true));
+        hasChanged.add(List.empty(growable: true));
+        notesControllers.add(PairNL(
+            PainterController(), [ScrollController(), ScrollController()]));
+        notesControllers[notesControllers.length - 1].item1.thickness = 3.0;
+        notesControllers[notesControllers.length - 1].item1.backgroundColor =
+            Colors.white;
+        counterLines.add(List.empty(growable: true));
+      }
+      notes[dbNotes[i][0]].item1 = dbNotes[i][1];
+    }
+
+    var dbNotesText = await ctx.query("SELECT * FROM notesText");
+
+    for (int i = 0; i < dbNotesText.length; i++) {
+      var pos = dbNotesText[i][2].split(',');
+      textFields[dbNotesText[i][0]].add(
+        PairNL(
+            PairNL(TextEditingController(text: dbNotesText[i][1]), FocusNode()),
+            [double.parse(pos[0]), double.parse(pos[1])]),
+      );
+      counterLines[dbNotesText[i][0]]
+          .add('\n'.allMatches(dbNotesText[i][1]).length + 1); // add line count
+    }
+  });
+  /*} catch (j) {
+    print('notes $j');
+  }*/
+  setStateNeeded[5] = true;
+}
+
 Future<void> dbSetup() async {
   // establish database connection
   try {
@@ -125,4 +167,5 @@ Future<void> dbSetup() async {
   _readTasks();
   _readContacts();
   _readMessages();
+  _readNotes();
 }

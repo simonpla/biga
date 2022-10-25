@@ -1,5 +1,7 @@
+import 'package:aufgabenplaner/pages/notes/notes.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../database/database.dart';
 import '../../../../main.dart';
 import '../notesList.dart';
 
@@ -28,13 +30,21 @@ Widget newNoteField(orgContext, indexNL) {
             contentPadding: EdgeInsets.all(8),
             isDense: true,
           ),
-          onSubmitted: (value) {
-            notes.add(Pair(value, Colors.grey[600]));
+          onSubmitted: (value) async {
+            notes.add(PairNL(value, Colors.grey[600]));
             notes[selectedNote].item2 = Colors.grey[600];
             selectedNote = notes.length - 1;
-            //notes[notes.length - 1].item2 = Colors.white;
+            textFields.add(List.empty(growable: true));
             setStateNeeded[5] = true;
             newNote = false;
+            hasChanged.add(List.empty(growable: true));
+            counterLines.add(List.empty(growable: true));
+            await connection.transaction((ctx) async {
+              await ctx.query("INSERT INTO notes VALUES (@a, @b)", substitutionValues: {
+                "a": notesControllers.length - 1,
+                "b": value,
+              });
+            });
           },
         ),
       ),

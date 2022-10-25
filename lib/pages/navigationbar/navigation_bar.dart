@@ -38,9 +38,10 @@ Widget _buildOnPlus(buildId, context) {
     case 3:
       newTextFocus.requestFocus();
       newNote = true;
-      notesControllers.add(PainterController());
-      notesControllers[notesControllers.length - 1].thickness = 3.0;
-      notesControllers[notesControllers.length - 1].backgroundColor =
+      notesControllers.add(PairNL(
+          PainterController(), [ScrollController(), ScrollController()]));
+      notesControllers[notesControllers.length - 1].item1.thickness = 3.0;
+      notesControllers[notesControllers.length - 1].item1.backgroundColor =
           Colors.white;
       Navigator.pop(context);
       setStateNeeded[5] = true;

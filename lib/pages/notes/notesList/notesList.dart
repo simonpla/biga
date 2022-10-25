@@ -3,24 +3,24 @@ import 'package:aufgabenplaner/pages/notes/notesList/newNoteField/newNoteField.d
 import 'package:aufgabenplaner/pages/notes/notesList/nubble/nubble.dart';
 import 'package:flutter/material.dart';
 
-class Pair<T1, T2> {
+class PairNL<T1, T2> {
   T1 item1;
   T2 item2;
 
-  Pair(this.item1, this.item2);
+  PairNL(this.item1, this.item2);
 }
 
 var selectedNote = 0;
-List<Pair<String, Color?>> notes = List.generate(
-    17, (index) => Pair('Tom$index', Colors.grey[600]),
-    growable: true);
+List<PairNL<String, Color?>> notes = List.empty(growable: true);
 var newNote = false;
 var NSC = ScrollController();
 
 Widget notesList(orgContext) {
-  if (notes[selectedNote].item2 != Colors.white) {
-    notes[selectedNote].item2 = Colors.white;
-  }
+  try {
+    if (notes[selectedNote].item2 != Colors.white) {
+      notes[selectedNote].item2 = Colors.white;
+    }
+  } catch (e) {}
   return Container(
     width: MediaQuery.of(orgContext).size.width / 4.5 > 300
         ? 250
@@ -76,12 +76,17 @@ Widget notesList(orgContext) {
                 }
               },
             ),
-            AnimatedPositioned(
-              duration: Duration(milliseconds: 500),
-              left: MediaQuery.of(orgContext).size.width / 50 + 12,
-              top: selectedNote * 60 + 11,
-              child: getNubble(),
-            ),
+            notes.length > 0
+                ? AnimatedPositioned(
+                    duration: Duration(milliseconds: 500),
+                    left: MediaQuery.of(orgContext).size.width / 50 + 11,
+                    top: selectedNote * 60 + 5.75,
+                    child: SizedBox(
+                      height: 50,
+                      child: getNubble(),
+                    ),
+                  )
+                : Container(),
           ],
         ),
       ],
@@ -100,7 +105,15 @@ Widget getBar(index) {
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(10), topRight: Radius.circular(10)),
+              topLeft: Radius.circular(10),
+              topRight: Radius.circular(10),
+              bottomLeft: !newNote && notes.length < 1
+                  ? Radius.circular(10)
+                  : Radius.zero,
+              bottomRight: !newNote && notes.length < 1
+                  ? Radius.circular(10)
+                  : Radius.zero,
+            ),
           ),
         ),
       ],
@@ -108,14 +121,19 @@ Widget getBar(index) {
   } else if ((index == notes.length - 1 && !newNote) || index == -1) {
     return Column(
       children: [
+        SizedBox(
+          height: notes.length < 1 ? 10 : 0,
+        ),
         Container(
           height: 50,
           width: 30,
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(15),
-                bottomRight: Radius.circular(15)),
+                topLeft: notes.length < 1 ? Radius.circular(10) : Radius.zero,
+                topRight: notes.length < 1 ? Radius.circular(10) : Radius.zero,
+                bottomLeft: Radius.circular(10),
+                bottomRight: Radius.circular(10)),
           ),
         ),
         SizedBox(height: 10),
