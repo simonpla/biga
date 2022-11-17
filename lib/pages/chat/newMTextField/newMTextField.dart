@@ -2,7 +2,7 @@ import 'package:aufgabenplaner/Theme/themes.dart';
 import 'package:aufgabenplaner/pages/chat/chat.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
+import 'dart:io';
 import '../../../database/database.dart';
 import '../../../main.dart';
 import '../chatFunc.dart';
@@ -14,20 +14,19 @@ Widget newMessageTextField(context, chatId) {
       children: [
         Spacer(flex: 10),
         SizedBox(
-          width: MediaQuery.of(context).size.width - 200,
+          width: MediaQuery.of(context).size.width - (Platform.isIOS || Platform.isAndroid ? 150 : 200),
           child: TextField(
             controller: newMessage,
+            cursorColor: Colors.white,
             minLines: 1,
             maxLines: 5,
             decoration: InputDecoration(
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(width: 0.6, color: Colors.black),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(width: 0.7, color: buttonColor!),
-              ),
+              border: Theme.of(context).inputDecorationTheme.border,
+              focusedBorder: Theme.of(context).inputDecorationTheme.border,
+              enabledBorder: Theme.of(context).inputDecorationTheme.border,
+              contentPadding: EdgeInsets.all(8),
             ),
-            cursorColor: buttonColor,
+            //cursorColor: buttonColor,
           ),
         ),
         Spacer(),

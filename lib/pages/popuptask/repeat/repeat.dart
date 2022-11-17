@@ -80,7 +80,7 @@ Widget repeatSwitch() {
           repeatText = repeatTextAssign(value);
           setStateNeeded[0] = true;
         },
-        activeColor: buttonColor,
+        //activeColor: buttonColor,
       ),
     ],
   );

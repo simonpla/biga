@@ -61,12 +61,12 @@ columnsTLD (indexTL) {
         height: 30,
         width: 200,
         decoration: BoxDecoration(
-          color: indexT.isOdd ? Colors.grey[100] : Colors.white,
+          color: indexT.isOdd ? Colors.grey[800] : Colors.transparent,
           border: Border(
-            left: BorderSide(color: Colors.grey[700]!, width: 0.2),
-            right: BorderSide(color: Colors.grey[700]!, width: 0.2),
+            left: BorderSide(color: Colors.grey[100]!, width: 0.2),
+            right: BorderSide(color: Colors.grey[100]!, width: 0.2),
             bottom: BorderSide(
-                color: Colors.grey[700]!,
+                color: Colors.grey[100]!,
                 width:
                 indexT == timeLineTasks.length - 1 ? 0.4 : 0.0),
           ),
@@ -102,7 +102,11 @@ columnsTLD (indexTL) {
                         }
                         setStateNeeded[6] = true;
                       },
-                      onTap: () {},
+                      onTap: () {
+                        hoverLeft[indexT] = !hoverLeft[indexT];
+                        hoverRight[indexT] = !hoverRight[indexT];
+                        setStateNeeded[6] = true;
+                      },
                     ),
                     Spacer(),
                   ],
@@ -129,14 +133,14 @@ columnsTLD (indexTL) {
                     DateFormat('dd-MM').format(dateNow),
                     style: TextStyle(
                         color: _getWidth() < 160
-                            ? Colors.grey[600]
+                            ? Colors.white
                             : timeLineTasks[indexT]
                             .item1
                             .recColor
                             .computeLuminance() >
                             0.5
                             ? Colors.black
-                            : Colors.white,
+                            : Colors.transparent,
                         fontSize: 12),
                     overflow: TextOverflow.clip,
                   ),
@@ -161,7 +165,7 @@ columnsTLD (indexTL) {
                         timeLineTasks[indexT].item1.end),
                     style: TextStyle(
                         color: _getWidth() < 160
-                            ? Colors.grey[600]
+                            ? Colors.white
                             : timeLineTasks[indexT]
                             .item1
                             .recColor

@@ -2,6 +2,7 @@ import 'package:aufgabenplaner/database/database.dart';
 import 'package:aufgabenplaner/pages/chat/chat.dart';
 import 'package:aufgabenplaner/pages/contacts/contacts.dart';
 import 'package:aufgabenplaner/pages/notes/notes.dart';
+import 'package:aufgabenplaner/pages/settings/settings.dart';
 import 'package:aufgabenplaner/pages/tasks/timeline/timeline.dart';
 
 import 'pages/tasks/tasks_page.dart';
@@ -50,6 +51,7 @@ class Biga extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'biga',
+      theme: defaultTheme,
       initialRoute: '/kanban',
       routes: {
         '/kanban': (context) => TasksPage(),
@@ -57,7 +59,7 @@ class Biga extends StatelessWidget {
         '/chat': (context) => ChatPage(),
         '/notes': (context) => Notes(),
         '/contacts': (context) => Contacts(),
-        '/settings': (context) => Container(),
+        '/settings': (context) => Settings(),
       },
       debugShowCheckedModeBanner: false,
     );

@@ -26,6 +26,7 @@ class NewTaskPopup extends StatefulWidget {
 
 class NewTaskPopupState extends State<NewTaskPopup> {
   Timer? timer;
+  var buttonColor = Colors.deepOrange[300];
 
   @override
   void initState() {
@@ -58,36 +59,39 @@ class NewTaskPopupState extends State<NewTaskPopup> {
   }
 
   Widget taskView(fromId) {
-    return ListView(
-      shrinkWrap: true,
-      physics: BouncingScrollPhysics(),
-      children: [
-        topBar(context, pageDesc + typeDesc[0], fromId),
-        taskTypeChooser(),
-        SizedBox(height: 10),
-        Padding(
-          padding: EdgeInsets.only(left: 13.0, right: 13.0),
-          child: Column(
+    return Padding(
+      padding: EdgeInsets.only(left: 13.0, top: 5.0, right: 13.0),
+      child: ListView(
+        shrinkWrap: true,
+        physics: BouncingScrollPhysics(),
+        children: [
+          topBar(context, pageDesc + typeDesc[0], fromId),
+          taskTypeChooser(),
+          SizedBox(height: 10),
+          Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Visibility(
-                  child: Text(
-                    'Error: Please fill out all fields',
-                    style: TextStyle(
-                      color: Colors.red,
-                    ),
+                child: Text(
+                  'Error: Please fill out all fields',
+                  style: TextStyle(
+                    color: Colors.red,
                   ),
+                ),
                 visible: showError,
               ),
               titleAndColorBar(context),
-              notesBox(),
+              SizedBox(
+                height: 20,
+              ),
+              notesBox(context),
               SizedBox(
                 height: 20,
               ),
               Padding(
                   padding: EdgeInsets.only(left: 7.0),
                   child: Text(endDesc, style: TextStyle(fontSize: 15))),
-              endDate(context),
+              endDate(context, 0),
               SizedBox(
                 height: 20,
               ),
@@ -99,8 +103,8 @@ class NewTaskPopupState extends State<NewTaskPopup> {
               SizedBox(height: 20),
             ],
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -133,10 +137,10 @@ class NewTaskPopupState extends State<NewTaskPopup> {
               Padding(
                   padding: EdgeInsets.only(left: 7.0),
                   child: Text(endDesc, style: TextStyle(fontSize: 15))),
-              endDate(context),
+              endDate(context, 0),
               repeatSwitch(),
               repeatWidget(),
-              notesBox(),
+              notesBox(context),
               SizedBox(height: 20),
             ],
           ),

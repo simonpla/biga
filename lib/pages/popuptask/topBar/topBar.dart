@@ -6,12 +6,11 @@ import 'package:aufgabenplaner/pages/popuptask/popuptask.dart';
 import 'package:aufgabenplaner/pages/popuptask/taskGroup/taskGroup.dart';
 import 'package:aufgabenplaner/pages/popuptask/title_color/title_color.dart';
 import 'package:aufgabenplaner/pages/tasks/kanban/kanban.dart';
-import 'package:aufgabenplaner/pages/tasks/timeline/timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../../Theme/themes.dart';
-import '../../../calendar/functions/calendarFunc.dart';
 import '../../../database/database.dart';
+import '../../tasks/tasks_page.dart';
 import '../../tasks/timeline/timelineDisplay/timelineDisplay.dart';
 import '../popuptask_func.dart';
 
@@ -73,7 +72,7 @@ Widget topBar(context, pageDescription, fromId) {
                           "e": curr_notes,
                           "f": _packageContacts(),
                           "g": used_groups[0].item1,
-                          "h": usedTaskColor.toString(),
+                          "h": usedTaskColor.value.toString(),
                         });
                   });
                 }
@@ -92,7 +91,7 @@ Widget topBar(context, pageDescription, fromId) {
                       "e": curr_notes,
                       "f": _packageContacts(),
                       "g": used_groups[0].item1,
-                      "h": usedTaskColor.toString(),
+                      "h": usedTaskColor.value.toString(),
                     });
               });
             } else {

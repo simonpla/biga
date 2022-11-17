@@ -18,6 +18,7 @@ Widget newNoteField(orgContext, indexNL) {
             : MediaQuery.of(orgContext).size.width * 0.20 - 30,
         padding: EdgeInsets.only(left: 5, right: 5),
         child: TextField(
+          cursorColor: Colors.white,
           focusNode: newTextFocus,
           style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           decoration: InputDecoration(
@@ -31,13 +32,13 @@ Widget newNoteField(orgContext, indexNL) {
             isDense: true,
           ),
           onSubmitted: (value) async {
-            notes.add(PairNL(value, Colors.grey[600]));
-            notes[selectedNote].item2 = Colors.grey[600];
+            notes.add(PairNL(value, Colors.grey[400]));
+            notes[selectedNote].item2 = Colors.grey[400];
             selectedNote = notes.length - 1;
             textFields.add(List.empty(growable: true));
             setStateNeeded[5] = true;
             newNote = false;
-            hasChanged.add(List.empty(growable: true));
+            hasChangedText.add(List.empty(growable: true));
             counterLines.add(List.empty(growable: true));
             await connection.transaction((ctx) async {
               await ctx.query("INSERT INTO notes VALUES (@a, @b)", substitutionValues: {

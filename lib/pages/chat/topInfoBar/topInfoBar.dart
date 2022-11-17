@@ -6,7 +6,7 @@ Widget topInfoBar(chatId) {
     height: 30,
     width: 200,
     decoration: BoxDecoration(
-      color: Color(0xFF050717),
+      color: Colors.deepPurpleAccent[200],
       borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(10), bottomRight: Radius.circular(10)),
     ),

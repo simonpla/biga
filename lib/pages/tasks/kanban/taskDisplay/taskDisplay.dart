@@ -19,7 +19,7 @@ Widget taskDisplay(orgContext, indexK) {
       itemBuilder: (context, indexT) {
         return InkWell(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            //crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 5),
               Container(
@@ -28,9 +28,9 @@ Widget taskDisplay(orgContext, indexK) {
                 padding: EdgeInsets.all(5),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(7)),
-                  color: Colors.white,
+                  color: Colors.grey[900],
                 ),
-                child: Column(
+                child: ListView(
                   children: [
                     Row(
                       children: [
@@ -80,8 +80,7 @@ Widget taskDisplay(orgContext, indexK) {
                             tasks[indexK].removeAt(indexT);
                             await connection.transaction((ctx) async {
                               var id = '$indexK,$indexT';
-                              await ctx.query(
-                                  "DELETE FROM tasks WHERE id=@a",
+                              await ctx.query("DELETE FROM tasks WHERE id=@a",
                                   substitutionValues: {
                                     "a": id,
                                   });

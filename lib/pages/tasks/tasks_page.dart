@@ -1,10 +1,24 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import '../../main.dart';
 import '../appBar/appBar.dart';
+import '../contacts/contactsFunc.dart';
 import '../navigationbar/navigation_bar.dart';
 import 'drawerMenu/drawerMenu.dart';
 import 'kanban/kanban.dart';
+
+class Task {
+  Task(this.title, this.notes, this.end, this.importance, this.asignees, this.group,
+      this.recColor);
+  String title;
+  DateTime end;
+  var importance;
+  var notes = '';
+  List<Contact> asignees;
+  var group;
+  Color recColor = Colors.blue;
+}
 
 class TasksPage extends StatefulWidget {
   const TasksPage({Key? key}) : super(key: key);

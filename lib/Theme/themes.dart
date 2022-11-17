@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+import 'package:flutter/services.dart';
 
 bool iosTest = false; //FOR TESTING
 bool windowsTest = false; //FOR TESTING
@@ -15,7 +16,7 @@ bool darkMode = false;
 var uBackground, uTextColor;
 
 void setColorsTry() {
-  try {
+  /*try {
     if (defaultTargetPlatform == TargetPlatform.iOS ||
         Platform.isMacOS == true ||
         iosTest == true) {
@@ -33,9 +34,9 @@ void setColorsTry() {
   }
   uBackground = darkMode == true ? backgroundD : Colors.white24;
   uTextColor = darkMode == true ? textColorD : textColorL;
-  backgroundDay = darkMode == true ? backgroundD : Colors.grey.shade100;
+  backgroundDay = darkMode == true ? backgroundD : Colors.grey.shade100;*/
 }
-
+/*
 var primaryColorL = Colors.teal[200];
 var primaryColorD = Colors.teal[300];
 var buttonColor = Colors.deepOrange[300];
@@ -50,14 +51,42 @@ var errorColor = Colors.red;
 var textColorD = Colors.white;
 var textColorL = Colors.black87;
 var backgroundDay = Colors.grey.shade100;
-
+*/
 final iconColor = Colors.black87;
 final greyedColor = Colors.grey[500];
+
+final defaultTheme = ThemeData(
+  useMaterial3: true,
+  colorScheme: ColorScheme.fromSwatch()
+      .copyWith(secondary: Colors.deepOrange[300], brightness: Brightness.dark),
+  appBarTheme: AppBarTheme(
+      backgroundColor: Colors.lightBlueAccent,
+      iconTheme: IconThemeData(color: Colors.deepOrange[300])),
+  buttonTheme: ButtonThemeData(buttonColor: Colors.deepOrange[300]),
+  floatingActionButtonTheme:
+      FloatingActionButtonThemeData(backgroundColor: Colors.deepOrange[300]),
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ButtonStyle(
+      backgroundColor:
+          MaterialStateProperty.all<Color>(Colors.deepOrange[300]!),
+      textStyle: MaterialStateProperty.resolveWith(
+          (_) => TextStyle(color: Colors.white)),
+    ),
+  ),
+  iconTheme: IconThemeData(color: Colors.deepOrange[300]),
+  canvasColor: Colors.grey[900],
+  inputDecorationTheme: InputDecorationTheme(
+    border: OutlineInputBorder(borderSide: BorderSide(color: Colors.white)),
+    labelStyle: TextStyle(color: Colors.white),
+  ),
+);
 
 //Icons
 void setIconsTry() {
   try {
-    if (defaultTargetPlatform == TargetPlatform.iOS || Platform.isMacOS == true || iosTest == true) {
+    if (defaultTargetPlatform == TargetPlatform.iOS ||
+        Platform.isMacOS == true ||
+        iosTest == true) {
       menuIcon =
           Icon(CupertinoIcons.line_horizontal_3, color: iconColor); //ellipsis?
       searchIcon = Icon(CupertinoIcons.search, color: iconColor);

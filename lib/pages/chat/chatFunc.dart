@@ -18,12 +18,10 @@ class Message {
   Message(this.text, this.sentTime, this.sentStatus, this.chatId, this.sender);
 }
 
-List<Pair<String, int>> chats = List.of([Pair('tomtom', 0)],
-    growable: true); // name, pointer to messages index
+List<Pair<String, int>> chats =
+    List.empty(growable: true); // name, pointer to messages index
 
-List<List<Message>> messages = List.of([
-  [Message('hi', DateTime.now(), 'delivered', 0, 0)]
-], growable: true);
+List<List<Message>> messages = List.empty(growable: true);
 
 ScrollController mDSC = ScrollController();
 
@@ -33,7 +31,8 @@ var openedChat = 0;
 
 addChat(chatId, name) {
   if (chatId + 1 > chats.length) {
-    chats.addAll(List.generate(chatId - chats.length + 1, (index) => Pair('', -1)));
+    chats.addAll(
+        List.generate(chatId - chats.length/* + 1*/, (index) => Pair('', -1)));
   }
   chats[chatId].item1 = name;
 

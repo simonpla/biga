@@ -1,13 +1,16 @@
+import 'dart:convert';
+
 import 'package:aufgabenplaner/main.dart';
 import 'package:aufgabenplaner/pages/chat/chatFunc.dart';
 import 'package:aufgabenplaner/pages/notes/notesList/notesList.dart';
+import 'package:aufgabenplaner/pages/tasks/timeline/infoRow/infoRow.dart';
 import 'package:flutter/material.dart';
-import 'package:painter/painter.dart';
+import 'package:hand_signature/signature.dart';
 import 'package:postgres/postgres.dart';
-import '../calendar/functions/calendarFunc.dart';
 import '../pages/contacts/contactsFunc.dart';
 import '../pages/notes/notes.dart';
 import '../pages/tasks/kanban/kanban.dart';
+import '../pages/tasks/tasks_page.dart';
 import '../pages/tasks/timeline/timelineDisplay/timelineDisplay.dart';
 
 var connection = PostgreSQLConnection(
@@ -33,7 +36,7 @@ _getContactByName(var names) {
 }
 
 _readTasks() async {
-  try {
+  //try {
     await connection.transaction((ctx) async {
       var dbTaskCards = await ctx.query("SELECT * FROM taskCards");
       for (int i = 0; i < dbTaskCards.length; i++) {
@@ -66,10 +69,20 @@ _readTasks() async {
         usableTimeLineTasks[int.parse(db_tasks[i][0][0])]
             .add(tasks[int.parse(db_tasks[i][0][0])].last);
       }
+
+      var db_tl = await ctx.query("SELECT * FROM timelineTasks");
+      for (int i = 0; i < db_tl.length; i++) {
+        var id = db_tl[i][0].split(',');
+        id = [int.parse(id[0]), int.parse(id[1])];
+        timeLineTasks.add(PairTL(tasks[id[0]].last, id));
+        usableTimeLineTasks[id[0]].removeAt(id[1]);
+        hoverLeft.add(false);
+        hoverRight.add(false);
+      }
     });
-  } catch (f) {
-    print(f);
-  }
+  //} catch (f) {
+  //  print(f);
+  //}
   setStateNeeded[4] = true;
 }
 
@@ -124,14 +137,15 @@ _readNotes() async {
 
     for (int i = 0; i < dbNotes.length; i++) {
       while (notes.length < dbNotes[i][0] + 1) {
-        notes.add(PairNL('shouldn\'t be here', Colors.grey[600]));
+        notes.add(PairNL('shouldn\'t be here', Colors.grey[400]));
         textFields.add(List.empty(growable: true));
-        hasChanged.add(List.empty(growable: true));
+        hasChangedText.add(List.empty(growable: true));
         notesControllers.add(PairNL(
-            PainterController(), [ScrollController(), ScrollController()]));
-        notesControllers[notesControllers.length - 1].item1.thickness = 3.0;
-        notesControllers[notesControllers.length - 1].item1.backgroundColor =
-            Colors.white;
+            HandSignatureControl(
+              threshold: 1.0,
+              smoothRatio: 0.65,
+              velocityRange: 2.0,
+            ), [ScrollController(), ScrollController()]));
         counterLines.add(List.empty(growable: true));
       }
       notes[dbNotes[i][0]].item1 = dbNotes[i][1];
@@ -148,6 +162,12 @@ _readNotes() async {
       );
       counterLines[dbNotesText[i][0]]
           .add('\n'.allMatches(dbNotesText[i][1]).length + 1); // add line count
+    }
+
+    var dbNotesCanvas = await ctx.query('SELECT * FROM notesCanvas');
+
+    for (int i= 0; i < dbNotesCanvas.length; i++) {
+      notesControllers[dbNotesCanvas[i][0]].item1.importData(jsonDecode(dbNotesCanvas[i][1]));
     }
   });
   /*} catch (j) {

@@ -1,11 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import '../../../Theme/themes.dart';
-import '../../../calendar/functions/calendarFunc.dart';
 import '../../../main.dart';
 import '../popuptask_func.dart';
 import '../../functions/tasks_page_func.dart';
 
+var formatterMonth = DateFormat('MM');
+var formatterYear = DateFormat('yyyy');
+var formatterWeekDay = DateFormat('EEEE');
+var formatterDay = DateFormat('d');
+var formatterYearMonthDay = DateFormat('yyyy-MM-dd');
+var formatterHourMinute = DateFormat('Hm');
 var isAllDay = false;
 
 Widget allDaySwitch() {
@@ -21,18 +27,18 @@ Widget allDaySwitch() {
           isAllDay = !isAllDay; //revert state
           setStateNeeded[0] = true;
         },
-        activeColor: buttonColor,
+        //activeColor: buttonColor,
       ),
     ],
   );
 }
 
-Widget startDate(context) {
+Widget startDate(context, setStateId) {
   return Row(
     children: [
       TextButton(
         onPressed: () {
-          datePicker(context, 1);
+          datePicker(context, 1, setStateId);
         },
         child: Text(
           '${formatterYearMonthDay.format(selDateStart)}',
@@ -43,7 +49,7 @@ Widget startDate(context) {
       Visibility(
         child: TextButton(
           onPressed: () {
-            timePicker(context, 2);
+            timePicker(context, 2, setStateId);
           },
           child: Text(
             '${formatterHourMinute.format(selDateStart)}',
@@ -56,12 +62,12 @@ Widget startDate(context) {
   );
 }
 
-Widget endDate(context) {
+Widget endDate(context, setStateId) {
   return Row(
     children: [
       TextButton(
         onPressed: () {
-          datePicker(context, 3);
+          datePicker(context, 3, setStateId);
         },
         child: Text(
           '${formatterYearMonthDay.format(selDateEnd)}',
@@ -72,7 +78,7 @@ Widget endDate(context) {
       Visibility(
         child: TextButton(
           onPressed: () {
-            timePicker(context, 4);
+            timePicker(context, 4, setStateId);
           },
           child: Text(
             '${formatterHourMinute.format(selDateEnd)}',
@@ -85,7 +91,7 @@ Widget endDate(context) {
   );
 }
 
-Widget? datePicker(context, int id) {
+Widget? datePicker(context, int id, int setStateId) {
   //return native looking date picker
   final ThemeData theme = Theme.of(context);
   if (theme.platform == TargetPlatform.iOS ||
@@ -94,7 +100,7 @@ Widget? datePicker(context, int id) {
     return cupertinoDatePicker(context, id);
   } else {
     return FutureBuilder(
-      future: materialDatePicker(context, id),
+      future: materialDatePicker(context, id, setStateId),
       builder: (context, snapshot) {
         return CircularProgressIndicator();
       },
@@ -102,7 +108,7 @@ Widget? datePicker(context, int id) {
   }
 }
 
-materialDatePicker(context, int id) async {
+materialDatePicker(context, int id, int setStateId) async {
   DateTime? picked = await showDatePicker(
     context: context,
     initialDate: tempDate,
@@ -110,7 +116,7 @@ materialDatePicker(context, int id) async {
     lastDate: DateTime(2050),
     builder: (context, child) {
       return Theme(
-        data: ThemeData.light(),
+        data: ThemeData.dark(),
         child: child as Widget,
       );
     },
@@ -125,7 +131,7 @@ materialDatePicker(context, int id) async {
     print(
         '${picked.year} ${picked.month} ${picked.day} ${id == 1 ? selTimeStart.hour : selTimeEnd.hour} ${id == 1 ? selTimeStart.minute : selTimeEnd.minute}');
     assignToDateTime(id, picked);
-    setStateNeeded[0] = true;
+    setStateNeeded[setStateId] = true;
   }
 }
 
@@ -135,7 +141,6 @@ cupertinoDatePicker(context, int id) {
       builder: (BuildContext builder) {
         return Container(
           height: MediaQuery.of(context).copyWith().size.height / 2,
-          color: Colors.white,
           child: CupertinoDatePicker(
             mode: CupertinoDatePickerMode.dateAndTime,
             onDateTimeChanged: (picked) {
@@ -153,7 +158,7 @@ cupertinoDatePicker(context, int id) {
       });
 }
 
-Widget? timePicker(context, int id) {
+Widget? timePicker(context, int id, setStateId) {
   //return native looking time picker
   final ThemeData theme = Theme.of(context);
   if (theme.platform == TargetPlatform.iOS ||
@@ -162,7 +167,7 @@ Widget? timePicker(context, int id) {
     return cupertinoDatePicker(context, id);
   } else {
     return FutureBuilder(
-      future: materialTimePicker(context, id),
+      future: materialTimePicker(context, id, setStateId),
       builder: (context, snapshot) {
         return CircularProgressIndicator();
       },
@@ -170,7 +175,7 @@ Widget? timePicker(context, int id) {
   }
 }
 
-materialTimePicker(context, int id) async {
+materialTimePicker(context, int id, int setStateId) async {
   final DateTime? picked = await showDatePicker(
     context: context,
     initialDate: tempDate,
@@ -182,6 +187,6 @@ materialTimePicker(context, int id) async {
     assignToDateTime(id - 1, picked);
     print('$selTimeStart $selTimeEnd');
     print('$selTimeStart $selTimeEnd');
-    setStateNeeded[0] = true;
+    setStateNeeded[setStateId] = true;
   }
 }

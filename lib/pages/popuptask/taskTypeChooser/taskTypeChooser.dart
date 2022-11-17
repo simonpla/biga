@@ -3,6 +3,8 @@ import '../../../Theme/themes.dart';
 import '../../../main.dart';
 import '../popuptask_func.dart';
 
+var buttonColor = Colors.deepOrange[300];
+
 var typeStatus = [buttonColor, Colors.white];
 
 Widget taskTypeChooser() {

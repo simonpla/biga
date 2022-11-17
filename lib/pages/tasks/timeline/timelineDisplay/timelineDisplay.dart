@@ -1,10 +1,8 @@
-import 'package:aufgabenplaner/main.dart';
 import 'package:flutter/material.dart';
 import 'package:aufgabenplaner/pages/contacts/contactsFunc.dart';
 import 'package:aufgabenplaner/pages/tasks/kanban/kanban.dart';
 import 'package:intl/intl.dart';
-import '../../../../calendar/functions/calendarFunc.dart';
-import '../infoRow/infoRow.dart';
+import '../../tasks_page.dart';
 import 'columnsTLD/columnsTLD.dart';
 
 class PairTL<T1, T2> {
@@ -21,7 +19,7 @@ List<PairTL<Task, List<int>>> timeLineTasks = [
   PairTL(
       Task('fzugzugu', 'ghghkbgh', DateTime(2022, 12, 10), 'idk', contacts,
           'group', Colors.black),
-      [0, 0]),
+      [-1, -1]),
 ];
 
 var calendarSC = ScrollController();
@@ -41,18 +39,18 @@ timelineDisplay() {
             height: 40,
             width: 200,
             decoration: BoxDecoration(
-              color: Colors.grey[100],
+              color: Colors.grey[800],
               border: Border(
-                left: BorderSide(color: Colors.grey[700]!, width: 0.2),
-                top: BorderSide(color: Colors.grey[700]!, width: 0.4),
-                right: BorderSide(color: Colors.grey[700]!, width: 0.2),
-                bottom: BorderSide(color: Colors.grey[700]!, width: 0.4),
+                left: BorderSide(color: Colors.grey[100]!, width: 0.2),
+                top: BorderSide(color: Colors.grey[100]!, width: 0.4),
+                right: BorderSide(color: Colors.grey[100]!, width: 0.2),
+                bottom: BorderSide(color: Colors.grey[100]!, width: 0.4),
               ),
             ),
             child: Align(
               alignment: Alignment(-1, -0.3),
               child: Text(DateFormat.yMMM().format(monthDisplay[indexTL]),
-                  style: TextStyle(color: Colors.grey[700])),
+                  ),
             ),
           ),
           SizedBox(

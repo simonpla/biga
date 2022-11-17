@@ -33,7 +33,7 @@ Widget messageDisplay(orgContext, chatId) {
               decoration: BoxDecoration(
                   color: getChat(chatId, 1)[indexMG].sender ==
                           0 //messages[indexMG].sender == 0
-                      ? Colors.blue.shade500
+                      ? Colors.deepPurpleAccent[200]
                       : Colors.grey.shade300,
                   border: Border.all(color: Colors.grey),
                   borderRadius: BorderRadius.all(Radius.circular(7))),

@@ -9,8 +9,8 @@ import 'package:aufgabenplaner/pages/popuptask/title_color/title_color.dart';
 import 'package:aufgabenplaner/pages/tasks/kanban/taskDisplay/taskDisplay.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../../../calendar/functions/calendarFunc.dart';
 import '../../../database/database.dart';
+import '../tasks_page.dart';
 
 class PairK<T1, T2> {
   T1 item1;
@@ -34,7 +34,7 @@ Widget kanban(orgContext) {
     padding: EdgeInsets.only(top: 25.0, bottom: 100.0),
     child: CupertinoScrollbar(
       controller: kanbanSC,
-      thumbVisibility: true,
+      //thumbVisibility: true,
       child: ListView.builder(
         shrinkWrap: true,
         controller: kanbanSC,
@@ -52,9 +52,9 @@ Widget kanban(orgContext) {
                       width: 200,
                       padding: EdgeInsets.all(8),
                       decoration: BoxDecoration(
-                        color: Color(0xfff2d3cb),
                         border: Border.all(color: Colors.grey),
                         borderRadius: BorderRadius.all(Radius.circular(7)),
+                        color: Colors.deepPurpleAccent[200],
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -79,7 +79,6 @@ Widget kanban(orgContext) {
                                 InkWell(
                                   child: Icon(
                                     CupertinoIcons.trash_fill,
-                                    color: Colors.black,
                                     size: 19,
                                   ),
                                   onTap: () async {

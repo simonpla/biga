@@ -4,19 +4,14 @@ import 'package:aufgabenplaner/pages/navigationbar/navigation_bar.dart';
 import 'package:aufgabenplaner/pages/notes/notesList/notesList.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:painter/painter.dart';
 import '../../database/database.dart';
 import '../../main.dart';
 import '../tasks/drawerMenu/drawerMenu.dart';
+import 'package:hand_signature/signature.dart';
 
-List<PairNL<PainterController, List<ScrollController>>>
+List<PairNL<HandSignatureControl, List<ScrollController>>>
     notesControllers = // controls painter and x,y scrolling controller
-    List.generate(notes.length, (index) {
-  PainterController controller = new PainterController();
-  controller.thickness = 3.0;
-  controller.backgroundColor = Colors.white;
-  return PairNL(controller, [ScrollController(), ScrollController()]);
-}, growable: true);
+    List.empty(growable: true);
 
 List<List<PairNL<PairNL<TextEditingController, FocusNode>, List<double>>>>
     textFields = List.generate(
@@ -30,7 +25,11 @@ List<List<int>> counterLines = List.empty(growable: true);
 
 List<ScrollController> scroll = [];
 
-List<List<PairNL<String, List<double>>>> hasChanged = List.empty(growable: true);
+List<List<PairNL<String, List<double>>>> hasChangedText =
+    List.empty(growable: true);
+
+List<PairNL<int, Map<String, dynamic>>> hasChangedCanvas =
+    List.empty(growable: true);
 
 class Notes extends StatefulWidget {
   Notes({Key? key}) : super(key: key);
@@ -62,10 +61,11 @@ List<Widget> _stackTextBuilder(orgContext) {
             controller: textFields[selectedNote][i].item1.item1,
             focusNode: textFields[selectedNote][i].item1.item2,
             maxLines: null,
+            cursorColor: Colors.white,
             decoration: InputDecoration(
               enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(width: 0, color: Colors.transparent)),
-              focusedBorder: OutlineInputBorder(),
+              focusedBorder: Theme.of(orgContext).inputDecorationTheme.border,
               contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 7),
             ),
             style: TextStyle(
@@ -77,17 +77,17 @@ List<Widget> _stackTextBuilder(orgContext) {
                       .length +
                   1;
               var alreadyChanged = -1;
-              for (int j = 0; j < hasChanged[selectedNote].length; j++) {
-                if (hasChanged[selectedNote][j].item2 ==
+              for (int j = 0; j < hasChangedText[selectedNote].length; j++) {
+                if (hasChangedText[selectedNote][j].item2 ==
                     textFields[selectedNote][i].item2) {
                   alreadyChanged = j;
                 }
               }
               if (alreadyChanged == -1) {
-                hasChanged[selectedNote]
+                hasChangedText[selectedNote]
                     .add(PairNL(value, textFields[selectedNote][i].item2));
               } else {
-                hasChanged[selectedNote][alreadyChanged].item1 = value;
+                hasChangedText[selectedNote][alreadyChanged].item1 = value;
               }
               setStateNeeded[5] = true;
             },
@@ -118,9 +118,7 @@ class NotesState extends State<Notes> {
                   [LogicalKeyboardKey.metaLeft, LogicalKeyboardKey.keyZ]) ||
               RawKeyboard.instance.keysPressed.containsAll(
                   [LogicalKeyboardKey.metaRight, LogicalKeyboardKey.keyZ]))) {
-        if (!notesControllers[selectedNote].item1.isEmpty) {
-          notesControllers[selectedNote].item1.undo();
-        }
+        notesControllers[selectedNote].item1.stepBack();
       }
       if (!(RawKeyboard.instance.keysPressed.containsAll(
               [LogicalKeyboardKey.controlLeft, LogicalKeyboardKey.keyZ]) ||
@@ -138,25 +136,37 @@ class NotesState extends State<Notes> {
     });
     Timer.periodic(Duration(minutes: 1), (timer) async {
       await connection.transaction((ctx) async {
-        for (int i = 0; i < hasChanged.length; i++) {
-          for (int j = 0; j < hasChanged[i].length; j++) {
-
+        for (int i = 0; i < hasChangedText.length; i++) {
+          for (int j = 0; j < hasChangedText[i].length; j++) {
             await ctx.query("DELETE FROM notesText WHERE pos=@a",
                 substitutionValues: {
                   "a":
-                      '${hasChanged[i][j].item2[0]},${hasChanged[i][j].item2[1]}',
+                      '${hasChangedText[i][j].item2[0]},${hasChangedText[i][j].item2[1]}',
                 });
 
             await ctx.query("INSERT INTO notesText VALUES (@a, @b, @c)",
                 substitutionValues: {
                   "a": i,
-                  "b": hasChanged[i][j].item1,
+                  "b": hasChangedText[i][j].item1,
                   "c":
-                      '${hasChanged[i][j].item2[0]},${hasChanged[i][j].item2[1]}',
+                      '${hasChangedText[i][j].item2[0]},${hasChangedText[i][j].item2[1]}',
                 });
 
-            hasChanged[i].clear();
+            hasChangedText[i].clear();
           }
+        }
+
+        for (int i = 0; i < hasChangedCanvas.length; i++) {
+          await ctx.query("DELETE FROM notesCanvas WHERE id=@a",
+              substitutionValues: {
+                "a": hasChangedCanvas[i].item1,
+              });
+
+          await ctx.query("INSERT INTO notesCanvas VALUES (@a, @b)",
+              substitutionValues: {
+                "a": hasChangedCanvas[i].item1,
+                "b": hasChangedCanvas[i].item2,
+              });
         }
       });
     });
@@ -170,11 +180,6 @@ class NotesState extends State<Notes> {
 
   @override
   Widget build(context) {
-    for (var b in notesControllers[selectedNote].item1.pathHistory.paths) {
-      print(b.value);
-      print(b.key);
-      print(b.key);
-    }
     return Scaffold(
       key: scaffoldKey,
       appBar: appBar(context),
@@ -187,8 +192,18 @@ class NotesState extends State<Notes> {
                   child: Listener(
                     onPointerUp: (PointerEvent details) {
                       setState(() {
-                        if (RawKeyboard.instance.keysPressed
-                            .contains(LogicalKeyboardKey.shiftLeft)) {
+                        bool _shiftPressed() {
+                          bool isShiftPressed = false;
+                          RawKeyboard.instance.keysPressed.forEach((element) {
+                            if (element == LogicalKeyboardKey.shift ||
+                                element == LogicalKeyboardKey.shiftLeft) {
+                              isShiftPressed = true;
+                            }
+                          });
+                          return isShiftPressed;
+                        }
+
+                        if (_shiftPressed()) {
                           textFields[selectedNote].add(PairNL(
                               PairNL(TextEditingController(), FocusNode()), [
                             details.position.dx +
@@ -196,6 +211,7 @@ class NotesState extends State<Notes> {
                             details.position.dy +
                                 notesControllers[selectedNote].item2[0].offset
                           ]));
+                          notesControllers[selectedNote].item1.stepBack();
                           counterLines[selectedNote].add(1);
                           textFields[selectedNote]
                               .last
@@ -223,8 +239,41 @@ class NotesState extends State<Notes> {
                                   width: 10000,
                                   child: Stack(
                                     children: [
-                                      Painter(
-                                          notesControllers[selectedNote].item1),
+                                      Container(
+                                        constraints: BoxConstraints.expand(),
+                                        child: HandSignature(
+                                          control:
+                                              notesControllers[selectedNote]
+                                                  .item1,
+                                          width: 3.0,
+                                          maxWidth: 3.0,
+                                          color: Colors.white,
+                                          type: SignatureDrawType.shape,
+                                          onPointerUp: () {
+                                            var canvasJSON =
+                                                notesControllers[selectedNote]
+                                                    .item1
+                                                    .toMap();
+
+                                            var alreadyChanged = -1;
+                                            for (int j = 0;
+                                                j < hasChangedCanvas.length;
+                                                j++) {
+                                              if (hasChangedCanvas[j] ==
+                                                  canvasJSON) {
+                                                alreadyChanged = j;
+                                              }
+                                            }
+                                            if (alreadyChanged == -1) {
+                                              hasChangedCanvas.add(PairNL(
+                                                  selectedNote, canvasJSON));
+                                            } else {
+                                              hasChangedCanvas[alreadyChanged]
+                                                  .item2 = canvasJSON;
+                                            }
+                                          },
+                                        ),
+                                      ),
                                       Stack(
                                         children: _stackTextBuilder(context),
                                       ),
@@ -240,11 +289,7 @@ class NotesState extends State<Notes> {
                           child: IconButton(
                             icon: Icon(Icons.undo),
                             onPressed: () {
-                              if (!notesControllers[selectedNote]
-                                  .item1
-                                  .isEmpty) {
-                                notesControllers[selectedNote].item1.undo();
-                              }
+                              notesControllers[selectedNote].item1.stepBack();
                             },
                           ),
                         ),

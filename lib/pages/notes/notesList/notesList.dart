@@ -22,10 +22,10 @@ Widget notesList(orgContext) {
     }
   } catch (e) {}
   return Container(
-    width: MediaQuery.of(orgContext).size.width / 4.5 > 300
+    width: MediaQuery.of(orgContext).size.width > 500 ? (MediaQuery.of(orgContext).size.width / 4.5 > 300
         ? 250
-        : MediaQuery.of(orgContext).size.width / 4.5,
-    color: Color(0xfff2d3cb),
+        : MediaQuery.of(orgContext).size.width / 4.5) : 150,
+    color: Colors.deepPurpleAccent[200],
     child: ListView(
       controller: NSC,
       children: [
@@ -44,9 +44,9 @@ Widget notesList(orgContext) {
                           width: MediaQuery.of(orgContext).size.width / 50),
                       getBar(indexNL),
                       SizedBox(
-                        width: MediaQuery.of(orgContext).size.width / 4.5 > 300
+                        width:  MediaQuery.of(orgContext).size.width > 500 ? (MediaQuery.of(orgContext).size.width / 4.5 > 300
                             ? 150
-                            : MediaQuery.of(orgContext).size.width * 0.20 - 30,
+                            : MediaQuery.of(orgContext).size.width * 0.20 - 30) : 100,
                         child: Row(
                           children: [
                             SizedBox(width: indexNL == selectedNote ? 30 : 20),
@@ -62,7 +62,7 @@ Widget notesList(orgContext) {
                                   overflow: TextOverflow.ellipsis,
                                 ),
                                 onTap: () {
-                                  notes[selectedNote].item2 = Colors.grey[600];
+                                  notes[selectedNote].item2 = Colors.grey[400];
                                   selectedNote = indexNL;
                                   setStateNeeded[5] = true;
                                 },
@@ -107,10 +107,10 @@ Widget getBar(index) {
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(10),
               topRight: Radius.circular(10),
-              bottomLeft: !newNote && notes.length < 1
+              bottomLeft: notes.length < 2 && !newNote
                   ? Radius.circular(10)
                   : Radius.zero,
-              bottomRight: !newNote && notes.length < 1
+              bottomRight: notes.length < 2 && !newNote
                   ? Radius.circular(10)
                   : Radius.zero,
             ),

@@ -9,8 +9,7 @@ import 'package:aufgabenplaner/pages/menuDrawer/menuDrawer.dart';
 import 'package:aufgabenplaner/pages/navigationbar/navigation_bar.dart';
 import 'package:flutter/material.dart';
 import '../../main.dart';
-import '../contacts/contactsFunc.dart';
-import 'newChatPopup.dart';
+import 'dart:io';
 
 var afterUpdatedMD = -1;
 
@@ -47,51 +46,58 @@ class _ChatPageState extends State<ChatPage> {
       key: scaffoldKey,
       appBar: appBar(context),
       drawer: menuDrawer(context),
-      body: Row(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          Padding(
-            padding: EdgeInsets.only(bottom: 100),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
+      body: chats.length < 1
+          ? Container()
+          : Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Row(
-                  children: [
-                    SizedBox(width: 70),
-                    topInfoBar(openedChat),
-                  ],
-                ),
-                SizedBox(height: 10),
-                Expanded(
-                  child: SizedBox(
-                    width: MediaQuery.of(context).size.width - 80,
-                    child: ShaderMask(
-                      shaderCallback: (rect) {
-                        return LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [Colors.transparent, Colors.white],
-                          stops: [0.995, 1],
-                        ).createShader(
-                            Rect.fromLTRB(0, 0, rect.width, rect.height));
-                      },
-                      blendMode: BlendMode.dstOut,
-                      child: messageDisplay(context, openedChat),
-                    ),
+                Padding(
+                  padding: EdgeInsets.only(bottom: Platform.isIOS ? 120 : 100),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Row(
+                        children: [
+                          SizedBox(width: 70),
+                          topInfoBar(openedChat),
+                        ],
+                      ),
+                      SizedBox(height: 10),
+                      Expanded(
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width - 80,
+                          child: ShaderMask(
+                            shaderCallback: (rect) {
+                              return LinearGradient(
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                                colors: [
+                                  Colors.transparent,
+                                  Theme.of(context).canvasColor
+                                ],
+                                stops: [0.995, 1],
+                              ).createShader(
+                                  Rect.fromLTRB(0, 0, rect.width, rect.height));
+                            },
+                            blendMode: BlendMode.dstOut,
+                            child: messages.length < 1
+                                ? Container()
+                                : messageDisplay(context, openedChat),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width - 80,
+                        child: newMessageTextField(context, openedChat),
+                      ),
+                    ],
                   ),
                 ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width - 80,
-                  child: newMessageTextField(context, openedChat),
-                ),
+                //Spacer(),
+                quickContacts(0),
+                //Spacer(),
               ],
             ),
-          ),
-          //Spacer(),
-          quickContacts(0),
-          //Spacer(),
-        ],
-      ),
       floatingActionButton: buildLowerNavigation(context, scaffoldKey, 2),
     );
   }

@@ -13,12 +13,12 @@ class Pair<T1, T2> {
 }
 
 List<Pair<String, Color?>> groups = [
-  Pair<String, Color?>('project 1', Colors.purple[200]),
-  Pair<String, Color?>('project 2', Colors.purple[200]),
-  Pair<String, Color?>('project 3', Colors.purple[200]),
-  Pair<String, Color?>('project 4', Colors.purple[200]),
-  Pair<String, Color?>('project 5', Colors.purple[200]),
-  Pair<String, Color?>('project 6', Colors.purple[200]),
+  Pair<String, Color?>('project 1', Colors.deepPurpleAccent[200]),
+  Pair<String, Color?>('project 2', Colors.deepPurpleAccent[200]),
+  Pair<String, Color?>('project 3', Colors.deepPurpleAccent[200]),
+  Pair<String, Color?>('project 4', Colors.deepPurpleAccent[200]),
+  Pair<String, Color?>('project 5', Colors.deepPurpleAccent[200]),
+  Pair<String, Color?>('project 6', Colors.deepPurpleAccent[200]),
 ];
 List<Pair<String, Color?>> filtered_groups = [...groups]; // clone items
 List<Pair<String, Color?>> used_groups = [];
@@ -89,7 +89,7 @@ class TaskGroupState extends State<TaskGroup> {
                         left: MediaQuery.of(widget.org_context).size.width / 4,
                         right:
                             MediaQuery.of(widget.org_context).size.width / 4),
-                    backgroundColor: menuBackgroundL,
+                    //backgroundColor: menuBackgroundL,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(15.0))),
                     child: StatefulBuilder(builder: (context, setState) {
@@ -154,7 +154,11 @@ class TaskGroupState extends State<TaskGroup> {
   Widget _search(context) {
     return TextField(
       style: TextStyle(color: uTextColor),
+      cursorColor: Colors.white,
       decoration: InputDecoration(
+        border: Theme.of(context).inputDecorationTheme.border,
+        focusedBorder: Theme.of(context).inputDecorationTheme.border,
+        enabledBorder: Theme.of(context).inputDecorationTheme.border,
         prefixIcon: searchIcon,
         suffixIcon: IconButton(
           icon: closeIcon,
@@ -204,7 +208,7 @@ class TaskGroupState extends State<TaskGroup> {
             onTap: () {
               widget.usedProjectGroups.add(Pair<String, Color?>(
                   widget.filteredProjectGroups[indexBR].item1,
-                  Colors.purple[200]));
+                  Colors.deepPurpleAccent[200]));
               setStateNeeded[widget.setStateParent] = true;
               items.remove(widget.filteredProjectGroups[indexBR]);
               widget.filteredProjectGroups.removeAt(indexBR);
@@ -213,9 +217,9 @@ class TaskGroupState extends State<TaskGroup> {
             onHover: (_isHover) {
               _isHover
                   ? widget.filteredProjectGroups[indexBR].item2 =
-                      Colors.purple[500]
+              Colors.deepPurpleAccent[400]
                   : widget.filteredProjectGroups[indexBR].item2 =
-                      Colors.purple[200];
+              Colors.deepPurpleAccent[200];
               widget._setStateNeededPopUp = true;
             },
           ),

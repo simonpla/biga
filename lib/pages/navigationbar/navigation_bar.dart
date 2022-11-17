@@ -7,7 +7,7 @@ import 'package:aufgabenplaner/pages/notes/notesList/notesList.dart';
 import 'package:aufgabenplaner/pages/tasks/kanban/kanban.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:painter/painter.dart';
+import 'package:hand_signature/signature.dart';
 import '../../Theme/themes.dart';
 import '../tasks/timeline/timelineDisplay/timelineDisplay.dart';
 
@@ -39,10 +39,13 @@ Widget _buildOnPlus(buildId, context) {
       newTextFocus.requestFocus();
       newNote = true;
       notesControllers.add(PairNL(
-          PainterController(), [ScrollController(), ScrollController()]));
-      notesControllers[notesControllers.length - 1].item1.thickness = 3.0;
-      notesControllers[notesControllers.length - 1].item1.backgroundColor =
-          Colors.white;
+          HandSignatureControl(
+            threshold: 1.0,
+            smoothRatio: 0.65,
+            velocityRange: 2.0,
+          ),
+          [ScrollController(), ScrollController()]));
+
       Navigator.pop(context);
       setStateNeeded[5] = true;
       Future.delayed(Duration(milliseconds: 30), () {
@@ -68,8 +71,9 @@ Widget buildLowerNavigation(context, scaffoldKey, buildId) {
             children: [
               Spacer(),
               Container(
+                padding: EdgeInsets.only(right: 35),
                 decoration: BoxDecoration(
-                  color: primaryColorL,
+                  color: Colors.lightBlueAccent,
                   borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(19),
                     topLeft: Radius.circular(19),
@@ -80,25 +84,14 @@ Widget buildLowerNavigation(context, scaffoldKey, buildId) {
                     ? 250
                     : MediaQuery.of(context).size.width / 2,
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width / 2 > 250
-                          ? 50
-                          : MediaQuery.of(context).size.width / 10,
-                      height: 10,
-                    ),
                     Container(
                       child: IconButton(
                         splashRadius: 5,
                         icon: menuIcon,
                         onPressed: () => scaffoldKey.currentState!.openDrawer(),
                       ),
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width / 2 > 250
-                          ? 50
-                          : MediaQuery.of(context).size.width / 10,
-                      height: 10,
                     ),
                     Container(
                       child: IconButton(
@@ -123,7 +116,7 @@ Widget buildLowerNavigation(context, scaffoldKey, buildId) {
                     builder: (_) => _buildOnPlus(buildId, context));
               },
               child: plusIcon,
-              backgroundColor: buttonColor,
+              //backgroundColor: buttonColor,
             ),
           ),
         ],

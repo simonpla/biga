@@ -57,15 +57,22 @@ class NewContactPopupState extends State<NewContactPopup> {
           children: [
             Row(
               children: [
-                Spacer(),
+                //Spacer(),
                 IconButton(
                     onPressed: () => Navigator.pop(context),
                     icon: closeIcon,
                     iconSize: 23),
-                Spacer(flex: 80),
-                Text('create new contact',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-                Spacer(flex: 80),
+                //Spacer(flex: 80),
+                Expanded(
+                  child: Text(
+                    'create new contact',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                    overflow: TextOverflow.clip,
+                    maxLines: 2,
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                //Spacer(flex: 80),
                 ElevatedButton(
                     onPressed: () {
                       if (nameController.text.isNotEmpty &&
@@ -84,7 +91,7 @@ class NewContactPopupState extends State<NewContactPopup> {
                       setStateNeeded[2] = true;
                     },
                     child: Text('save')),
-                Spacer(flex: 2),
+                //Spacer(flex: 2),
               ],
             ),
             Padding(
@@ -96,20 +103,20 @@ class NewContactPopupState extends State<NewContactPopup> {
                     height: 40,
                     child: TextField(
                       controller: nameController,
-                      cursorColor: Color(0xADABA2DF),
+                      cursorColor: Colors.deepPurpleAccent[200],
                       decoration: InputDecoration(
                         enabledBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Colors.black, width: 0.7),
+                          borderSide:
+                              BorderSide(color: Colors.white, width: 0.7),
                           borderRadius: BorderRadius.all(Radius.circular(10)),
                         ),
                         focusedBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Color(0xADABA2DF), width: 0.7),
+                          borderSide: BorderSide(
+                              color: Colors.deepPurpleAccent[200]!, width: 0.7),
                           borderRadius: BorderRadius.all(Radius.circular(10)),
                         ),
                         contentPadding: EdgeInsets.only(left: 7, top: 4),
-                        floatingLabelStyle: TextStyle(color: Colors.black),
+                        floatingLabelStyle: TextStyle(color: Colors.white),
                         labelText: 'name',
                       ),
                     ),
@@ -119,20 +126,20 @@ class NewContactPopupState extends State<NewContactPopup> {
                     height: 40,
                     child: TextField(
                       controller: mailController,
-                      cursorColor: Color(0xADABA2DF),
+                      cursorColor: Colors.deepPurpleAccent[200],
                       decoration: InputDecoration(
                         enabledBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Colors.black, width: 0.7),
+                          borderSide:
+                              BorderSide(color: Colors.white, width: 0.7),
                           borderRadius: BorderRadius.all(Radius.circular(10)),
                         ),
                         focusedBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Color(0xADABA2DF), width: 0.7),
+                          borderSide: BorderSide(
+                              color: Colors.deepPurpleAccent[200]!, width: 0.7),
                           borderRadius: BorderRadius.all(Radius.circular(10)),
                         ),
                         contentPadding: EdgeInsets.only(left: 7, top: 4),
-                        floatingLabelStyle: TextStyle(color: Colors.black),
+                        floatingLabelStyle: TextStyle(color: Colors.white),
                         labelText: 'email',
                       ),
                     ),
@@ -142,20 +149,20 @@ class NewContactPopupState extends State<NewContactPopup> {
                     height: 40,
                     child: TextField(
                       controller: telController,
-                      cursorColor: Color(0xADABA2DF),
+                      cursorColor: Colors.deepPurpleAccent[200],
                       decoration: InputDecoration(
                         enabledBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Colors.black, width: 0.7),
+                          borderSide:
+                              BorderSide(color: Colors.white, width: 0.7),
                           borderRadius: BorderRadius.all(Radius.circular(10)),
                         ),
                         focusedBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Color(0xADABA2DF), width: 0.7),
+                          borderSide: BorderSide(
+                              color: Colors.deepPurpleAccent[200]!, width: 0.7),
                           borderRadius: BorderRadius.all(Radius.circular(10)),
                         ),
                         contentPadding: EdgeInsets.only(left: 7, top: 4),
-                        floatingLabelStyle: TextStyle(color: Colors.black),
+                        floatingLabelStyle: TextStyle(color: Colors.white),
                         labelText: 'phone number',
                       ),
                     ),
@@ -165,26 +172,27 @@ class NewContactPopupState extends State<NewContactPopup> {
                     height: 40,
                     child: TextField(
                       controller: companyController,
-                      cursorColor: Color(0xADABA2DF),
+                      cursorColor: Colors.deepPurpleAccent[200],
                       decoration: InputDecoration(
                         enabledBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Colors.black, width: 0.7),
+                          borderSide:
+                              BorderSide(color: Colors.white, width: 0.7),
                           borderRadius: BorderRadius.all(Radius.circular(10)),
                         ),
                         focusedBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Color(0xADABA2DF), width: 0.7),
+                          borderSide: BorderSide(
+                              color: Colors.deepPurpleAccent[200]!, width: 0.7),
                           borderRadius: BorderRadius.all(Radius.circular(10)),
                         ),
                         contentPadding: EdgeInsets.only(left: 7, top: 4),
-                        floatingLabelStyle: TextStyle(color: Colors.black),
+                        floatingLabelStyle: TextStyle(color: Colors.white),
                         labelText: 'company',
                       ),
                     ),
                   ),
                   SizedBox(height: 10),
-                  TaskGroup(context, groups1, filtered_groups1, used_groups1, 1),
+                  TaskGroup(
+                      context, groups1, filtered_groups1, used_groups1, 1),
                 ],
               ),
             ),

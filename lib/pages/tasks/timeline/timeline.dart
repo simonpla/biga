@@ -60,11 +60,11 @@ class TimelineState extends State<Timeline> {
       appBar: appBar(context),
       drawer: menuDrawer(context),
       body: Container(
-        padding: EdgeInsets.only(left: 30, top: 15, right: 30),
+        padding: MediaQuery.of(context).size.width > 500 ? EdgeInsets.only(left: 30, top: 15, right: 30) : EdgeInsets.only(left: 15, top: 15, right: 15),
         height: timeLineTasks.length * 30.0 + 80.0 + (isNewExpanded ? 200 : 0),
         child: Row(
           children: [
-            infoRow(),
+            infoRow(context),
             Expanded(
               child: Stack(
                 children: [

@@ -30,14 +30,21 @@ Widget titleAndColorBar(context) {
             //width: MediaQuery.of(context).size.width - 14 - 80,
             child: TextFormField(
               controller: titleController,
+              cursorColor: Colors.white,
               decoration: InputDecoration(
-                  border: UnderlineInputBorder(), labelText: titleDesc),
+                border: Theme.of(context).inputDecorationTheme.border,
+                focusedBorder: Theme.of(context).inputDecorationTheme.border,
+                enabledBorder: Theme.of(context).inputDecorationTheme.border,
+                labelText: titleDesc,
+                labelStyle: Theme.of(context).inputDecorationTheme.labelStyle,
+              ),
               onChanged: (value) {
                 curr_title = value;
               },
             ),
           ),
         ),
+        SizedBox(width: 10),
         SizedBox(
           width: 40,
           child: RawMaterialButton(

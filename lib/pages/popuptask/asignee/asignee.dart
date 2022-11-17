@@ -64,7 +64,7 @@ class AsigneeState extends State<Asignee> {
                         left: MediaQuery.of(widget.org_context).size.width / 4,
                         right:
                             MediaQuery.of(widget.org_context).size.width / 4),
-                    backgroundColor: menuBackgroundL,
+                    //backgroundColor: menuBackgroundL,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(15.0))),
                     child: StatefulBuilder(
@@ -132,6 +132,10 @@ class AsigneeState extends State<Asignee> {
     return TextField(
       style: TextStyle(color: uTextColor),
       decoration: InputDecoration(
+        border: Theme.of(context).inputDecorationTheme.border,
+        focusedBorder: Theme.of(context).inputDecorationTheme.border,
+        enabledBorder: Theme.of(context).inputDecorationTheme.border,
+        labelStyle: Theme.of(context).inputDecorationTheme.labelStyle,
         prefixIcon: searchIcon,
         suffixIcon: IconButton(
           icon: closeIcon,

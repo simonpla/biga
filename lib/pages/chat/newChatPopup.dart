@@ -15,7 +15,7 @@ Widget newChatPopup(context) {
   return Dialog(
     child: Container(
       padding: EdgeInsets.all(10),
-      height: filteredContacts.length * 32 + 20,
+      height: filteredContacts.length * 32 + 70,
       child: Column(
         children: [
           SizedBox(

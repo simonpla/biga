@@ -14,7 +14,7 @@ Widget drawerMenu(context) {
             height: 170,
             child: DrawerHeader(
               decoration: BoxDecoration(
-                color: accentColor,
+                //color: accentColor,
               ),
               child: Column(
                 children: [
@@ -47,7 +47,7 @@ Widget drawerMenu(context) {
                   style: TextStyle(color: uTextColor),
                 ),
                 onTap: () => Navigator.pushNamed(context, '/kanban'),
-                hoverColor: hoverColorL,
+                //hoverColor: hoverColorL,
               ),
               ListTile(
                 title: Text(
@@ -55,7 +55,7 @@ Widget drawerMenu(context) {
                   style: TextStyle(color: uTextColor),
                 ),
                 onTap: () => Navigator.pushNamed(context, '/timeline'),
-                hoverColor: hoverColorL,
+                //hoverColor: hoverColorL,
               ),
             ],
           ),
@@ -65,7 +65,7 @@ Widget drawerMenu(context) {
             ),
             title: Text('Chat', style: TextStyle(color: uTextColor)),
             onTap: () => Navigator.pushNamed(context, '/chat'),
-            hoverColor: hoverColorL,
+            //hoverColor: hoverColorL,
           ),
           ListTile(
             leading: Container(
@@ -73,7 +73,7 @@ Widget drawerMenu(context) {
             ),
             title: Text('Notes', style: TextStyle(color: uTextColor)),
             onTap: () => Navigator.pushNamed(context, '/notes'),
-            hoverColor: hoverColorL,
+            //hoverColor: hoverColorL,
           ),
           ListTile(
             leading: Container(
@@ -81,7 +81,7 @@ Widget drawerMenu(context) {
             ),
             title: Text('Contacts', style: TextStyle(color: uTextColor)),
             onTap: () => Navigator.pushNamed(context, '/contacts'),
-            hoverColor: hoverColorL,
+            //hoverColor: hoverColorL,
           ),
           ListTile(
             leading: Container(
@@ -89,7 +89,7 @@ Widget drawerMenu(context) {
             ),
             title: Text('Settings', style: TextStyle(color: uTextColor)),
             onTap: () => Navigator.pushNamed(context, '/settings'),
-            hoverColor: hoverColorL,
+            //hoverColor: hoverColorL,
           ),
         ],
       ),

@@ -29,7 +29,7 @@ Widget quickContacts(chatId) {
                   width: 50,
                   height: 50,
                   decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black),
+                    border: Border.all(color: Colors.white),
                     borderRadius: BorderRadius.all(Radius.circular(50)),
                   ),
                 ),
@@ -39,9 +39,10 @@ Widget quickContacts(chatId) {
                     height: 20,
                     padding: EdgeInsets.only(left: 2, right: 2),
                     decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black),
+                      border: Border.all(color: Colors.white),
                       borderRadius: BorderRadius.all(Radius.circular(7)),
-                      color: primaryColorL,
+                      //color: primaryColorL,
+                      color: Colors.deepOrange[300],
                     ),
                     child: Text(chats[indexQC].item1,
                         overflow: TextOverflow.clip),
